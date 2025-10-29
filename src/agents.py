@@ -51,6 +51,8 @@ class ResearcherAgent(Agent):
         if not self.has_candidate and (self.random.random() < self.prototype_rate):
             self.has_candidate = True
             self.prototype_start_tick = self.model.schedule.time
+            # Register an attempt for metrics
+            self.model.metrics.on_attempt()
 
         # 2) Progress existing prototype through policy gates
         if self.has_candidate:

@@ -38,19 +38,21 @@ class RdteModel(Model):
                  funding_om: float = 0.5,
                  regime: str = "linear",
                  shock_at: int = 80,
-                 seed: int | None = None):
+                 seed: int | None = None,
+                 shock_duration: int = 20):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
         self.schedule = RandomActivation(self)
 
         # Keep a local RNG (Mesa also seeds its own); using both is fine for a toy model
-        import random as _random
-        self.random = _random.Random(seed)
+        
+        
 
         # Model‑level state
         self.regime = regime
         self.shock_at = int(shock_at)
+        self.shock_duration = int(shock_duration)
         self.funding_rdte = float(funding_rdte)
         self.funding_om = float(funding_om)
         self.metrics = MetricTracker()
@@ -126,7 +128,7 @@ class RdteModel(Model):
         # Toggle shock on/off in the 'shock' regime
         if self.regime == "shock" and self.schedule.time == self.shock_at:
             self._in_shock = True
-        if self.regime == "shock" and self.schedule.time == self.shock_at + 20:
+        if self.regime == "shock" and self.schedule.time == self.shock_at + self.shock_duration:
             self._in_shock = False
 
         # Count transitions before stepping (to compute "new" adoptions this tick)

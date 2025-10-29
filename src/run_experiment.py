@@ -46,6 +46,7 @@ def run_once(args) -> dict:
         regime=args.scenario,
         shock_at=args.shock_at,
         seed=args.seed,
+        shock_duration=args.shock_duration,
     )
     summary = model.run(steps=args.steps)
     summary.update({
@@ -58,6 +59,7 @@ def run_once(args) -> dict:
         "funding_rdte": args.funding_rdte,
         "funding_om": args.funding_om,
         "shock_at": args.shock_at,
+        "shock_duration": args.shock_duration,
     })
     return summary
 
@@ -75,6 +77,7 @@ def main() -> None:
     p.add_argument("--funding_rdte", type=float, default=1.0)
     p.add_argument("--funding_om", type=float, default=0.5)
     p.add_argument("--shock_at", type=int, default=80)
+    p.add_argument("--shock_duration", type=int, default=20)
     args = p.parse_args()
 
     # Each run batch gets its own timestamped folder under outputs/

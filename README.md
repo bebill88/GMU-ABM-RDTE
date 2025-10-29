@@ -23,7 +23,11 @@ Built for quick iteration in **Visual Studio Code** with Python. Uses a clean, m
 
 3. **Run an experiment:**
    ```bash
+   # Linear / Adaptive examples
    python -m src.run_experiment --scenario adaptive --runs 10 --steps 200 --seed 42
+
+   # Shock example with explicit shock duration
+   python -m src.run_experiment --scenario shock --runs 10 --steps 200 --seed 42 --shock_at 80 --shock_duration 20
    ```
 
 4. **Inspect outputs:** CSVs land in `./outputs/` with run metadata and metrics. You can also visualize with `python -m src.viz`.
@@ -86,3 +90,16 @@ Built for quick iteration in **Visual Studio Code** with Python. Uses a clean, m
 - Add **network topologies** to reflect inter-service collaborations.
 - Log **per-prototype trajectories** for detailed cycle-time histograms.
 - Integrate **MBSE/digital twin stubs** (data-in, policy-out) for rolling evaluations.
+
+---
+
+## Changelog
+
+### 2025-10-29
+
+- Added parameterized shock window duration:
+  - Model: `RdteModel(..., shock_duration=20)` controls shock length.
+  - CLI: new `--shock_duration` flag; value persisted to `metadata.json`.
+- Removed redundant local RNG from model; rely on Mesa's seeded `Model.random`.
+- Metrics: now increment attempts when a researcher starts a prototype, making `transition_rate` meaningful.
+- Updated Quick Start examples to include a shock run with `--shock_duration`.
