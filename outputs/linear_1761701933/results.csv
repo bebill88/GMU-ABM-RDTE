@@ -1,0 +1,6 @@
+attempts,avg_cycle_time,diffusion_speed,funding_om,funding_rdte,n_endusers,n_policymakers,n_researchers,scenario,seed,shock_at,steps,transition_rate,transitions
+0,12.125,0.2,0.5,1.0,30,10,40,linear,42,80,200,0.0,40
+0,8.475,0.2,0.5,1.0,30,10,40,linear,43,80,200,0.0,40
+0,7.225,0.2,0.5,1.0,30,10,40,linear,45,80,200,0.0,40
+0,14.743589743589743,0.195,0.5,1.0,30,10,40,linear,48,80,200,0.0,39
+0,10.325,0.2,0.5,1.0,30,10,40,linear,52,80,200,0.0,40

@@ -1,0 +1,23 @@
+# Default parameters for ABM
+model:
+  steps: 200
+  n_researchers: 40
+  n_policymakers: 10
+  n_endusers: 30
+  funding_rdte: 1.0         # normalized budget share for RDT&E
+  funding_om: 0.5           # normalized budget share for O&M/Procurement
+  oversight_regime: linear  # linear | adaptive
+  shock_at: 80              # tick when shock is injected (if scenario=shock)
+  seed: 42
+
+agents:
+  researcher:
+    prototype_rate: 0.05      # prob per step to attempt a prototype
+    learning_rate: 0.1
+    network_degree: 3         # for collaboration
+  policymaker:
+    allocation_agility: 0.1   # higher = more responsive funding shifts
+    oversight_rigidity: 0.8   # higher = more milestones & drag
+  enduser:
+    adoption_threshold: 0.6   # perceived utility threshold
+    feedback_strength: 0.4    # influence on policymakers

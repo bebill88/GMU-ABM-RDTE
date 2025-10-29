@@ -1,0 +1,12 @@
+{
+  "scenario": "adaptive",
+  "runs": 1,
+  "steps": 50,
+  "seed": 42,
+  "n_researchers": 40,
+  "n_policymakers": 10,
+  "n_endusers": 30,
+  "funding_rdte": 1.0,
+  "funding_om": 0.5,
+  "shock_at": 80
+}
