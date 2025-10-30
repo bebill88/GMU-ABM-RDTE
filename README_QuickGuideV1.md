@@ -61,7 +61,7 @@ python -m src.viz --path outputs/<scenario>_<timestamp>/results.csv
 
 Data inputs
 
-- Labs/hubs locations CSV: set via CLI `--labs_csv` or in `parameters.yaml` under:
+- Labs/hubs locations CSV: set via CLI `--labs_csv` or in `parameters.yaml` under. Recommended: commit under `data/` and use relative path.
 
 ```
 data:
@@ -72,7 +72,7 @@ Notes:
 - If `--labs_csv` is omitted, the runner will look for `parameters.yaml` and use `data.labs_locations_csv` when present.
 - When labs data is present, the model adds a small +0.01 ecosystem-support bonus to the environmental signal (kept deliberately small).
 
-- FY26 RDT&E line items CSV: set via CLI `--rdte_csv` or in `parameters.yaml` under:
+- FY26 RDT&E line items CSV: set via CLI `--rdte_csv` or in `parameters.yaml` under. Recommended: commit under `data/` and use relative path.
 
 ```
 data:
