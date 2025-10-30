@@ -22,7 +22,7 @@ class RdteModel(Model):
     ABM of RDT&E transitions under different governance regimes.
     Parameters
     ----------
-    n_researchers, n_policymakers, n_End-users : int
+    n_researchers, n_policymakers, n_endusers : int
         Population sizes per role.
     funding_rdte, funding_om : float
         Normalized budget "weights" feeding funding_gate decisions.
@@ -36,7 +36,7 @@ class RdteModel(Model):
     def __init__(self,
                  n_researchers: int = 40,
                  n_policymakers: int = 10,
-                 n_End-users: int = 30,
+                 n_endusers: int = 30,
                  funding_rdte: float = 1.0,
                  funding_om: float = 0.5,
                  regime: str = "linear",
@@ -100,11 +100,11 @@ class RdteModel(Model):
             self.policymakers.append(a)
 
         offset += n_policymakers
-        self.End-users: List[EndUserAgent] = []
-        for i in range(n_End-users):
+        self.endusers: List[EndUserAgent] = []
+        for i in range(n_endusers):
             a = EndUserAgent(offset + i, self, adoption_threshold=0.6, feedback_strength=0.4)
             self.schedule.add(a)
-            self.End-users.append(a)
+            self.endusers.append(a)
 
     # ---- Policy gates (delegation to policies.py) ----
     def policy_gate_allocation(self, researcher: ResearcherAgent) -> bool:
@@ -275,8 +275,8 @@ class RdteModel(Model):
         Ask a random sample of end‑users to evaluate the prototype.
         We use a simple majority vote to decide adoption.
         """
-        k = max(1, len(self.End-users) // 5)  # sample 20% (rounded down), at least 1
-        sample = self.random.sample(self.End-users, k=k)
+        k = max(1, len(self.endusers) // 5)  # sample 20% (rounded down), at least 1
+        sample = self.random.sample(self.endusers, k=k)
         votes = [eu.evaluate(researcher) for eu in sample]
         adopted = sum(votes) >= max(1, len(sample) // 2)  # simple majority
         return adopted
@@ -329,3 +329,4 @@ class RdteModel(Model):
         except Exception:
             pass
         return self.metrics.summary()
+

@@ -167,3 +167,59 @@ class ResearcherAgent(Agent):
                     self.model.log_event(self, gate="test", stage=stage, outcome="fail")
                 return
 
+
+class PolicymakerAgent(Agent):
+    """
+    Allocates funding and applies oversight.
+    In adaptive regimes, responds to feedback pressure by
+    increasing allocation agility and reducing oversight rigidity.
+    """
+    def __init__(self, unique_id, model, allocation_agility: float, oversight_rigidity: float):
+        super().__init__(unique_id, model)
+        self.allocation_agility = float(allocation_agility)  # 0..1 (higher == more nimble)
+        self.oversight_rigidity = float(oversight_rigidity)  # 0..1 (higher == more drag)
+        self.feedback_inbox = 0.0  # accumulates signal from EndUser agents
+
+    def receive_feedback(self, amount: float) -> None:
+        """Accumulate feedback signal to be processed in step()."""
+        self.feedback_inbox += float(amount)
+
+    def step(self) -> None:
+        """
+        If the model regime is 'adaptive', bend parameters in response to feedback.
+        This is deliberately simple and scenario-comparable.
+        """
+        if self.model.regime == "adaptive":
+            adjustment = min(0.2, self.feedback_inbox * 0.1)
+            self.allocation_agility = min(1.0, self.allocation_agility + adjustment)
+            self.oversight_rigidity = max(0.0, self.oversight_rigidity - adjustment)
+            self.feedback_inbox = 0.0
+
+
+class EndUserAgent(Agent):
+    """
+    Represents operational users (warfighters, analysts) who evaluate utility and
+    generate feedback pressure on policymakers each tick.
+    """
+    def __init__(self, unique_id, model, adoption_threshold: float, feedback_strength: float):
+        super().__init__(unique_id, model)
+        self.adoption_threshold = float(adoption_threshold)  # min utility required for adoption
+        self.feedback_strength = float(feedback_strength)    # how strongly this agent signals upstream
+
+    def evaluate(self, researcher: ResearcherAgent) -> bool:
+        """
+        Compute perceived utility as a function of intrinsic prototype quality
+        plus environmental signal (policy headwinds vs. operational pull) with
+        alignment/penalty bias from the model when available.
+        """
+        utility = researcher.quality + self.model.environmental_signal(researcher)
+        return utility >= self.adoption_threshold
+
+    def provide_feedback(self) -> None:
+        """Push a small amount of pressure to each policymaker every tick."""
+        for pm in self.model.policymakers:
+            pm.receive_feedback(self.feedback_strength * 0.1)
+
+    def step(self) -> None:
+        """End-users continuously provide feedback; evaluation happens on demand."""
+        self.provide_feedback()
