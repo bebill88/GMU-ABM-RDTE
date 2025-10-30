@@ -122,3 +122,29 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 - Wired labs and FY26 RDT&E CSVs; added small ecosystem bonus when labs present.
 - Added per-run event logging (gate outcomes) and `--config` loader.
 
+---
+
+## Next Steps (Policy Lever Integration)
+
+- Flexible Funding Authorities
+  - Add per-stage funding queues (by color) and a BA-8 “bridge”/reprogramming path with time cost and attrition.
+  - Use FY26 RDT&E line items (`data/FY2026_SEC4201_RDTandE_All_Line_Items.csv`) to bias stage availability by portfolio.
+  - Expose queue capacities, reprogramming delay, and priority rules in `parameters.yaml` and log queue wait times to events.
+
+- Decentralized Experimentation
+  - Associate researchers to nearest labs from `data/dod_labs_collaboration_hubs_locations.csv` and apply proximity benefits.
+  - Increase `prototype_rate` and early-stage funding/test pass rates when co-located; allow lab-specific parameter sets.
+
+- Dynamic Oversight (MBSE‑enabled)
+  - Introduce a `digital_maturity` attribute (from MBSE/digital‑twin inputs) and add it as a positive modifier in `test_gate`.
+  - Add optional `--mbse_csv`/`data.mbse_csv` loader and record digital evidence in event logs.
+
+- Integrated Policy Feedback
+  - Add multi‑agency policymaker agents (DoD, IC, Congress) with distinct adaptation curves; aggregate cross‑agency feedback.
+  - Make scenario toggles to compare single‑agency vs integrated loops and record adaptation metrics.
+
+- Digital Engineering Integration
+  - Leverage MBSE/digital‑twin metrics across the pipeline to reduce legal/contracting friction and shorten test cycles when maturity is high.
+
+- Validation and CI
+  - Add unit tests for gate math and penalties; add CSV schema validation for labs/RDT&E; wire a GitHub Actions workflow to run tests.
