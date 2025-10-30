@@ -42,3 +42,44 @@ penalties:
   #   test: [researcher, domain, kinetic_category]
   #   legal: [researcher, authority, domain, kinetic_category]
   #   adoption: [researcher, domain]
+
+gates:
+  # Base probabilities and adjustments; tweak to calibrate behavior
+  funding_base_linear_early: 0.25
+  funding_base_linear_late: 0.20
+  funding_base_adaptive_early: 0.40
+  funding_base_adaptive_late: 0.35
+  funding_base_shock_early: 0.15
+  funding_base_shock_late: 0.10
+  funding_base_postshock_early: 0.35
+  funding_base_postshock_late: 0.30
+  color_weight_late_mix: 0.5   # mix of rdte and om for late stages
+
+  test_base:
+    feasibility: 0.70
+    prototype_demo: 0.65
+    functional_test: 0.60
+    vulnerability_test: 0.55
+    operational_test: 0.50
+  test_trl_bonus_per_level: 0.03  # up to ~0.2 cap
+  test_trl_bonus_cap: 0.20
+  test_kinetic_penalty: 0.05
+  test_cyber_vuln_ops_penalty: 0.05
+  test_adaptive_bonus: 0.03
+  test_shock_penalty: 0.05
+
+  legal_dist:
+    favorable: 0.60
+    favorable_with_caveats: 0.25
+    unfavorable: 0.10
+    not_conducted: 0.05
+  legal_title50_shift: 0.10  # shifts from favorable → caveats/unfavorable
+  legal_kinetic_shift: 0.05
+  legal_penalty_shift_cap: 0.50
+
+  contracting_base:
+    GovLab: 0.60
+    GovContractor: 0.55
+    Commercial: 0.50
+  contracting_adaptive_bonus: 0.10
+  contracting_linear_commercial_penalty: 0.05

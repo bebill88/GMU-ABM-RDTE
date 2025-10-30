@@ -33,8 +33,8 @@ except ImportError:  # direct script context
     from src.utils import ensure_dir
 
 
-def _load_parameters() -> dict:
-    params_path = os.path.join(os.getcwd(), "parameters.yaml")
+def _load_parameters(config_path: str | None = None) -> dict:
+    params_path = config_path or os.path.join(os.getcwd(), "parameters.yaml")
     if os.path.exists(params_path):
         try:
             with open(params_path, "r", encoding="utf-8") as f:
@@ -48,7 +48,7 @@ def _resolve_labs_csv(args) -> str | None:
     """Resolve labs CSV: CLI flag wins; else try parameters.yaml."""
     if getattr(args, "labs_csv", None):
         return args.labs_csv
-    y = _load_parameters()
+    y = _load_parameters(args.config)
     data = y.get("data", {}) or {}
     val = data.get("labs_locations_csv")
     return val
@@ -59,7 +59,7 @@ def _resolve_rdte_csv(args) -> str | None:
     """Resolve FY26 RDT&E CSV: CLI flag wins; else try parameters.yaml."""
     if getattr(args, "rdte_csv", None):
         return args.rdte_csv
-    y = _load_parameters()
+    y = _load_parameters(args.config)
     data = y.get("data", {}) or {}
     val = data.get("rdte_fy26_csv")
     return val
@@ -71,8 +71,15 @@ def run_once(args) -> dict:
     Run a single simulation with the given args and return the metrics summary.
     We also pack key parameters into the row for later analysis.
     """
-    params = _load_parameters()
+    params = _load_parameters(args.config)
     penalty_config = (params.get("penalties", {}) or {})
+    gates_config = (params.get("gates", {}) or {})
+    # Per-run event file path
+    events_path = None
+    if getattr(args, "events", True):
+        # Will be updated by the caller to run index; pass None here
+        events_path = None
+
     model = RdteModel(
         n_researchers=args.n_researchers,
         n_policymakers=args.n_policymakers,
@@ -86,6 +93,8 @@ def run_once(args) -> dict:
         labs_csv=_resolve_labs_csv(args),
         rdte_csv=_resolve_rdte_csv(args),
         penalty_config=penalty_config,
+        gate_config=gates_config,
+        events_path=getattr(args, "events_path", None),
     )
     summary = model.run(steps=args.steps)
     summary.update({
@@ -122,6 +131,8 @@ def main() -> None:
     p.add_argument("--shock_duration", type=int, default=20)
     p.add_argument("--labs_csv", type=str, default=None, help="Path to labs/hubs locations CSV (overrides parameters.yaml)")
     p.add_argument("--rdte_csv", type=str, default=None, help="Path to FY26 RDT&E line items CSV (overrides parameters.yaml)")
+    p.add_argument("--config", type=str, default=None, help="Path to a YAML config file (defaults to parameters.yaml)")
+    p.add_argument("--events", action="store_true", default=True, help="Write per-run event CSVs")
     args = p.parse_args()
 
     # Each run batch gets its own timestamped folder under outputs/
@@ -131,9 +142,20 @@ def main() -> None:
 
     # Execute N runs with incrementing seeds for independence
     rows = []
+    base_seed = args.seed
     for i in range(args.runs):
-        args.seed = args.seed + i
-        rows.append(run_once(args))
+        run_seed = base_seed + i
+        # inject run-specific seed and events path for this iteration
+        args_copy = argparse.Namespace(**vars(args))
+        args_copy.seed = run_seed
+        # set events path
+        outdir = os.path.join("outputs", f"{args.scenario}_{tstamp}")
+        if args.events:
+            args_copy.events_path = os.path.join(outdir, f"events_run_{i}.csv")
+        else:
+            args_copy.events_path = None
+        # run
+        rows.append(run_once(args_copy))
 
     # Save CSV aggregate
     csv_path = os.path.join(outdir, "results.csv")
@@ -143,11 +165,14 @@ def main() -> None:
         w.writerows(rows)
 
     # Save metadata for reproducibility
+    meta = vars(args).copy()
+    meta.update({"base_seed": base_seed})
     with open(os.path.join(outdir, "metadata.json"), "w") as f:
-        json.dump(vars(args), f, indent=2)
+        json.dump(meta, f, indent=2)
 
     print(f"Wrote {csv_path}")
 
 
 if __name__ == "__main__":
     main()
+

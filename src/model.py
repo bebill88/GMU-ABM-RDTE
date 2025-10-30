@@ -10,10 +10,11 @@ from mesa.time import RandomActivation
 from typing import List, Dict, Any, Optional
 import csv
 from pathlib import Path
+import logging
 
 from .agents import ResearcherAgent, PolicymakerAgent, EndUserAgent
 from . import policies
-from .metrics import MetricTracker, PenaltyBook
+from .metrics import MetricTracker, PenaltyBook, EventLogger
 
 
 class RdteModel(Model):
@@ -21,7 +22,7 @@ class RdteModel(Model):
     ABM of RDT&E transitions under different governance regimes.
     Parameters
     ----------
-    n_researchers, n_policymakers, n_endusers : int
+    n_researchers, n_policymakers, n_End-users : int
         Population sizes per role.
     funding_rdte, funding_om : float
         Normalized budget "weights" feeding funding_gate decisions.
@@ -35,7 +36,7 @@ class RdteModel(Model):
     def __init__(self,
                  n_researchers: int = 40,
                  n_policymakers: int = 10,
-                 n_endusers: int = 30,
+                 n_End-users: int = 30,
                  funding_rdte: float = 1.0,
                  funding_om: float = 0.5,
                  regime: str = "linear",
@@ -44,7 +45,9 @@ class RdteModel(Model):
                  shock_duration: int = 20,
                  labs_csv: Optional[str] = None,
                  rdte_csv: Optional[str] = None,
-                 penalty_config: Optional[Dict[str, Any]] = None):
+                 penalty_config: Optional[Dict[str, Any]] = None,
+                 gate_config: Optional[Dict[str, Any]] = None,
+                 events_path: Optional[str] = None):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
@@ -64,6 +67,9 @@ class RdteModel(Model):
         self._in_shock = False
         self.labs: List[Dict[str, Any]] = self._load_labs(labs_csv)
         self.rdte_fy26: List[Dict[str, Any]] = self._load_rdte(rdte_csv)
+        self.gate_config: Dict[str, Any] = gate_config or {}
+        self._logger = logging.getLogger(__name__)
+        self._events: Optional[EventLogger] = EventLogger(events_path) if events_path else None
         # Penalties setup
         pc = penalty_config or {}
         self.penalties = PenaltyBook(
@@ -94,11 +100,11 @@ class RdteModel(Model):
             self.policymakers.append(a)
 
         offset += n_policymakers
-        self.endusers: List[EndUserAgent] = []
-        for i in range(n_endusers):
+        self.End-users: List[EndUserAgent] = []
+        for i in range(n_End-users):
             a = EndUserAgent(offset + i, self, adoption_threshold=0.6, feedback_strength=0.4)
             self.schedule.add(a)
-            self.endusers.append(a)
+            self.End-users.append(a)
 
     # ---- Policy gates (delegation to policies.py) ----
     def policy_gate_allocation(self, researcher: ResearcherAgent) -> bool:
@@ -188,6 +194,7 @@ class RdteModel(Model):
         try:
             path = Path(labs_csv)
             if not path.exists():
+                logging.getLogger(__name__).warning(f"Labs CSV not found: {path}")
                 return []
             rows: List[Dict[str, Any]] = []
             with path.open("r", encoding="utf-8") as f:
@@ -212,8 +219,10 @@ class RdteModel(Model):
                         "lon": lon,
                         "raw": r,
                     })
+            logging.getLogger(__name__).info(f"Loaded labs: {len(rows)} rows from {path}")
             return rows
         except Exception:
+            logging.getLogger(__name__).warning("Failed to load labs CSV; proceeding without labs data.")
             return []
 
     def _load_rdte(self, rdte_csv: Optional[str]) -> List[Dict[str, Any]]:
@@ -222,19 +231,43 @@ class RdteModel(Model):
         try:
             path = Path(rdte_csv)
             if not path.exists():
+                logging.getLogger(__name__).warning(f"RDT&E CSV not found: {path}")
                 return []
             rows: List[Dict[str, Any]] = []
             with path.open("r", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 for r in reader:
                     rows.append(dict(r))
+            logging.getLogger(__name__).info(f"Loaded RDT&E: {len(rows)} rows from {path}")
             return rows
         except Exception:
+            logging.getLogger(__name__).warning("Failed to load RDT&E CSV; proceeding without rdte data.")
             return []
 
     def is_in_shock(self) -> bool:
         """Whether the system is currently in a shock window."""
         return self._in_shock
+
+    # ---- Event logging ----
+    def log_event(self, researcher: ResearcherAgent, gate: str, stage: Optional[str], outcome: str) -> None:
+        if not self._events:
+            return
+        row: Dict[str, Any] = {
+            "tick": self.schedule.time,
+            "researcher_id": getattr(researcher, "unique_id", None),
+            "gate": gate,
+            "stage": stage,
+            "outcome": outcome,
+            "trl": getattr(researcher, "trl", None),
+            "authority": getattr(researcher, "authority", None),
+            "funding_source": getattr(researcher, "funding_source", None),
+            "org_type": getattr(researcher, "org_type", None),
+            "domain": getattr(researcher, "domain", None),
+            "kinetic": getattr(researcher, "kinetic_category", None),
+            "intel": getattr(researcher, "intel_discipline", None),
+            "legal_status": getattr(researcher, "legal_status", None),
+        }
+        self._events.log(row)
 
     # ---- Evaluation and adoption ----
     def evaluate_and_adopt(self, researcher: ResearcherAgent) -> bool:
@@ -242,8 +275,8 @@ class RdteModel(Model):
         Ask a random sample of end‑users to evaluate the prototype.
         We use a simple majority vote to decide adoption.
         """
-        k = max(1, len(self.endusers) // 5)  # sample 20% (rounded down), at least 1
-        sample = self.random.sample(self.endusers, k=k)
+        k = max(1, len(self.End-users) // 5)  # sample 20% (rounded down), at least 1
+        sample = self.random.sample(self.End-users, k=k)
         votes = [eu.evaluate(researcher) for eu in sample]
         adopted = sum(votes) >= max(1, len(sample) // 2)  # simple majority
         return adopted
@@ -289,5 +322,10 @@ class RdteModel(Model):
         for r in self.researchers:
             if r.time_to_transition is not None:
                 self.metrics.on_transition(r.time_to_transition)
-
+        # Flush any event logs if configured
+        try:
+            if self._events:
+                self._events.flush()
+        except Exception:
+            pass
         return self.metrics.summary()

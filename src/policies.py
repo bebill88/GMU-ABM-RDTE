@@ -1,5 +1,5 @@
 """
-Policy gate functions capture "governance regimes" without hard‑coding ideology.
+Policy gate functions capture governance regimes without hard-coding ideology.
 - funding_gate: probability a prototype secures funds this step
 - oversight_gate: probability it clears oversight/milestones this step
 
@@ -68,18 +68,22 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
     """
     stage = str(stage)
     early = stage in {"feasibility", "prototype_demo"}
+    gc = getattr(model, "gate_config", {}) or {}
+    def g(k, default):
+        return float(gc.get(k, default))
     if model.regime == "linear":
-        base = 0.25 if early else 0.2
+        base = g("funding_base_linear_early", 0.25) if early else g("funding_base_linear_late", 0.20)
     elif model.regime == "adaptive":
-        base = 0.4 if early else 0.35
+        base = g("funding_base_adaptive_early", 0.40) if early else g("funding_base_adaptive_late", 0.35)
     else:  # shock
         if model.is_in_shock():
-            base = 0.15 if early else 0.1
+            base = g("funding_base_shock_early", 0.15) if early else g("funding_base_shock_late", 0.10)
         else:
-            base = 0.35 if early else 0.3
+            base = g("funding_base_postshock_early", 0.35) if early else g("funding_base_postshock_late", 0.30)
 
     # Color weights
-    color_weight = model.funding_rdte if early else (0.5 * model.funding_rdte + 0.5 * model.funding_om)
+    mix = g("color_weight_late_mix", 0.5)
+    color_weight = model.funding_rdte if early else (mix * model.funding_rdte + (1.0 - mix) * model.funding_om)
 
     # Funding source multiplier
     source = getattr(researcher, "funding_source", "ProgramBase")
@@ -107,29 +111,33 @@ def legal_review_gate(model, researcher) -> str:
     kinetic = getattr(researcher, "kinetic_category", "NonKinetic")
 
     # Baseline distribution
-    dist = {
+    gc = getattr(model, "gate_config", {}) or {}
+    dist = dict(gc.get("legal_dist", {
         "favorable": 0.6,
         "favorable_with_caveats": 0.25,
         "unfavorable": 0.1,
         "not_conducted": 0.05,
-    }
+    }))
 
     # Title 50 tends to shift to more caveats/unfavorable
     if authority == "Title50":
-        dist["favorable"] = max(0.0, dist["favorable"] - 0.1)
+        shift = float(gc.get("legal_title50_shift", 0.10))
+        dist["favorable"] = max(0.0, dist["favorable"] - shift)
         dist["favorable_with_caveats"] += 0.07
         dist["unfavorable"] += 0.03
 
     # Kinetic domains push toward more scrutiny
     if kinetic == "Kinetic":
-        dist["favorable"] = max(0.0, dist["favorable"] - 0.05)
+        shift = float(gc.get("legal_kinetic_shift", 0.05))
+        dist["favorable"] = max(0.0, dist["favorable"] - shift)
         dist["favorable_with_caveats"] += 0.03
         dist["unfavorable"] += 0.02
 
     # Apply repeat-failure penalty by shifting mass from favorable to caveats/unfavorable
     pen = 1.0 - model.penalty_factor("legal", researcher)
     if pen > 0:
-        shift = min(dist["favorable"], 0.5 * pen)  # cap shift for stability
+        cap = float(gc.get("legal_penalty_shift_cap", 0.5))
+        shift = min(dist["favorable"], cap * pen)  # cap shift for stability
         dist["favorable"] -= shift
         # distribute toward caveats (70%) and unfavorable (30%)
         dist["favorable_with_caveats"] += shift * 0.7
@@ -150,17 +158,14 @@ def contracting_gate(model, researcher) -> bool:
     """Probability that contracting/vehicle path is successful this tick."""
     org = getattr(researcher, "org_type", "GovContractor")
 
-    base = {
-        "GovLab": 0.6,
-        "GovContractor": 0.55,
-        "Commercial": 0.5,
-    }.get(org, 0.55)
+    gc = getattr(model, "gate_config", {}) or {}
+    base = (gc.get("contracting_base", {}) or {}).get(org, 0.55)
 
     # Adaptive regimes ease flexible instruments (e.g., OTA-like paths)
     if model.regime == "adaptive" and org in {"Commercial", "GovContractor"}:
-        base += 0.1
+        base += float(gc.get("contracting_adaptive_bonus", 0.10))
     if model.regime == "linear" and org == "Commercial":
-        base -= 0.05
+        base -= float(gc.get("contracting_linear_commercial_penalty", 0.05))
 
     if model.regime == "shock" and model.is_in_shock():
         base -= 0.1
@@ -182,22 +187,24 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
     kinetic = getattr(researcher, "kinetic_category", "NonKinetic")
 
     # Base difficulty by stage (higher is easier)
-    base = {
+    gc = getattr(model, "gate_config", {}) or {}
+    base_map = gc.get("test_base", {
         "feasibility": 0.7,
         "prototype_demo": 0.65,
         "functional_test": 0.6,
         "vulnerability_test": 0.55,
         "operational_test": 0.5,
-    }.get(stage, 0.6)
+    })
+    base = float(base_map.get(stage, 0.6))
 
     # TRL contribution (TRL 1..9 mapped ~0..0.2)
-    trl_bonus = min(0.2, max(0.0, (trl - 3) * 0.03))
+    trl_bonus = min(float(gc.get("test_trl_bonus_cap", 0.2)), max(0.0, (trl - 3) * float(gc.get("test_trl_bonus_per_level", 0.03))))
 
     # Domain/Kinetic adjustments
     if kinetic == "Kinetic":
-        base -= 0.05
+        base -= float(gc.get("test_kinetic_penalty", 0.05))
     if domain in {"Cyber", "EW"} and stage in {"vulnerability_test", "operational_test"}:
-        base -= 0.05
+        base -= float(gc.get("test_cyber_vuln_ops_penalty", 0.05))
 
     # Legal caveats penalty; not_conducted slightly riskier
     if legal_status == "favorable_with_caveats":
@@ -209,11 +216,13 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
 
     # Regime/shock effects
     if model.regime == "adaptive":
-        base += 0.03
+        base += float(gc.get("test_adaptive_bonus", 0.03))
     if model.regime == "shock" and model.is_in_shock():
-        base -= 0.05
+        base -= float(gc.get("test_shock_penalty", 0.05))
 
     # Apply penalty factor for testing gate
     factor = model.penalty_factor("test", researcher, stage)
     p = max(0.05, min(0.95, (base + trl_bonus) * factor))
     return model.random.random() < p
+
+

@@ -87,6 +87,8 @@ class ResearcherAgent(Agent):
             self.prototype_start_tick = self.model.schedule.time
             # Register an attempt for metrics
             self.model.metrics.on_attempt()
+            if hasattr(self.model, "log_event"):
+                self.model.log_event(self, gate="attempt", stage=None, outcome="start")
 
         # 2) Progress existing prototype through stage pipeline
         if self.has_candidate:
@@ -102,6 +104,8 @@ class ResearcherAgent(Agent):
                 if self.legal_status == "unfavorable":
                     # Rejected on legal grounds; abandon candidate, learn slightly
                     self.model.penalty_record_failure("legal", self)
+                    if hasattr(self.model, "log_event"):
+                        self.model.log_event(self, gate="legal", stage=stage, outcome="unfavorable")
                     self.has_candidate = False
                     self.current_stage_index = None
                     self.quality = min(1.0, self.quality + 0.5 * self.learning_rate * self.random.random())
@@ -110,9 +114,13 @@ class ResearcherAgent(Agent):
             # Funding and contracting gates
             if not self.model.policy_gate_funding(stage, self):
                 self.model.penalty_record_failure("funding", self, stage)
+                if hasattr(self.model, "log_event"):
+                    self.model.log_event(self, gate="funding", stage=stage, outcome="fail")
                 return  # stalled this tick
             if not self.model.policy_gate_contracting(self):
                 self.model.penalty_record_failure("contracting", self)
+                if hasattr(self.model, "log_event"):
+                    self.model.log_event(self, gate="contracting", stage=stage, outcome="fail")
                 return  # stalled this tick
 
             # Stage-specific test gate
@@ -127,6 +135,8 @@ class ResearcherAgent(Agent):
                     "operational_test": 2,
                 }
                 self.trl = min(9, self.trl + trl_increments.get(stage, 1))
+                if hasattr(self.model, "log_event"):
+                    self.model.log_event(self, gate="test", stage=stage, outcome="pass")
                 self.current_stage_index += 1
 
                 # If we've completed last stage, proceed to end-user evaluation/adoption
@@ -142,86 +152,18 @@ class ResearcherAgent(Agent):
                                 self.model.schedule.time - self.prototype_start_tick
                             )
                             self.prototype_start_tick = None
+                        if hasattr(self.model, "log_event"):
+                            self.model.log_event(self, gate="adoption", stage=None, outcome="success")
                     else:
                         # Negative feedback from ops test; learn modestly
                         self.model.penalty_record_failure("adoption", self)
                         self.quality = min(1.0, self.quality + self.learning_rate * self.random.random())
+                        if hasattr(self.model, "log_event"):
+                            self.model.log_event(self, gate="adoption", stage=None, outcome="reject")
                 # Failed test; learn slightly and try again
                 self.model.penalty_record_failure("test", self, stage)
                 self.quality = min(1.0, self.quality + 0.5 * self.learning_rate * self.random.random())
+                if hasattr(self.model, "log_event"):
+                    self.model.log_event(self, gate="test", stage=stage, outcome="fail")
                 return
-            funding_ok = self.model.policy_gate_allocation(self)
-            oversight_ok = self.model.policy_gate_oversight(self)
-            if funding_ok and oversight_ok:
-                # 3) End‑users evaluate and possibly adopt
-                adopted = self.model.evaluate_and_adopt(self)
-                if adopted:
-                    self.has_candidate = False
-                    # Compute cycle time only if we recorded a start
-                    if self.prototype_start_tick is not None:
-                        self.time_to_transition = (
-                            self.model.schedule.time - self.prototype_start_tick
-                        )
-                        self.prototype_start_tick = None
-                else:
-                    # Negative feedback: improve quality slightly (capped at 1.0)
-                    self.quality = min(1.0, self.quality + self.learning_rate * self.random.random())
 
-
-class PolicymakerAgent(Agent):
-    """
-    Allocates funding and applies oversight.
-    In adaptive regimes, responds to feedback pressure by
-    increasing allocation agility and reducing oversight rigidity.
-    """
-    def __init__(self, unique_id, model, allocation_agility: float, oversight_rigidity: float):
-        super().__init__(unique_id, model)
-        self.allocation_agility = float(allocation_agility)  # 0..1 (higher == more nimble)
-        self.oversight_rigidity = float(oversight_rigidity)  # 0..1 (higher == more drag)
-        self.feedback_inbox = 0.0  # accumulates signal from EndUser agents
-
-    def receive_feedback(self, amount: float) -> None:
-        """Accumulate feedback signal to be processed in step()."""
-        self.feedback_inbox += float(amount)
-
-    def step(self) -> None:
-        """
-        If the model regime is 'adaptive', bend parameters in response to feedback.
-        This is deliberately simple: we avoid hard‑coding "truth" and let experiments compare regimes.
-        """
-        if self.model.regime == "adaptive":
-            # Convert inbox pressure into small parameter nudges
-            adjustment = min(0.2, self.feedback_inbox * 0.1)
-            self.allocation_agility = min(1.0, self.allocation_agility + adjustment)
-            self.oversight_rigidity = max(0.0, self.oversight_rigidity - adjustment)
-            self.feedback_inbox = 0.0  # reset after processing
-        # In 'linear' or during 'shock', parameters remain effectively static.
-
-
-class EndUserAgent(Agent):
-    """
-    Represents operational users (warfighters, analysts) who evaluate utility and
-    generate feedback pressure on policymakers each tick.
-    """
-    def __init__(self, unique_id, model, adoption_threshold: float, feedback_strength: float):
-        super().__init__(unique_id, model)
-        self.adoption_threshold = float(adoption_threshold)  # min utility required for adoption
-        self.feedback_strength = float(feedback_strength)    # how strongly this agent signals upstream
-
-    def evaluate(self, researcher: ResearcherAgent) -> bool:
-        """
-        Compute perceived utility as a function of:
-        - intrinsic prototype quality,
-        - environmental signal (policy headwinds vs. operational pull).
-        """
-        utility = researcher.quality + self.model.environmental_signal(researcher)
-        return utility >= self.adoption_threshold
-
-    def provide_feedback(self) -> None:
-        """Push a small amount of pressure to each policymaker every tick."""
-        for pm in self.model.policymakers:
-            pm.receive_feedback(self.feedback_strength * 0.1)
-
-    def step(self) -> None:
-        """End‑users continuously provide feedback; evaluation happens on demand."""
-        self.provide_feedback()

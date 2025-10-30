@@ -10,6 +10,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import List, Dict, Any
 import statistics
+import csv
+from pathlib import Path
 
 
 @dataclass
@@ -92,3 +94,24 @@ class PenaltyBook:
                 self.counts.pop(k, None)
             else:
                 self.counts[k] = new_c
+
+
+class EventLogger:
+    """Collects per-event rows and writes them to CSV on demand."""
+    def __init__(self, path: str):
+        self.path = Path(path)
+        self.rows: List[Dict[str, Any]] = []
+
+    def log(self, row: Dict[str, Any]) -> None:
+        self.rows.append(row)
+
+    def flush(self) -> None:
+        if not self.rows:
+            return
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        # stable header order
+        header = sorted({k for r in self.rows for k in r.keys()})
+        with self.path.open("w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=header)
+            w.writeheader()
+            w.writerows(self.rows)
