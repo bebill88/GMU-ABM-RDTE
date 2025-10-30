@@ -21,3 +21,23 @@ agents:
   enduser:
     adoption_threshold: 0.6   # perceived utility threshold
     feedback_strength: 0.4    # influence on policymakers
+
+# Data sources
+data:
+  # Absolute path to DoD labs and collaboration hubs locations CSV (Windows path)
+  labs_locations_csv: 'C:\Users\billh\Downloads\dod_labs_collaboration_hubs_locations.csv'
+
+penalties:
+  # Per-failure penalty applied multiplicatively across selected axes
+  per_failure: 0.05
+  # Maximum total penalty per axis (0..1)
+  max_penalty: 0.3
+  # Optional decay applied to counts each run step (0 disables)
+  decay: 0.0
+  # Optional override of axes used per gate; omit to use defaults
+  # axes_by_gate:
+  #   funding: [researcher, funding_source, org_type]
+  #   contracting: [researcher, org_type]
+  #   test: [researcher, domain, kinetic_category]
+  #   legal: [researcher, authority, domain, kinetic_category]
+  #   adoption: [researcher, domain]

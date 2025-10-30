@@ -54,3 +54,41 @@ class MetricTracker:
             "attempts": self.attempts,
             "transitions": self.transitions,
         }
+
+
+class PenaltyBook:
+    """
+    Tracks failure counts for entities and provides multiplicative penalty factors.
+    Keys are free-form strings like "researcher:42" or "domain:Cyber".
+    """
+    def __init__(self, per_failure: float = 0.05, max_penalty: float = 0.3, decay: float = 0.0):
+        self.per_failure = float(per_failure)
+        self.max_penalty = float(max_penalty)
+        self.decay = float(decay)
+        self.counts: Dict[str, int] = {}
+
+    def bump(self, keys: List[str]) -> None:
+        for k in keys:
+            self.counts[k] = self.counts.get(k, 0) + 1
+
+    def factor_for(self, keys: List[str]) -> float:
+        """
+        Combine penalties multiplicatively across keys.
+        factor = Π (1 - min(max_penalty, per_failure * count))
+        """
+        f = 1.0
+        for k in keys:
+            c = self.counts.get(k, 0)
+            pen = min(self.max_penalty, self.per_failure * c)
+            f *= max(0.0, 1.0 - pen)
+        return max(0.0, min(1.0, f))
+
+    def decay_all(self) -> None:
+        if self.decay <= 0:
+            return
+        for k, c in list(self.counts.items()):
+            new_c = max(0, int(round(c * (1.0 - self.decay))))
+            if new_c == 0:
+                self.counts.pop(k, None)
+            else:
+                self.counts[k] = new_c

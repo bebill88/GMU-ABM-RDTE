@@ -7,11 +7,13 @@ from __future__ import annotations
 
 from mesa import Model
 from mesa.time import RandomActivation
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
+import csv
+from pathlib import Path
 
 from .agents import ResearcherAgent, PolicymakerAgent, EndUserAgent
 from . import policies
-from .metrics import MetricTracker
+from .metrics import MetricTracker, PenaltyBook
 
 
 class RdteModel(Model):
@@ -39,7 +41,9 @@ class RdteModel(Model):
                  regime: str = "linear",
                  shock_at: int = 80,
                  seed: int | None = None,
-                 shock_duration: int = 20):
+                 shock_duration: int = 20,
+                 labs_csv: Optional[str] = None,
+                 penalty_config: Optional[Dict[str, Any]] = None):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
@@ -57,6 +61,21 @@ class RdteModel(Model):
         self.funding_om = float(funding_om)
         self.metrics = MetricTracker()
         self._in_shock = False
+        self.labs: List[Dict[str, Any]] = self._load_labs(labs_csv)
+        # Penalties setup
+        pc = penalty_config or {}
+        self.penalties = PenaltyBook(
+            per_failure=float(pc.get("per_failure", 0.05)),
+            max_penalty=float(pc.get("max_penalty", 0.3)),
+            decay=float(pc.get("decay", 0.0)),
+        )
+        self.penalty_axes_by_gate: Dict[str, List[str]] = pc.get("axes_by_gate", {
+            "funding": ["researcher", "funding_source", "org_type"],
+            "contracting": ["researcher", "org_type"],
+            "test": ["researcher", "domain", "kinetic_category"],
+            "legal": ["researcher", "authority", "domain", "kinetic_category"],
+            "adoption": ["researcher", "domain"],
+        })
 
         # --- Create agents and register with scheduler ---
         self.researchers: List[ResearcherAgent] = []
@@ -88,18 +107,112 @@ class RdteModel(Model):
         """Return True if oversight passes this step for the given researcher."""
         return policies.oversight_gate(self, researcher)
 
+    # Extended gates for stage pipeline
+    def policy_gate_funding(self, stage: str, researcher: ResearcherAgent) -> bool:
+        return policies.funding_gate_stage(self, researcher, stage)
+
+    def policy_gate_legal(self, researcher: ResearcherAgent) -> str:
+        return policies.legal_review_gate(self, researcher)
+
+    def policy_gate_contracting(self, researcher: ResearcherAgent) -> bool:
+        return policies.contracting_gate(self, researcher)
+
+    def policy_gate_test(self, stage: str, researcher: ResearcherAgent, legal_status: str) -> bool:
+        return policies.test_gate(self, researcher, stage, legal_status)
+
+    # ---- Penalty helpers ----
+    def _penalty_keys(self, gate: str, researcher: ResearcherAgent, stage: Optional[str] = None) -> List[str]:
+        axes = self.penalty_axes_by_gate.get(gate, ["researcher"])
+        keys: List[str] = []
+        for a in axes:
+            if a == "researcher":
+                keys.append(f"researcher:{researcher.unique_id}")
+            elif a == "domain":
+                keys.append(f"domain:{getattr(researcher, 'domain', 'NA')}")
+            elif a == "org_type":
+                keys.append(f"org:{getattr(researcher, 'org_type', 'NA')}")
+            elif a == "funding_source":
+                keys.append(f"funding:{getattr(researcher, 'funding_source', 'NA')}")
+            elif a == "authority":
+                keys.append(f"authority:{getattr(researcher, 'authority', 'NA')}")
+            elif a == "kinetic_category":
+                keys.append(f"kinetic:{getattr(researcher, 'kinetic_category', 'NA')}")
+            elif a == "intel_discipline":
+                keys.append(f"intel:{getattr(researcher, 'intel_discipline', 'NA')}")
+            elif a == "stage" and stage is not None:
+                keys.append(f"stage:{stage}")
+        return keys
+
+    def penalty_factor(self, gate: str, researcher: ResearcherAgent, stage: Optional[str] = None) -> float:
+        return self.penalties.factor_for(self._penalty_keys(gate, researcher, stage))
+
+    def penalty_record_failure(self, gate: str, researcher: ResearcherAgent, stage: Optional[str] = None) -> None:
+        self.penalties.bump(self._penalty_keys(gate, researcher, stage))
+
     # ---- Environment helpers ----
-    def environmental_signal(self) -> float:
+    def environmental_signal(self, researcher: ResearcherAgent | None = None) -> float:
         """
         Small nudge capturing policy headwinds or operational pull.
         Tuned per regime to make differences measurable without dominating quality.
         """
+        base = 0.0
         if self.regime == "adaptive":
-            return 0.1    # positive pull from fast feedback
-        if self.regime == "linear":
-            return -0.05  # mild headwind from rigid processes
-        # shock regime
-        return -0.1 if self.is_in_shock() else 0.0
+            base = 0.1    # positive pull from fast feedback
+        elif self.regime == "linear":
+            base = -0.05  # mild headwind from rigid processes
+        else:  # shock regime
+            base = -0.1 if self.is_in_shock() else 0.0
+
+        # Add alignment-based bias if researcher provided (maps 0..1 -> -0.05..+0.05)
+        if researcher is not None:
+            align = getattr(researcher, "alignment_score", 0.5)
+            base += 0.05 * (2.0 * align - 1.0)
+            # Adoption penalty reduces signal with accumulated failures
+            adopt_factor = self.penalty_factor("adoption", researcher)
+            base -= 0.05 * (1.0 - adopt_factor)
+        # Small bonus if labs dataset is present (represents ecosystem support)
+        if getattr(self, "labs", None):
+            try:
+                if len(self.labs) > 0:
+                    base += 0.01
+            except Exception:
+                pass
+        return base
+
+    # ---- Data loading helpers ----
+    def _load_labs(self, labs_csv: Optional[str]) -> List[Dict[str, Any]]:
+        if not labs_csv:
+            return []
+        try:
+            path = Path(labs_csv)
+            if not path.exists():
+                return []
+            rows: List[Dict[str, Any]] = []
+            with path.open("r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                # normalize column names
+                def norm(s: str) -> str:
+                    return s.strip().lower().replace(" ", "_")
+                fieldmap = {norm(c): c for c in reader.fieldnames or []}
+                # guess lat/lon columns
+                lat_key = next((fieldmap[k] for k in ["lat", "latitude"] if k in fieldmap), None)
+                lon_key = next((fieldmap[k] for k in ["lon", "lng", "longitude"] if k in fieldmap), None)
+                name_key = next((fieldmap[k] for k in ["name", "site", "facility", "lab_name"] if k in fieldmap), None)
+                for r in reader:
+                    try:
+                        lat = float(r[lat_key]) if lat_key and r.get(lat_key) not in (None, "") else None
+                        lon = float(r[lon_key]) if lon_key and r.get(lon_key) not in (None, "") else None
+                    except Exception:
+                        lat, lon = None, None
+                    rows.append({
+                        "name": (r.get(name_key) if name_key else None),
+                        "lat": lat,
+                        "lon": lon,
+                        "raw": r,
+                    })
+            return rows
+        except Exception:
+            return []
 
     def is_in_shock(self) -> bool:
         """Whether the system is currently in a shock window."""
@@ -140,6 +253,11 @@ class RdteModel(Model):
         # Compute how many new transitions occurred during this tick
         post_transitions = sum(1 for r in self.researchers if r.time_to_transition is not None)
         self.metrics.register_tick(adopted_count=max(0, post_transitions - pre_transitions))
+        # Optionally decay penalty counts
+        try:
+            self.penalties.decay_all()
+        except Exception:
+            pass
 
     def run(self, steps: int = 200) -> Dict[str, Any]:
         """

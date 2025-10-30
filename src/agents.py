@@ -9,7 +9,7 @@ We model three roles common in DoD/IC innovation transitions:
 from __future__ import annotations
 
 from mesa import Agent
-from typing import Optional
+from typing import Optional, List
 
 
 class ResearcherAgent(Agent):
@@ -28,6 +28,14 @@ class ResearcherAgent(Agent):
     time_to_transition : Optional[int]
         Cycle time (steps) for successful transition; set when adoption occurs.
     """
+    STAGES: List[str] = [
+        "feasibility",
+        "prototype_demo",
+        "functional_test",
+        "vulnerability_test",
+        "operational_test",
+    ]
+
     def __init__(self, unique_id, model, prototype_rate: float, learning_rate: float):
         super().__init__(unique_id, model)
         self.prototype_rate = float(prototype_rate)
@@ -37,6 +45,32 @@ class ResearcherAgent(Agent):
         self.has_candidate = False
         self.time_to_transition: Optional[int] = None
         self.prototype_start_tick: Optional[int] = None
+        # Stage-pipeline attributes
+        self.trl: int = int(self.random.randint(2, 4))
+        self.current_stage_index: Optional[int] = None
+
+        # Program context attributes (toy distributions)
+        self.authority = self.random.choice(["Title10", "Title50"])  # Title 10 vs Title 50
+        self.funding_source = self.random.choice(["ProgramBase", "POM", "UFR", "External", "Partner", "Partner_CoDev"])
+        self.org_type = self.random.choice(["GovLab", "GovContractor", "Commercial"])
+        self.domain = self.random.choice(["ISR", "Cyber", "EW", "Space", "Air", "Land", "Maritime"])
+        self.kinetic_category = self.random.choice(["Kinetic", "NonKinetic"])
+        self.intel_discipline = self.random.choice(["SIGINT", "GEOINT", "HUMINT", "MASINT", "OSINT"])  # may be N/A
+
+        # Policy alignment toggles
+        self.align_priority = bool(self.random.random() < 0.5)  # Presidential priorities
+        self.align_nds = bool(self.random.random() < 0.6)       # National Defense Strategy
+        self.align_ccmd = bool(self.random.random() < 0.5)      # Combatant Command needs
+        self.align_agency = bool(self.random.random() < 0.6)    # Agency/Service priorities
+        # Precompute alignment score (0..1)
+        self.alignment_score = (
+            (1.0 if self.align_priority else 0.0)
+            + (1.0 if self.align_nds else 0.0)
+            + (1.0 if self.align_ccmd else 0.0)
+            + (1.0 if self.align_agency else 0.0)
+        ) / 4.0
+        # Legal status memory (updated by legal gate)
+        self.legal_status: str = "not_conducted"
 
     def step(self) -> None:
         """
@@ -54,8 +88,68 @@ class ResearcherAgent(Agent):
             # Register an attempt for metrics
             self.model.metrics.on_attempt()
 
-        # 2) Progress existing prototype through policy gates
+        # 2) Progress existing prototype through stage pipeline
         if self.has_candidate:
+            # Ensure we have a stage index
+            if self.current_stage_index is None:
+                self.current_stage_index = 0
+
+            stage = self.STAGES[self.current_stage_index]
+
+            # Legal gate: only refresh if not favorable/favorable_with_caveats
+            if self.legal_status in {"not_conducted"}:
+                self.legal_status = self.model.policy_gate_legal(self)
+                if self.legal_status == "unfavorable":
+                    # Rejected on legal grounds; abandon candidate, learn slightly
+                    self.model.penalty_record_failure("legal", self)
+                    self.has_candidate = False
+                    self.current_stage_index = None
+                    self.quality = min(1.0, self.quality + 0.5 * self.learning_rate * self.random.random())
+                    return
+
+            # Funding and contracting gates
+            if not self.model.policy_gate_funding(stage, self):
+                self.model.penalty_record_failure("funding", self, stage)
+                return  # stalled this tick
+            if not self.model.policy_gate_contracting(self):
+                self.model.penalty_record_failure("contracting", self)
+                return  # stalled this tick
+
+            # Stage-specific test gate
+            test_ok = self.model.policy_gate_test(stage, self, self.legal_status)
+            if test_ok:
+                # Advance stage and TRL
+                trl_increments = {
+                    "feasibility": 1,
+                    "prototype_demo": 1,
+                    "functional_test": 1,
+                    "vulnerability_test": 1,
+                    "operational_test": 2,
+                }
+                self.trl = min(9, self.trl + trl_increments.get(stage, 1))
+                self.current_stage_index += 1
+
+                # If we've completed last stage, proceed to end-user evaluation/adoption
+                if self.current_stage_index >= len(self.STAGES):
+                    adopted = self.model.evaluate_and_adopt(self)
+                    if adopted:
+                        self.has_candidate = False
+                        self.current_stage_index = None
+                        self.legal_status = "not_conducted"
+                        # Compute cycle time only if we recorded a start
+                        if self.prototype_start_tick is not None:
+                            self.time_to_transition = (
+                                self.model.schedule.time - self.prototype_start_tick
+                            )
+                            self.prototype_start_tick = None
+                    else:
+                        # Negative feedback from ops test; learn modestly
+                        self.model.penalty_record_failure("adoption", self)
+                        self.quality = min(1.0, self.quality + self.learning_rate * self.random.random())
+                # Failed test; learn slightly and try again
+                self.model.penalty_record_failure("test", self, stage)
+                self.quality = min(1.0, self.quality + 0.5 * self.learning_rate * self.random.random())
+                return
             funding_ok = self.model.policy_gate_allocation(self)
             oversight_ok = self.model.policy_gate_oversight(self)
             if funding_ok and oversight_ok:
@@ -120,7 +214,7 @@ class EndUserAgent(Agent):
         - intrinsic prototype quality,
         - environmental signal (policy headwinds vs. operational pull).
         """
-        utility = researcher.quality + self.model.environmental_signal()
+        utility = researcher.quality + self.model.environmental_signal(researcher)
         return utility >= self.adoption_threshold
 
     def provide_feedback(self) -> None:

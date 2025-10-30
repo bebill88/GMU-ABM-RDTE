@@ -14,6 +14,7 @@ import os
 import csv
 import json
 import time
+import yaml
 
 # Support both `python -m src.run_experiment` and `python src/run_experiment.py`.
 # When executed as a script, relative imports fail because there's no package
@@ -32,11 +33,35 @@ except ImportError:  # direct script context
     from src.utils import ensure_dir
 
 
+def _load_parameters() -> dict:
+    params_path = os.path.join(os.getcwd(), "parameters.yaml")
+    if os.path.exists(params_path):
+        try:
+            with open(params_path, "r", encoding="utf-8") as f:
+                return yaml.safe_load(f) or {}
+        except Exception:
+            return {}
+    return {}
+
+
+def _resolve_labs_csv(args) -> str | None:
+    """Resolve labs CSV: CLI flag wins; else try parameters.yaml."""
+    if getattr(args, "labs_csv", None):
+        return args.labs_csv
+    y = _load_parameters()
+    data = y.get("data", {}) or {}
+    val = data.get("labs_locations_csv")
+    return val
+    return None
+
+
 def run_once(args) -> dict:
     """
     Run a single simulation with the given args and return the metrics summary.
     We also pack key parameters into the row for later analysis.
     """
+    params = _load_parameters()
+    penalty_config = (params.get("penalties", {}) or {})
     model = RdteModel(
         n_researchers=args.n_researchers,
         n_policymakers=args.n_policymakers,
@@ -47,6 +72,8 @@ def run_once(args) -> dict:
         shock_at=args.shock_at,
         seed=args.seed,
         shock_duration=args.shock_duration,
+        labs_csv=_resolve_labs_csv(args),
+        penalty_config=penalty_config,
     )
     summary = model.run(steps=args.steps)
     summary.update({
@@ -60,6 +87,8 @@ def run_once(args) -> dict:
         "funding_om": args.funding_om,
         "shock_at": args.shock_at,
         "shock_duration": args.shock_duration,
+        "labs_csv": _resolve_labs_csv(args),
+        "penalties": penalty_config,
     })
     return summary
 
@@ -78,6 +107,7 @@ def main() -> None:
     p.add_argument("--funding_om", type=float, default=0.5)
     p.add_argument("--shock_at", type=int, default=80)
     p.add_argument("--shock_duration", type=int, default=20)
+    p.add_argument("--labs_csv", type=str, default=None, help="Path to labs/hubs locations CSV (overrides parameters.yaml)")
     args = p.parse_args()
 
     # Each run batch gets its own timestamped folder under outputs/

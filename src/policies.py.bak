@@ -53,8 +53,8 @@ def oversight_gate(model, researcher) -> bool:
 
 
 # ------------------ Extended typing ------------------
-# (typing alias removed)
-
+from typing import Literal as _LiteralAlias  # alias to avoid mypy confusion in some setups
+LegalStatus = _LiteralAlias("favorable", "favorable_with_caveats", "unfavorable", "not_conducted")
 
 
 # ------------------ Stage-pipeline gates ------------------
@@ -92,9 +92,7 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
         "Partner_CoDev": 0.85,
     }.get(source, 1.0)
 
-    # Apply repeat-failure penalty factor
-    factor = model.penalty_factor("funding", researcher, stage)
-    p = max(0.02, min(0.98, base * color_weight * source_mult * factor))
+    p = max(0.02, min(0.98, base * color_weight * source_mult))
     return model.random.random() < p
 
 
@@ -126,15 +124,6 @@ def legal_review_gate(model, researcher) -> str:
         dist["favorable_with_caveats"] += 0.03
         dist["unfavorable"] += 0.02
 
-    # Apply repeat-failure penalty by shifting mass from favorable to caveats/unfavorable
-    pen = 1.0 - model.penalty_factor("legal", researcher)
-    if pen > 0:
-        shift = min(dist["favorable"], 0.5 * pen)  # cap shift for stability
-        dist["favorable"] -= shift
-        # distribute toward caveats (70%) and unfavorable (30%)
-        dist["favorable_with_caveats"] += shift * 0.7
-        dist["unfavorable"] += shift * 0.3
-
     # Normalize and sample
     total = sum(dist.values())
     r = model.random.random() * total
@@ -165,9 +154,7 @@ def contracting_gate(model, researcher) -> bool:
     if model.regime == "shock" and model.is_in_shock():
         base -= 0.1
 
-    # Apply penalty factor
-    factor = model.penalty_factor("contracting", researcher)
-    p = max(0.05, min(0.95, base * factor))
+    p = max(0.05, min(0.95, base))
     return model.random.random() < p
 
 
@@ -213,7 +200,5 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
     if model.regime == "shock" and model.is_in_shock():
         base -= 0.05
 
-    # Apply penalty factor for testing gate
-    factor = model.penalty_factor("test", researcher, stage)
-    p = max(0.05, min(0.95, (base + trl_bonus) * factor))
+    p = max(0.05, min(0.95, base + trl_bonus))
     return model.random.random() < p

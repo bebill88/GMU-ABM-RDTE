@@ -7,6 +7,11 @@ Date: 2025-10-29
 - Simulate RDT&E-to-field transitions with three governance regimes: `linear`, `adaptive`, `shock`.
 - Capture funding and oversight effects via policy gates (`src/policies.py`).
 - Track decision-relevant metrics per run: transition rate, average cycle time, diffusion speed.
+- Progress projects through a stage-gate pipeline with TRL growth: Feasibility → Prototype Demo → Functional → Vulnerability → Operational test → Adoption.
+- Apply legal review outcomes in gates: favorable, favorable_with_caveats, unfavorable, not_conducted.
+- Model coarse funding color behavior and sources (POM, Program Base, UFR, External, Partner, Partner Co-Dev) in a stage-aware funding gate.
+- Include simple contracting gate influenced by regime and organization type (Gov Lab, Gov-Contractor, Commercial).
+- Factor basic alignment to Presidential Priorities, National Defense Strategy, Combatant Commands, and Agencies into adoption via a small environmental bias.
 - Explore the effect of shocks with configurable start (`--shock_at`) and duration (`--shock_duration`).
 - Save reproducible outputs per experiment run batch: `outputs/<scenario>_<timestamp>/{results.csv, metadata.json}`.
 - Provide a quick plot of transition-rate distribution from a results CSV (`src/viz.py`).
@@ -14,9 +19,9 @@ Date: 2025-10-29
 ## What It Does Not Do (Current Limits)
 
 - Not calibrated to empirical program data; outputs are comparative/illustrative.
-- Simplified funding/oversight: no queues, portfolios, or true multi-color appropriations.
+- Still simplified: no explicit queues/aging, portfolio scheduling, or reprogramming workflows.
 - No network topology or collaboration graph; agents act independently aside from coarse feedback.
-- Utility/adoption is a simple additive function of prototype quality and a regime-dependent signal.
+- Utility/adoption remains a simple function (quality + environmental signal + small alignment bias).
 - Single shock window per run (start/duration); no multiple or stochastic shock processes.
 - Limited metrics in CSV aggregate; no per-prototype event log (starts, gate outcomes, adoption ticks).
 - No built-in config loader for `parameters.yaml` yet (CLI flags control runs).
@@ -54,6 +59,19 @@ python -m src.run_experiment --scenario shock --runs 10 --steps 200 --seed 42 \
 python -m src.viz --path outputs/<scenario>_<timestamp>/results.csv
 ```
 
+Data inputs
+
+- Labs/hubs locations CSV: set via CLI `--labs_csv` or in `parameters.yaml` under:
+
+```
+data:
+  labs_locations_csv: 'C:\\Users\\billh\\Downloads\\dod_labs_collaboration_hubs_locations.csv'
+```
+
+Notes:
+- If `--labs_csv` is omitted, the runner will look for `parameters.yaml` and use `data.labs_locations_csv` when present.
+- When labs data is present, the model adds a small +0.01 ecosystem-support bonus to the environmental signal (kept deliberately small).
+
 ## Knobs You Can Turn (and Expected Effects)
 
 CLI flags (see `src/run_experiment.py:73`):
@@ -76,13 +94,29 @@ Code-level parameters (edit and rerun):
   - Effects: higher `prototype_rate` increases attempts; higher `learning_rate` shortens cycle time after rejections; lower `oversight_rigidity` raises oversight pass probability; lower `adoption_threshold` increases adoptions.
 
 - Policy gates in `src/policies.py`:
-  - `funding_gate(...)` mixes regime and funding weights to set pass probability (see `src/policies.py:18`).
-  - `oversight_gate(...)` mixes regime rigidity and prototype quality (see `src/policies.py:38`).
-  - Effects: increasing `funding_rdte`/`funding_om` boosts funding pass rates; reducing effective rigidity or increasing quality improves oversight pass rates.
+  - Legacy: `funding_gate(...)`, `oversight_gate(...)` kept for compatibility.
+  - Stage pipeline:
+    - `funding_gate_stage(model, researcher, stage)` applies color/source-aware funding by stage.
+    - `legal_review_gate(model, researcher)` yields: favorable | favorable_with_caveats | unfavorable | not_conducted.
+    - `contracting_gate(model, researcher)` models simple contracting success likelihood.
+    - `test_gate(model, researcher, stage, legal_status)` sets stage-specific pass probability (TRL/domain/kinetic + regime + legal adjustments).
+  - Effects: funding source and color weights shape early/late stage success; legal caveats raise later-stage friction; TRL increases ease of testing over time.
+
+- Repeat-failure penalties:
+  - Purpose: penalize "repeat offenders" across chosen axes (e.g., specific researcher, domain, org_type, funding_source, authority).
+  - Config (parameters.yaml):
+    - `penalties.per_failure`: per-failure penalty increment (default 0.05).
+    - `penalties.max_penalty`: cap per-axis penalty (default 0.3).
+    - `penalties.decay`: optional decay on counts per step (default 0.0).
+    - `penalties.axes_by_gate`: optional mapping of which axes apply to each gate.
+  - Behavior: gates multiply pass probability by a factor Π(1 - min(max_penalty, per_failure * count_axis)).
+    - Applied to: funding, contracting, stage tests, and legal review distribution (reduces odds of "favorable").
+    - Adoption: environmental signal subtracts up to ~0.05 based on accumulated failures for adoption axes.
+  - Supported axes: `researcher`, `domain`, `org_type`, `funding_source`, `authority`, `kinetic_category`, `intel_discipline`, and optionally `stage`.
 
 - Environment signal in `src/model.py`:
-  - `environmental_signal()` adds +0.1 for `adaptive`, -0.05 for `linear`, and -0.1 during `shock` (see `src/model.py:92`).
-  - Effects: positive signal raises perceived utility, increasing adoption likelihood.
+  - `environmental_signal(researcher)` adds +0.1 for `adaptive`, -0.05 for `linear`, and -0.1 during `shock`, plus a small ±0.05 bias based on policy alignment flags (Presidential/NDS/CCMD/Agency).
+  - Effects: positive signal and alignment raise perceived utility, increasing adoption likelihood.
 
 - Adoption evaluation in `src/model.py`:
   - `evaluate_and_adopt(...)` samples ~20% of end users and uses simple majority (see `src/model.py:109`).
@@ -108,4 +142,3 @@ Note: `parameters.yaml` documents intended tunables but is not yet wired into th
 - Log per-prototype events (attempts, gate outcomes, adoption ticks) for richer analytics.
 - Introduce network topology and heterogeneous policymakers/end-users.
 - Add more plots (cycle-time histograms, adoption curves over time).
-
