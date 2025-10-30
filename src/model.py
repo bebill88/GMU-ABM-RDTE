@@ -43,6 +43,7 @@ class RdteModel(Model):
                  seed: int | None = None,
                  shock_duration: int = 20,
                  labs_csv: Optional[str] = None,
+                 rdte_csv: Optional[str] = None,
                  penalty_config: Optional[Dict[str, Any]] = None):
         super().__init__(seed=seed)
 
@@ -62,6 +63,7 @@ class RdteModel(Model):
         self.metrics = MetricTracker()
         self._in_shock = False
         self.labs: List[Dict[str, Any]] = self._load_labs(labs_csv)
+        self.rdte_fy26: List[Dict[str, Any]] = self._load_rdte(rdte_csv)
         # Penalties setup
         pc = penalty_config or {}
         self.penalties = PenaltyBook(
@@ -210,6 +212,22 @@ class RdteModel(Model):
                         "lon": lon,
                         "raw": r,
                     })
+            return rows
+        except Exception:
+            return []
+
+    def _load_rdte(self, rdte_csv: Optional[str]) -> List[Dict[str, Any]]:
+        if not rdte_csv:
+            return []
+        try:
+            path = Path(rdte_csv)
+            if not path.exists():
+                return []
+            rows: List[Dict[str, Any]] = []
+            with path.open("r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for r in reader:
+                    rows.append(dict(r))
             return rows
         except Exception:
             return []

@@ -72,6 +72,16 @@ Notes:
 - If `--labs_csv` is omitted, the runner will look for `parameters.yaml` and use `data.labs_locations_csv` when present.
 - When labs data is present, the model adds a small +0.01 ecosystem-support bonus to the environmental signal (kept deliberately small).
 
+- FY26 RDT&E line items CSV: set via CLI `--rdte_csv` or in `parameters.yaml` under:
+
+```
+data:
+  rdte_fy26_csv: 'C:\\Users\\billh\\Downloads\\FY2026_SEC4201_RDTandE_All_Line_Items.csv'
+```
+
+Notes:
+- Currently parsed and attached to the model as `model.rdte_fy26` (no behavioral impact yet). Can be used to drive funding experiments or reports.
+
 ## Knobs You Can Turn (and Expected Effects)
 
 CLI flags (see `src/run_experiment.py:73`):

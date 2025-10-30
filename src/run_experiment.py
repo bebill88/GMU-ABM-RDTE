@@ -55,6 +55,17 @@ def _resolve_labs_csv(args) -> str | None:
     return None
 
 
+def _resolve_rdte_csv(args) -> str | None:
+    """Resolve FY26 RDT&E CSV: CLI flag wins; else try parameters.yaml."""
+    if getattr(args, "rdte_csv", None):
+        return args.rdte_csv
+    y = _load_parameters()
+    data = y.get("data", {}) or {}
+    val = data.get("rdte_fy26_csv")
+    return val
+    return None
+
+
 def run_once(args) -> dict:
     """
     Run a single simulation with the given args and return the metrics summary.
@@ -73,6 +84,7 @@ def run_once(args) -> dict:
         seed=args.seed,
         shock_duration=args.shock_duration,
         labs_csv=_resolve_labs_csv(args),
+        rdte_csv=_resolve_rdte_csv(args),
         penalty_config=penalty_config,
     )
     summary = model.run(steps=args.steps)
@@ -88,6 +100,7 @@ def run_once(args) -> dict:
         "shock_at": args.shock_at,
         "shock_duration": args.shock_duration,
         "labs_csv": _resolve_labs_csv(args),
+        "rdte_csv": _resolve_rdte_csv(args),
         "penalties": penalty_config,
     })
     return summary
@@ -108,6 +121,7 @@ def main() -> None:
     p.add_argument("--shock_at", type=int, default=80)
     p.add_argument("--shock_duration", type=int, default=20)
     p.add_argument("--labs_csv", type=str, default=None, help="Path to labs/hubs locations CSV (overrides parameters.yaml)")
+    p.add_argument("--rdte_csv", type=str, default=None, help="Path to FY26 RDT&E line items CSV (overrides parameters.yaml)")
     args = p.parse_args()
 
     # Each run batch gets its own timestamped folder under outputs/

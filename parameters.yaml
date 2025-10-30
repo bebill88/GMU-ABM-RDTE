@@ -26,6 +26,8 @@ agents:
 data:
   # Absolute path to DoD labs and collaboration hubs locations CSV (Windows path)
   labs_locations_csv: 'C:\Users\billh\Downloads\dod_labs_collaboration_hubs_locations.csv'
+  # Absolute path to FY26 RDT&E Proposed Funding tables CSV
+  rdte_fy26_csv: 'C:\Users\billh\Downloads\FY2026_SEC4201_RDTandE_All_Line_Items.csv'
 
 penalties:
   # Per-failure penalty applied multiplicatively across selected axes
