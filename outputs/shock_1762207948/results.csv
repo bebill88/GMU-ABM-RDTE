@@ -1,0 +1,4 @@
+attempts,avg_cycle_time,diffusion_speed,funding_om,funding_rdte,labs_csv,n_endusers,n_policymakers,n_researchers,penalties,rdte_csv,scenario,seed,shock_at,shock_duration,steps,transition_rate,transitions
+44,0.0,0,0.5,1.0,data/dod_labs_collaboration_hubs_locations.csv,30,10,40,"{'per_failure': 0.05, 'max_penalty': 0.3, 'decay': 0.0}",data/FY2026_SEC4201_RDTandE_All_Line_Items.csv,shock,123,80,20,100,0.0,0
+43,0.0,0,0.5,1.0,data/dod_labs_collaboration_hubs_locations.csv,30,10,40,"{'per_failure': 0.05, 'max_penalty': 0.3, 'decay': 0.0}",data/FY2026_SEC4201_RDTandE_All_Line_Items.csv,shock,124,80,20,100,0.0,0
+43,0.0,0,0.5,1.0,data/dod_labs_collaboration_hubs_locations.csv,30,10,40,"{'per_failure': 0.05, 'max_penalty': 0.3, 'decay': 0.0}",data/FY2026_SEC4201_RDTandE_All_Line_Items.csv,shock,125,80,20,100,0.0,0
