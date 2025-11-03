@@ -6,7 +6,31 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 
 ---
 
-## Quick Start
+## Table of Contents
+
+- [Overview](#overview)
+- [Build & Run](#build--run)
+- [Data Inputs](#data-inputs)
+- [Configuration](#configuration)
+- [Outputs](#outputs)
+- [Repository Structure](#repository-structure)
+- [Documentation Links](#documentation-links)
+- [Capabilities](#capabilities)
+- [Current Limits](#current-limits)
+- [Next Steps](#next-steps-policy-lever-integration)
+- [Changelog](#changelog)
+
+---
+
+## Overview
+
+- Purpose: explore how governance regimes, funding colors, and shocks affect prototype transition and diffusion.
+- Approach: agent-based model with a stage-gate pipeline (legal → funding → contracting → tests → adoption) and tunable gate logic.
+- Outputs: per-run metrics (transition rate, cycle time, diffusion speed) and per-event logs for gate outcomes.
+
+---
+
+## Build & Run
 
 1. Create and activate a venv
    - `python -m venv .venv`
@@ -71,7 +95,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 
 ---
 
-## Knobs and Config
+## Configuration
 
 - CLI flags
   - `--runs`, `--steps`, `--seed`, population sizes (`--n_researchers`, `--n_policymakers`, `--n_endusers`)
@@ -88,7 +112,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 
 ---
 
-## Outputs and Metrics
+## Outputs
 
 - Results CSV with per-run aggregates (`results.csv`): transition_rate, avg_cycle_time, diffusion_speed, attempts, transitions.
 - Metadata JSON (`metadata.json`) with all run parameters and base_seed.
@@ -97,7 +121,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 
 ---
 
-## Files
+## Repository Structure
 
 - `src/model.py` — Mesa-style model class (`RdteModel`), scheduling, gates, event logging, loaders.
 - `src/agents.py` — Agents and stage pipeline behavior.
@@ -107,6 +131,16 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 - `src/viz.py` — Simple plotting.
 - `parameters.yaml` — Tunables for gates, penalties, and data paths.
 - `requirements.txt` — Dependencies.
+
+---
+
+## Documentation Links
+
+- Data readme: `data/README.md`
+- Configuration defaults: `parameters.yaml`
+- Dependencies: `requirements.txt`
+- Visualization helper: `src/viz.py`
+- Experiment runner: `src/run_experiment.py`
 
 ---
 
