@@ -26,3 +26,20 @@ Notes
   - commit `.gitattributes` and CSVs
 - The model tolerates missing files (it just loads zero rows), but results will differ slightly (no labs-based ecosystem bonus).
 
+
+Templates
+---------
+
+- labs_template.csv: example header for labs/hubs.
+- rdte_fy26_template.csv: minimal FY26 RDT&E line item fields.
+- mbse_template.csv: example input schema for digital maturity.
+
+Schemas
+-------
+
+JSON Schemas are in the `schemas/` folder:
+- event_log.schema.json
+- labs.schema.json
+- rdte_fy26.schema.json
+- mbse.schema.json
+

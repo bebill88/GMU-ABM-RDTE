@@ -48,14 +48,20 @@ class ResearcherAgent(Agent):
         # Stage-pipeline attributes
         self.trl: int = int(self.random.randint(2, 4))
         self.current_stage_index: Optional[int] = None
+        self.stage_enter_tick: Optional[int] = None
 
         # Program context attributes (toy distributions)
+        self.project_id = f"proj-{unique_id}"
         self.authority = self.random.choice(["Title10", "Title50"])  # Title 10 vs Title 50
         self.funding_source = self.random.choice(["ProgramBase", "POM", "UFR", "External", "Partner", "Partner_CoDev"])
         self.org_type = self.random.choice(["GovLab", "GovContractor", "Commercial"])
         self.domain = self.random.choice(["ISR", "Cyber", "EW", "Space", "Air", "Land", "Maritime"])
         self.kinetic_category = self.random.choice(["Kinetic", "NonKinetic"])
         self.intel_discipline = self.random.choice(["SIGINT", "GEOINT", "HUMINT", "MASINT", "OSINT"])  # may be N/A
+        self.program_office = self.random.choice(["PEO C4I", "AFLCMC", "NAVWAR", "NRL", "DARPA", "DEVCOM"])  # example labels
+        self.service_component = self.random.choice(["Army", "Navy", "Air Force", "USMC", "Space Force", "IC"])
+        self.sponsor = self.random.choice(["Service HQ", "CCMD", "Agency", "POC-User"])  # simplified
+        self.prime_contractor = self.random.choice(["None", "Boeing", "NG", "LM", "SAIC", "Leidos"])  # demo values
 
         # Policy alignment toggles
         self.align_priority = bool(self.random.random() < 0.5)  # Presidential priorities
@@ -85,6 +91,8 @@ class ResearcherAgent(Agent):
         if not self.has_candidate and (self.random.random() < self.prototype_rate):
             self.has_candidate = True
             self.prototype_start_tick = self.model.schedule.time
+            self.current_stage_index = 0
+            self.stage_enter_tick = self.model.schedule.time
             # Register an attempt for metrics
             self.model.metrics.on_attempt()
             if hasattr(self.model, "log_event"):
@@ -95,6 +103,7 @@ class ResearcherAgent(Agent):
             # Ensure we have a stage index
             if self.current_stage_index is None:
                 self.current_stage_index = 0
+                self.stage_enter_tick = self.model.schedule.time
 
             stage = self.STAGES[self.current_stage_index]
 
@@ -138,6 +147,7 @@ class ResearcherAgent(Agent):
                 if hasattr(self.model, "log_event"):
                     self.model.log_event(self, gate="test", stage=stage, outcome="pass")
                 self.current_stage_index += 1
+                self.stage_enter_tick = self.model.schedule.time
 
                 # If we've completed last stage, proceed to end-user evaluation/adoption
                 if self.current_stage_index >= len(self.STAGES):

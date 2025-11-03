@@ -146,6 +146,17 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 
 ## Changelog
 
+### 2025-11-03
+
+- Restructured README with Overview, linked Table of Contents, Build & Run, Data Inputs, Configuration, Outputs, Repository Structure, and Documentation Links.
+- Added GitHub Action to auto-generate/update the README ToC on push.
+- Parameterized gate logic via `parameters.yaml:gates` (funding/test/legal/contracting), and passed config through the model.
+- Implemented per-run event logging with probability context (base, penalty factor, final) and stage latency; added JSON schema for event rows.
+- Integrated optional data loaders for Labs and FY26 RDT&E CSVs; created CSV templates and JSON schemas under `data/templates/` and `schemas/`.
+- Enhanced researcher/project context (project_id, program_office, service_component, sponsor, prime_contractor) and included these in event logs.
+- Improved seeding clarity (base_seed + per-run seed) and expanded run metadata.
+- Cleaned legacy paths and docstring encoding artifacts; removed unreachable code in researcher loop.
+
 ### 2025-10-29
 
 - Parameterized shock window duration and added `--shock_duration`.

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ABM Event Log",
+  "type": "object",
+  "properties": {
+    "tick": {"type": "integer"},
+    "researcher_id": {"type": ["integer", "string"]},
+    "project_id": {"type": ["string", "null"]},
+    "gate": {"type": "string"},
+    "stage": {"type": ["string", "null"]},
+    "outcome": {"type": "string"},
+    "trl": {"type": ["integer", "null"]},
+    "authority": {"type": ["string", "null"]},
+    "funding_source": {"type": ["string", "null"]},
+    "org_type": {"type": ["string", "null"]},
+    "domain": {"type": ["string", "null"]},
+    "kinetic": {"type": ["string", "null"]},
+    "intel": {"type": ["string", "null"]},
+    "legal_status": {"type": ["string", "null"]},
+    "program_office": {"type": ["string", "null"]},
+    "service_component": {"type": ["string", "null"]},
+    "sponsor": {"type": ["string", "null"]},
+    "prime_contractor": {"type": ["string", "null"]},
+    "latency_in_stage": {"type": ["integer", "null"]},
+    "gate_prob_base": {"type": ["number", "null"]},
+    "gate_penalty_factor": {"type": ["number", "null"]},
+    "gate_prob_final": {"type": ["number", "null"]}
+  },
+  "required": ["tick", "researcher_id", "gate", "outcome"]
+}
+

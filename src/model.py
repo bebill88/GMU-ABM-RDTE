@@ -70,6 +70,8 @@ class RdteModel(Model):
         self.gate_config: Dict[str, Any] = gate_config or {}
         self._logger = logging.getLogger(__name__)
         self._events: Optional[EventLogger] = EventLogger(events_path) if events_path else None
+        # Last gate context (populated by policies to enrich event logs)
+        self._last_gate_context: Dict[str, Any] = {}
         # Penalties setup
         pc = penalty_config or {}
         self.penalties = PenaltyBook(
@@ -266,7 +268,24 @@ class RdteModel(Model):
             "kinetic": getattr(researcher, "kinetic_category", None),
             "intel": getattr(researcher, "intel_discipline", None),
             "legal_status": getattr(researcher, "legal_status", None),
+            "project_id": getattr(researcher, "project_id", None),
+            "program_office": getattr(researcher, "program_office", None),
+            "service_component": getattr(researcher, "service_component", None),
+            "sponsor": getattr(researcher, "sponsor", None),
+            "prime_contractor": getattr(researcher, "prime_contractor", None),
         }
+        # Stage latency if we track entry tick
+        try:
+            if stage is not None and getattr(researcher, "stage_enter_tick", None) is not None:
+                row["latency_in_stage"] = int(self.schedule.time - researcher.stage_enter_tick)  # type: ignore[arg-type]
+        except Exception:
+            pass
+        # Copy last gate probability context if present
+        if self._last_gate_context and isinstance(self._last_gate_context, dict):
+            for k, v in self._last_gate_context.items():
+                if k not in row:
+                    row[k] = v
+        # Append to events
         self._events.log(row)
 
     # ---- Evaluation and adoption ----

@@ -98,7 +98,16 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
 
     # Apply repeat-failure penalty factor
     factor = model.penalty_factor("funding", researcher, stage)
-    p = max(0.02, min(0.98, base * color_weight * source_mult * factor))
+    base_prob = max(0.02, min(0.98, base * color_weight * source_mult))
+    p = max(0.02, min(0.98, base_prob * factor))
+    # Record gate context for logging
+    model._last_gate_context = {
+        "gate_prob_base": round(base_prob, 6),
+        "gate_penalty_factor": round(factor, 6),
+        "gate_prob_final": round(p, 6),
+        "funding_source": source,
+        "funding_color_weight": round(color_weight, 6),
+    }
     return model.random.random() < p
 
 
@@ -150,6 +159,16 @@ def legal_review_gate(model, researcher) -> str:
     for k, v in dist.items():
         acc += v
         if r <= acc:
+            # Save context for logging
+            try:
+                model._last_gate_context = {
+                    "legal_penalty_applied": round(pen, 6),
+                    "legal_favorable": round(dist.get("favorable", 0.0) / total, 6),
+                    "legal_caveats": round(dist.get("favorable_with_caveats", 0.0) / total, 6),
+                    "legal_unfavorable": round(dist.get("unfavorable", 0.0) / total, 6),
+                }
+            except Exception:
+                pass
             return k
     return "favorable"  # fallback
 
@@ -172,7 +191,14 @@ def contracting_gate(model, researcher) -> bool:
 
     # Apply penalty factor
     factor = model.penalty_factor("contracting", researcher)
-    p = max(0.05, min(0.95, base * factor))
+    base_prob = max(0.05, min(0.95, float(base)))
+    p = max(0.05, min(0.95, base_prob * factor))
+    model._last_gate_context = {
+        "gate_prob_base": round(base_prob, 6),
+        "gate_penalty_factor": round(factor, 6),
+        "gate_prob_final": round(p, 6),
+        "contract_org_type": org,
+    }
     return model.random.random() < p
 
 
@@ -222,7 +248,14 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
 
     # Apply penalty factor for testing gate
     factor = model.penalty_factor("test", researcher, stage)
-    p = max(0.05, min(0.95, (base + trl_bonus) * factor))
+    base_prob = max(0.05, min(0.95, (base + trl_bonus)))
+    p = max(0.05, min(0.95, base_prob * factor))
+    model._last_gate_context = {
+        "gate_prob_base": round(base_prob, 6),
+        "gate_penalty_factor": round(factor, 6),
+        "gate_prob_final": round(p, 6),
+        "legal_status_at_test": legal_status,
+    }
     return model.random.random() < p
 
 

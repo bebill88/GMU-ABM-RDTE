@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MBSE / Digital Engineering Inputs",
+  "type": "object",
+  "properties": {
+    "project_id": {"type": "string"},
+    "digital_maturity": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "model_coverage": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "simulation_runs": {"type": ["integer", "null"]},
+    "defect_escape_rate": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "twin_sync_level": {"type": ["string", "null"]}
+  },
+  "required": ["project_id"]
+}
+
