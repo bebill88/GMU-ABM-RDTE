@@ -1,4 +1,4 @@
-"""
+﻿"""
 Mesa ModularServer for the RDT&E ABM.
 
 Launch (default port 8521):
@@ -15,7 +15,7 @@ import argparse
 import os
 from mesa.visualization.modules import ChartModule, TextElement
 from mesa.visualization.ModularVisualization import ModularServer
-from mesa.visualization.UserParam import UserSettableParameter
+from mesa.visualization.UserParam import Slider, Choice, NumberInput
 
 from .model import RdteModel
 
@@ -43,15 +43,15 @@ adoptions_chart = ChartModule(
 
 def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False):
     params = {
-        "n_researchers": UserSettableParameter("slider", "n_researchers", 40, 10, 200, 5),
-        "n_policymakers": UserSettableParameter("slider", "n_policymakers", 10, 1, 40, 1),
-        "n_endusers": UserSettableParameter("slider", "n_endusers", 30, 5, 200, 5),
-        "funding_rdte": UserSettableParameter("slider", "funding_rdte", 1.0, 0.0, 2.0, 0.1),
-        "funding_om": UserSettableParameter("slider", "funding_om", 0.5, 0.0, 2.0, 0.1),
-        "regime": UserSettableParameter("choice", "regime", value="adaptive", choices=["linear", "adaptive", "shock"]),
-        "shock_at": UserSettableParameter("slider", "shock_at", 80, 0, 500, 5),
-        "shock_duration": UserSettableParameter("slider", "shock_duration", 20, 0, 200, 5),
-        "seed": UserSettableParameter("number", "seed", 42),
+        "n_researchers": Slider("n_researchers", 40, 10, 200, 5),
+        "n_policymakers": Slider("n_policymakers", 10, 1, 40, 1),
+        "n_endusers": Slider("n_endusers", 30, 5, 200, 5),
+        "funding_rdte": Slider("funding_rdte", 1.0, 0.0, 2.0, 0.1),
+        "funding_om": Slider("funding_om", 0.5, 0.0, 2.0, 0.1),
+        "regime": Choice("regime", "adaptive", choices=["linear", "adaptive", "shock"]),
+        "shock_at": Slider("shock_at", 80, 0, 500, 5),
+        "shock_duration": Slider("shock_duration", 20, 0, 200, 5),
+        "seed": NumberInput("seed", 42),
     }
 
     server = ModularServer(
@@ -77,3 +77,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(f"Starting RDT&E ABM server on http://{args.host}:{args.port}")
     launch(port=args.port, host=args.host, open_browser=args.open_browser)
+

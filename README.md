@@ -20,9 +20,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 - [Assumptions](#assumptions)
 - [Weights & Sensitivities](#weights--sensitivities)
 - [Next Steps](#next-steps-policy-lever-integration)
-- [Changelog](#changelog)\n- [Live Browser UI](#live-browser-ui)
-
----
+- [Changelog](#changelog)\n- [Live Browser UI](#live-browser-ui)- [VS Code Setup](#vs-code-setup)\n\n---
 
 ## Overview
 
@@ -324,6 +322,8 @@ Sensitivity testing tips
 - Start with `runs=30â€“50`, `steps=200â€“300`, and adjust one group of weights at a time.
 - Track median and percentiles of cycle time (add to metrics if needed) to see distributional effects, not just means.
 - Use event CSVs to confirm which gate changes drive outcome shifts.
+
+
 
 
 
