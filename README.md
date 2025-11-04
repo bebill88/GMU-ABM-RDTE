@@ -56,6 +56,45 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
    - Metadata: `outputs/<scenario>_<timestamp>/metadata.json`
    - Per-run events (gate outcomes): `outputs/<scenario>_<timestamp>/events_run_<i>.csv`
    - Quick plot: `python -m src.viz --path outputs/<scenario>_<timestamp>/results.csv`
+---
+
+## Windows Setup (Mesa)
+
+Follow these steps on Windows PowerShell. This sets up Python, a virtual environment, Mesa, and runs a quick smoke test plus a static visualization.
+
+- Prerequisites
+  - Install Python 3.11+ from python.org or Microsoft Store. Verify: python -V
+  - Optional (large CSVs): Git LFS — git lfs install
+
+- Create and activate a virtual environment
+  - python -m venv .venv
+  - .venv\Scripts\Activate  (PowerShell)
+  - Upgrade pip (recommended): python -m pip install --upgrade pip
+
+- Install dependencies
+  - python -m pip install -r requirements.txt
+
+- Run a quick smoke test (writes to outputs/)
+  - python -m src.run_experiment --scenario adaptive --runs 1 --steps 50 --seed 42
+  - You may see warnings if data CSVs are not present locally (OK for a smoke test).
+
+- Generate a simple visualization (PNG)
+  - python -m src.viz --path outputs\adaptive_<timestamp>\results.csv
+  - Produces: outputs\adaptive_<timestamp>\transition_rate_hist.png
+
+- Data files (optional but recommended)
+  - Place CSVs under data/ (or pass --labs_csv/--rdte_csv):
+    - data\dod_labs_collaboration_hubs_locations.csv
+    - data\FY2026_SEC4201_RDTandE_All_Line_Items.csv
+
+- Troubleshooting
+  - If venv activation is blocked: run PowerShell “as Administrator” and temporarily allow scripts:
+    - Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+  - If python resolves to the wrong interpreter: try py -3.11 -m venv .venv then py -3.11 -m pip install -r requirements.txt.
+  - If installs are slow or blocked by a proxy, set pip.ini proxy settings or use a corporate index.
+  - If matplotlib needs a backend on headless servers, PNG output still works via Agg (already default for our usage).
+
+---
 
 ---
 
@@ -285,3 +324,4 @@ Sensitivity testing tips
 - Start with `runs=30â€“50`, `steps=200â€“300`, and adjust one group of weights at a time.
 - Track median and percentiles of cycle time (add to metrics if needed) to see distributional effects, not just means.
 - Use event CSVs to confirm which gate changes drive outcome shifts.
+
