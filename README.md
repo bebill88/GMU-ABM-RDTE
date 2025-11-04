@@ -183,7 +183,14 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ---
 
-## Changelog
+
+### 2025-11-04
+
+- Mesa visualization GUI is now available (`src/server.py`); launch with `python -m src.server` (add `--port` and `--open-browser` as needed).
+- Integrated `DataCollector` into the model for live charts (adoptions per tick, cumulative adoptions).
+- Updated README with Live Browser UI, Windows setup, and VS Code interpreter guidance.
+- Adjusted Mesa UI params for Mesa 2.2 (using `Slider`, `Choice`, `NumberInput`).
+- Added port/host CLI flags and startup message; troubleshooting notes for firewall/port conflicts.
 
 ### 2025-11-03
 
@@ -322,6 +329,8 @@ Sensitivity testing tips
 - Start with `runs=30â€“50`, `steps=200â€“300`, and adjust one group of weights at a time.
 - Track median and percentiles of cycle time (add to metrics if needed) to see distributional effects, not just means.
 - Use event CSVs to confirm which gate changes drive outcome shifts.
+
+
 
 
 
