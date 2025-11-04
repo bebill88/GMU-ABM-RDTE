@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from mesa import Model
 from mesa.time import RandomActivation
+from mesa.datacollection import DataCollector
 from typing import List, Dict, Any, Optional
 import csv
 from pathlib import Path
@@ -72,6 +73,15 @@ class RdteModel(Model):
         self._events: Optional[EventLogger] = EventLogger(events_path) if events_path else None
         # Last gate context (populated by policies to enrich event logs)
         self._last_gate_context: Dict[str, Any] = {}
+        # Data collector for Mesa visualization (ChartModule expects this attribute)
+        self.datacollector: DataCollector = DataCollector(
+            model_reporters={
+                "adoptions_this_tick": lambda m: (m.metrics.adoptions_per_tick[-1]
+                                                   if m.metrics.adoptions_per_tick else 0),
+                "cum_adoptions": lambda m: (sum(m.metrics.adoptions_per_tick)
+                                             if m.metrics.adoptions_per_tick else 0),
+            }
+        )
         # Penalties setup
         pc = penalty_config or {}
         self.penalties = PenaltyBook(
@@ -326,6 +336,11 @@ class RdteModel(Model):
         # Optionally decay penalty counts
         try:
             self.penalties.decay_all()
+        except Exception:
+            pass
+        # Collect for visualization
+        try:
+            self.datacollector.collect(self)
         except Exception:
             pass
 
