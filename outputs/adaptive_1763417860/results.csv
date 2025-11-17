@@ -1,0 +1,2 @@
+attempts,avg_cycle_time,diffusion_speed,funding_om,funding_rdte,labs_csv,n_endusers,n_policymakers,n_researchers,penalties,rdte_csv,scenario,seed,shock_at,shock_duration,steps,transition_rate,transitions
+49,0.0,0,0.5,1.0,data/dod_labs_collaboration_hubs_locations.csv,30,10,40,"{'per_failure': 0.05, 'max_penalty': 0.3, 'decay': 0.0}",data/example_rdte.csv,adaptive,42,80,20,50,0.0,0
