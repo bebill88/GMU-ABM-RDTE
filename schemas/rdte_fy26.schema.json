@@ -1,8 +1,70 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "FY26 RDT&E Line Items",
+  "title": "FY26 RDT&E Line Items (Enhanced)",
   "type": "object",
   "properties": {
+    "program_id": {"type": ["string", "null"]},
+    "service_component": {"type": ["string", "null"]},
+    "portfolio": {"type": ["string", "null"]},
+    "budget_activity": {"type": ["string", "number", "null"]},
+    "funding_fy26": {"type": ["number", "string", "null"]},
+    "funding_color": {"type": ["string", "null"]},
+    "reprogramming_eligible": {"type": ["boolean", "string", "null"]},
+
+    "lab_support_factor": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 2.0
+    },
+    "industry_support_factor": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 2.0
+    },
+
+    "stage_gate_start": {"type": ["string", "null"]},
+    "authority_alignment_score": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+
+    "priority_alignment_nds": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "priority_alignment_ccmd": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "priority_alignment_service": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+
+    "digital_maturity_score": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "mbse_coverage": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+
+    "shock_sensitivity": {
+      "type": ["number", "string", "null"],
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+
+    "dependencies": {"type": ["string", "null"]},
+    "program_status": {"type": ["string", "null"]},
+
     "PE_number": {"type": ["string", "null"]},
     "PE_title": {"type": ["string", "null"]},
     "BA": {"type": ["string", "number", "null"]},
@@ -12,4 +74,3 @@
     "service": {"type": ["string", "null"]}
   }
 }
-

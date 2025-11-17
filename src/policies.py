@@ -15,6 +15,75 @@ from typing import Literal
 Regime = Literal["linear", "adaptive", "shock"]
 
 
+def _status_multiplier(status: str) -> float:
+    s = (status or "").strip().lower()
+    if s == "planning":
+        return 0.8
+    if s == "active":
+        return 1.0
+    if s == "delayed":
+        return 0.5
+    if s == "fielded":
+        return 0.2
+    if s == "terminated":
+        return 0.0
+    return 1.0
+
+
+def _portfolio_multiplier(model, researcher, gate: str) -> float:
+    """
+    Optional per-portfolio weighting for funding/adoption/test gates.
+    Scenario definitions can provide e.g. funding_portfolio_weights: {Cyber: 1.2}.
+    """
+    gc = getattr(model, "gate_config", {}) or {}
+    weights = (gc.get(f"{gate}_portfolio_weights", {}) or {})
+    portfolio = getattr(researcher, "portfolio", None) or getattr(researcher, "domain", "Generic")
+    try:
+        return float(weights.get(portfolio, 1.0))
+    except Exception:
+        return 1.0
+
+
+def _dependency_multiplier(model, researcher, stage: str) -> float:
+    """
+    Compute a multiplier based on whether upstream dependencies have
+    completed their own targets. Unsatisfied dependencies push the
+    program into a Delayed status and reduce progression odds.
+    """
+    deps = getattr(researcher, "dependencies", None) or []
+    if not deps:
+        return 1.0
+
+    program_index = getattr(model, "program_index", {}) or {}
+    unsatisfied = 0
+    for dep_id in deps:
+        dep = program_index.get(dep_id)
+        if dep is None:
+            # Unknown dependency; skip but leave a breadcrumb if logging.
+            continue
+        dep_status = getattr(dep, "program_status", "Active")
+        dep_done = getattr(dep, "time_to_transition", None) is not None or dep_status in {"Fielded", "Terminated"}
+        if not dep_done:
+            unsatisfied += 1
+
+    if unsatisfied == 0:
+        # Clear delay once prerequisites are met.
+        if getattr(researcher, "program_status", "Active") == "Delayed":
+            researcher.program_status = "Active"
+        return 1.0
+
+    # Mark as delayed and reduce transition chance; multiple missing
+    # dependencies compound moderately.
+    researcher.program_status = "Delayed"
+    mult = max(0.1, 1.0 - 0.25 * unsatisfied)
+    try:
+        model._last_gate_context["dependency_unsatisfied"] = unsatisfied
+        model._last_gate_context["dependency_multiplier"] = round(mult, 6)
+    except Exception:
+        pass
+    return mult
+
+
 def funding_gate(model, researcher) -> bool:
     """
     Funding availability proxy:
@@ -31,6 +100,10 @@ def funding_gate(model, researcher) -> bool:
             p = 0.15 * model.funding_rdte
         else:
             p = 0.45 * (model.funding_rdte + 0.5 * model.funding_om)
+
+    status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
+    port_mult = _portfolio_multiplier(model, researcher, gate="funding")
+    p = max(0.0, min(1.0, p * status_mult * port_mult))
 
     return model.random.random() < p
 
@@ -69,8 +142,10 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
     stage = str(stage)
     early = stage in {"feasibility", "prototype_demo"}
     gc = getattr(model, "gate_config", {}) or {}
+
     def g(k, default):
         return float(gc.get(k, default))
+
     if model.regime == "linear":
         base = g("funding_base_linear_early", 0.25) if early else g("funding_base_linear_late", 0.20)
     elif model.regime == "adaptive":
@@ -99,11 +174,37 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
     # Apply repeat-failure penalty factor
     factor = model.penalty_factor("funding", researcher, stage)
     base_prob = max(0.02, min(0.98, base * color_weight * source_mult))
-    p = max(0.02, min(0.98, base_prob * factor))
+
+    # Support and alignment multipliers
+    lab_support = max(0.0, min(2.0, float(getattr(researcher, "lab_support_factor", 1.0))))
+    industry_support = max(0.0, min(2.0, float(getattr(researcher, "industry_support_factor", 1.0))))
+    authority_align = max(0.0, min(1.0, float(getattr(researcher, "authority_alignment_score", 0.5))))
+    svc_align = max(0.0, min(1.0, float(getattr(researcher, "priority_alignment_service", 0.5))))
+
+    support_mult = 0.2 + 0.2 * lab_support + 0.2 * industry_support + 0.2 * authority_align + 0.2 * svc_align
+
+    status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
+    portfolio_mult = _portfolio_multiplier(model, researcher, gate="funding")
+
+    shock_factor = 1.0
+    if model.regime == "shock" and model.is_in_shock():
+        base_shock = float(gc.get("funding_shock_penalty", 0.15))
+        shock_sens = max(0.0, min(1.0, float(getattr(researcher, "shock_sensitivity", 0.5))))
+        effective_shock = base_shock * shock_sens
+        shock_factor = max(0.2, 1.0 - effective_shock)
+
+    p = max(
+        0.02,
+        min(0.98, base_prob * factor * support_mult * status_mult * portfolio_mult * shock_factor),
+    )
     # Record gate context for logging
     model._last_gate_context = {
         "gate_prob_base": round(base_prob, 6),
         "gate_penalty_factor": round(factor, 6),
+        "gate_support_mult": round(support_mult, 6),
+        "gate_status_mult": round(status_mult, 6),
+        "gate_portfolio_mult": round(portfolio_mult, 6),
+        "gate_shock_factor": round(shock_factor, 6),
         "gate_prob_final": round(p, 6),
         "funding_source": source,
         "funding_color_weight": round(color_weight, 6),
@@ -144,6 +245,9 @@ def legal_review_gate(model, researcher) -> str:
 
     # Apply repeat-failure penalty by shifting mass from favorable to caveats/unfavorable
     pen = 1.0 - model.penalty_factor("legal", researcher)
+    status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
+    if status_mult < 1.0:
+        pen = min(1.0, pen + (1.0 - status_mult))
     if pen > 0:
         cap = float(gc.get("legal_penalty_shift_cap", 0.5))
         shift = min(dist["favorable"], cap * pen)  # cap shift for stability
@@ -166,6 +270,7 @@ def legal_review_gate(model, researcher) -> str:
                     "legal_favorable": round(dist.get("favorable", 0.0) / total, 6),
                     "legal_caveats": round(dist.get("favorable_with_caveats", 0.0) / total, 6),
                     "legal_unfavorable": round(dist.get("unfavorable", 0.0) / total, 6),
+                    "legal_status_mult": round(status_mult, 6),
                 }
             except Exception:
                 pass
@@ -189,13 +294,15 @@ def contracting_gate(model, researcher) -> bool:
     if model.regime == "shock" and model.is_in_shock():
         base -= 0.1
 
-    # Apply penalty factor
+    # Apply penalty factor and program status
     factor = model.penalty_factor("contracting", researcher)
+    status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
     base_prob = max(0.05, min(0.95, float(base)))
-    p = max(0.05, min(0.95, base_prob * factor))
+    p = max(0.05, min(0.95, base_prob * factor * status_mult))
     model._last_gate_context = {
         "gate_prob_base": round(base_prob, 6),
         "gate_penalty_factor": round(factor, 6),
+        "gate_status_mult": round(status_mult, 6),
         "gate_prob_final": round(p, 6),
         "contract_org_type": org,
     }
@@ -243,19 +350,90 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
     # Regime/shock effects
     if model.regime == "adaptive":
         base += float(gc.get("test_adaptive_bonus", 0.03))
-    if model.regime == "shock" and model.is_in_shock():
-        base -= float(gc.get("test_shock_penalty", 0.05))
 
-    # Apply penalty factor for testing gate
+    shock_factor = 1.0
+    if model.regime == "shock" and model.is_in_shock():
+        base_shock = float(gc.get("test_shock_penalty", 0.05))
+        shock_sens = max(0.0, min(1.0, float(getattr(researcher, "shock_sensitivity", 0.5))))
+        effective_shock = base_shock * shock_sens
+        shock_factor = max(0.2, 1.0 - effective_shock)
+
+    # Apply penalty factor for testing gate, status, portfolio, digital/MBSE evidence, and dependencies
     factor = model.penalty_factor("test", researcher, stage)
+    status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
+    portfolio_mult = _portfolio_multiplier(model, researcher, gate="test")
+    dependency_mult = _dependency_multiplier(model, researcher, stage)
+
+    digital = max(0.0, min(1.0, float(getattr(researcher, "digital_maturity_score", 0.5))))
+    mbse_cov = max(0.0, min(1.0, float(getattr(researcher, "mbse_coverage", 0.5))))
+    evidence_mult = digital * 0.5 + mbse_cov * 0.5
+
     base_prob = max(0.05, min(0.95, (base + trl_bonus)))
-    p = max(0.05, min(0.95, base_prob * factor))
+    p = max(
+        0.05,
+        min(
+            0.95,
+            base_prob * factor * status_mult * portfolio_mult * evidence_mult * shock_factor * dependency_mult,
+        ),
+    )
     model._last_gate_context = {
         "gate_prob_base": round(base_prob, 6),
         "gate_penalty_factor": round(factor, 6),
+        "gate_status_mult": round(status_mult, 6),
+        "gate_portfolio_mult": round(portfolio_mult, 6),
+        "gate_evidence_mult": round(evidence_mult, 6),
+        "gate_shock_factor": round(shock_factor, 6),
+        "gate_dependency_mult": round(dependency_mult, 6),
         "gate_prob_final": round(p, 6),
         "legal_status_at_test": legal_status,
     }
+    return model.random.random() < p
+
+
+def adoption_gate(model, researcher) -> bool:
+    """
+    Adoption decision wrapper that incorporates portfolio weighting and
+    rich priority alignment factors before sampling end-users.
+    """
+    # Base majority vote using existing EndUser evaluation
+    k = max(1, len(model.endusers) // 5)
+    sample = model.random.sample(model.endusers, k=k)
+    votes = [eu.evaluate(researcher) for eu in sample]
+    base_accepted = sum(votes) >= max(1, len(sample) // 2)
+
+    # Map alignment scores into a modest multiplier on adoption odds
+    nds = max(0.0, min(1.0, float(getattr(researcher, "priority_alignment_nds", 0.5))))
+    ccmd = max(0.0, min(1.0, float(getattr(researcher, "priority_alignment_ccmd", 0.5))))
+    svc = max(0.0, min(1.0, float(getattr(researcher, "priority_alignment_service", 0.5))))
+    authority_align = max(0.0, min(1.0, float(getattr(researcher, "authority_alignment_score", 0.5))))
+
+    align_mult = 0.25 * (nds + ccmd + svc + authority_align)
+
+    status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
+    portfolio_mult = _portfolio_multiplier(model, researcher, gate="adoption")
+
+    # Translate the base boolean and multipliers into a probability
+    base_prob = 0.7 if base_accepted else 0.3
+    p = max(
+        0.01,
+        min(
+            0.99,
+            base_prob * (0.5 + align_mult) * status_mult * portfolio_mult,
+        ),
+    )
+
+    # Record for logging
+    try:
+        model._last_gate_context = {
+            "adoption_base_vote": int(base_accepted),
+            "adoption_align_mult": round(align_mult, 6),
+            "adoption_status_mult": round(status_mult, 6),
+            "adoption_portfolio_mult": round(portfolio_mult, 6),
+            "gate_prob_final": round(p, 6),
+        }
+    except Exception:
+        pass
+
     return model.random.random() < p
 
 

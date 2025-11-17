@@ -9,7 +9,7 @@ We model three roles common in DoD/IC innovation transitions:
 from __future__ import annotations
 
 from mesa import Agent
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 
 
 class ResearcherAgent(Agent):
@@ -36,7 +36,7 @@ class ResearcherAgent(Agent):
         "operational_test",
     ]
 
-    def __init__(self, unique_id, model, prototype_rate: float, learning_rate: float):
+    def __init__(self, unique_id, model, prototype_rate: float, learning_rate: float, rdte_program: Optional[Dict[str, Any]] = None):
         super().__init__(unique_id, model)
         self.prototype_rate = float(prototype_rate)
         self.learning_rate = float(learning_rate)
@@ -50,24 +50,123 @@ class ResearcherAgent(Agent):
         self.current_stage_index: Optional[int] = None
         self.stage_enter_tick: Optional[int] = None
 
-        # Program context attributes (toy distributions)
-        self.project_id = f"proj-{unique_id}"
-        self.authority = self.random.choice(["Title10", "Title50"])  # Title 10 vs Title 50
+        # Program context attributes.
+        # If an RDT&E program row is provided, prefer its fields; otherwise fall back to toy distributions.
+        self._init_from_rdte(rdte_program)
+
+        # Legal status memory (updated by legal gate)
+        self.legal_status: str = "not_conducted"
+
+    def _init_from_rdte(self, rdte_program: Optional[Dict[str, Any]]) -> None:
+        """
+        Initialize program context from an optional RDT&E workbook row.
+        This wires rich FY26 fields into the agent while maintaining sensible defaults.
+        """
+        # Defaults for random/toy initialization (used when no program row or missing fields)
+        self.project_id = f"proj-{self.unique_id}"
+        self.program_id = self.project_id
+        self.authority = self.random.choice(["Title10", "Title50"])
         self.funding_source = self.random.choice(["ProgramBase", "POM", "UFR", "External", "Partner", "Partner_CoDev"])
         self.org_type = self.random.choice(["GovLab", "GovContractor", "Commercial"])
         self.domain = self.random.choice(["ISR", "Cyber", "EW", "Space", "Air", "Land", "Maritime"])
+        self.portfolio = self.domain
         self.kinetic_category = self.random.choice(["Kinetic", "NonKinetic"])
-        self.intel_discipline = self.random.choice(["SIGINT", "GEOINT", "HUMINT", "MASINT", "OSINT"])  # may be N/A
-        self.program_office = self.random.choice(["PEO C4I", "AFLCMC", "NAVWAR", "NRL", "DARPA", "DEVCOM"])  # example labels
+        self.intel_discipline = self.random.choice(["SIGINT", "GEOINT", "HUMINT", "MASINT", "OSINT"])
+        self.program_office = self.random.choice(["PEO C4I", "AFLCMC", "NAVWAR", "NRL", "DARPA", "DEVCOM"])
         self.service_component = self.random.choice(["Army", "Navy", "Air Force", "USMC", "Space Force", "IC"])
-        self.sponsor = self.random.choice(["Service HQ", "CCMD", "Agency", "POC-User"])  # simplified
-        self.prime_contractor = self.random.choice(["None", "Boeing", "NG", "LM", "SAIC", "Leidos"])  # demo values
+        self.sponsor = self.random.choice(["Service HQ", "CCMD", "Agency", "POC-User"])
+        self.prime_contractor = self.random.choice(["None", "Boeing", "NG", "LM", "SAIC", "Leidos"])
 
-        # Policy alignment toggles
-        self.align_priority = bool(self.random.random() < 0.5)  # Presidential priorities
-        self.align_nds = bool(self.random.random() < 0.6)       # National Defense Strategy
-        self.align_ccmd = bool(self.random.random() < 0.5)      # Combatant Command needs
-        self.align_agency = bool(self.random.random() < 0.6)    # Agency/Service priorities
+        # New rich program fields with defaults
+        self.budget_activity = "BA3"
+        self.funding_fy26 = 0.0
+        self.funding_color = "RDT&E"
+        self.reprogramming_eligible = False
+
+        self.lab_support_factor = 1.0
+        self.industry_support_factor = 1.0
+
+        self.stage_gate_start = "feasibility"
+        self.authority_alignment_score = 0.5
+        self.priority_alignment_nds = 0.5
+        self.priority_alignment_ccmd = 0.5
+        self.priority_alignment_service = 0.5
+
+        self.digital_maturity_score = 0.5
+        self.mbse_coverage = 0.5
+
+        self.shock_sensitivity = 0.5
+
+        self.dependencies: List[str] = []
+        self.program_status = "Active"
+
+        if not rdte_program:
+            # Policy alignment toggles for the toy setup
+            self.align_priority = bool(self.random.random() < 0.5)
+            self.align_nds = bool(self.random.random() < 0.6)
+            self.align_ccmd = bool(self.random.random() < 0.5)
+            self.align_agency = bool(self.random.random() < 0.6)
+        else:
+            # Normalize keys defensively (the loader already does this for new fields).
+            def _get(key: str, default: Any) -> Any:
+                return rdte_program.get(key, default)
+
+            self.program_id = str(_get("program_id", self.program_id))
+            self.project_id = self.program_id or self.project_id
+            sc = _get("service_component", self.service_component)
+            if sc:
+                self.service_component = str(sc)
+            portfolio = _get("portfolio", self.portfolio)
+            if portfolio:
+                self.portfolio = str(portfolio)
+            ba = _get("budget_activity", self.budget_activity)
+            if ba:
+                self.budget_activity = str(ba)
+            try:
+                self.funding_fy26 = float(_get("funding_fy26", self.funding_fy26) or 0.0)
+            except Exception:
+                self.funding_fy26 = 0.0
+            fc = _get("funding_color", self.funding_color)
+            if fc:
+                self.funding_color = str(fc)
+            self.reprogramming_eligible = bool(_get("reprogramming_eligible", self.reprogramming_eligible))
+
+            # Support factors and alignments
+            for attr, default in [
+                ("lab_support_factor", self.lab_support_factor),
+                ("industry_support_factor", self.industry_support_factor),
+                ("authority_alignment_score", self.authority_alignment_score),
+                ("priority_alignment_nds", self.priority_alignment_nds),
+                ("priority_alignment_ccmd", self.priority_alignment_ccmd),
+                ("priority_alignment_service", self.priority_alignment_service),
+                ("digital_maturity_score", self.digital_maturity_score),
+                ("mbse_coverage", self.mbse_coverage),
+                ("shock_sensitivity", self.shock_sensitivity),
+            ]:
+                try:
+                    val = float(_get(attr, default))
+                except Exception:
+                    val = default
+                setattr(self, attr, val)
+
+            deps_raw = str(_get("dependencies", "") or "")
+            self.dependencies = [d.strip() for d in deps_raw.split(";") if d.strip()]
+            status = str(_get("program_status", self.program_status) or self.program_status)
+            self.program_status = status
+
+            # Stage gate starting point may be provided directly; otherwise derive from BA.
+            stage_start = str(_get("stage_gate_start", "") or "").strip().lower()
+            if stage_start in self.STAGES:
+                self.stage_gate_start = stage_start
+            else:
+                self.stage_gate_start = self._stage_from_budget_activity(self.budget_activity)
+
+            # Alignment booleans are now derived from scores when an rdte_program exists
+            self.align_priority = self.authority_alignment_score >= 0.5
+            self.align_nds = self.priority_alignment_nds >= 0.5
+            self.align_ccmd = self.priority_alignment_ccmd >= 0.5
+            self.align_agency = self.priority_alignment_service >= 0.5
+
         # Precompute alignment score (0..1)
         self.alignment_score = (
             (1.0 if self.align_priority else 0.0)
@@ -75,8 +174,24 @@ class ResearcherAgent(Agent):
             + (1.0 if self.align_ccmd else 0.0)
             + (1.0 if self.align_agency else 0.0)
         ) / 4.0
-        # Legal status memory (updated by legal gate)
-        self.legal_status: str = "not_conducted"
+
+    def _stage_from_budget_activity(self, budget_activity: str) -> str:
+        """
+        Map budget activity (BA2/3/4/5/6/7) to a starting stage label.
+        Defaults to feasibility when unknown.
+        """
+        ba = str(budget_activity).upper().strip()
+        if ba.endswith("2"):
+            return "feasibility"
+        if ba.endswith("3"):
+            return "prototype_demo"
+        if ba.endswith("4"):
+            return "functional_test"
+        if ba.endswith("5"):
+            return "vulnerability_test"
+        if ba.endswith("6") or ba.endswith("7"):
+            return "operational_test"
+        return "feasibility"
 
     def step(self) -> None:
         """
@@ -91,7 +206,15 @@ class ResearcherAgent(Agent):
         if not self.has_candidate and (self.random.random() < self.prototype_rate):
             self.has_candidate = True
             self.prototype_start_tick = self.model.schedule.time
-            self.current_stage_index = 0
+            # Initialize pipeline stage from program starting point if available
+            try:
+                start_stage = getattr(self, "stage_gate_start", None)
+                if isinstance(start_stage, str) and start_stage in self.STAGES:
+                    self.current_stage_index = self.STAGES.index(start_stage)
+                else:
+                    self.current_stage_index = 0
+            except Exception:
+                self.current_stage_index = 0
             self.stage_enter_tick = self.model.schedule.time
             # Register an attempt for metrics
             self.model.metrics.on_attempt()
@@ -153,6 +276,11 @@ class ResearcherAgent(Agent):
                 if self.current_stage_index >= len(self.STAGES):
                     adopted = self.model.evaluate_and_adopt(self)
                     if adopted:
+                        # Mark program as successfully fielded
+                        try:
+                            self.program_status = "Fielded"
+                        except Exception:
+                            pass
                         self.has_candidate = False
                         self.current_stage_index = None
                         self.legal_status = "not_conducted"

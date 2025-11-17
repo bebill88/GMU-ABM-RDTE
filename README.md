@@ -270,7 +270,7 @@ Self-reported modeling assumptions to make runs fast and comparable. Calibrate o
   - Failures accumulate by axes (e.g., researcher, domain, org_type) and multiply down gate probabilities. Optional decay.
 
 - Data effects
-  - Labs CSV adds a small +0.01 ecosystem bonus; FY26 RDT&E CSV is ingested for analysis but not yet tied to funding.
+  - Labs CSV adds a small +0.01 ecosystem bonus; FY26 RDT&E CSV now drives rich per-program behavior (service, BA, portfolio, support factors, digital maturity, alignment, dependencies) used by the gates.
 
 - Randomness and independence
   - Mesa scheduler randomizes activation; runs are independent via base_seed + run offset.

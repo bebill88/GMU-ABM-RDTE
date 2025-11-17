@@ -8,7 +8,7 @@ from __future__ import annotations
 from mesa import Model
 from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 import csv
 from pathlib import Path
 import logging
@@ -68,6 +68,8 @@ class RdteModel(Model):
         self._in_shock = False
         self.labs: List[Dict[str, Any]] = self._load_labs(labs_csv)
         self.rdte_fy26: List[Dict[str, Any]] = self._load_rdte(rdte_csv)
+        # Map of program_id -> researcher will be populated after agent creation
+        self.program_index: Dict[str, ResearcherAgent] = {}
         self.gate_config: Dict[str, Any] = gate_config or {}
         self._logger = logging.getLogger(__name__)
         self._events: Optional[EventLogger] = EventLogger(events_path) if events_path else None
@@ -90,19 +92,27 @@ class RdteModel(Model):
             decay=float(pc.get("decay", 0.0)),
         )
         self.penalty_axes_by_gate: Dict[str, List[str]] = pc.get("axes_by_gate", {
-            "funding": ["researcher", "funding_source", "org_type"],
-            "contracting": ["researcher", "org_type"],
-            "test": ["researcher", "domain", "kinetic_category"],
-            "legal": ["researcher", "authority", "domain", "kinetic_category"],
-            "adoption": ["researcher", "domain"],
+            "funding": ["researcher", "funding_source", "org_type", "portfolio"],
+            "contracting": ["researcher", "org_type", "portfolio"],
+            "test": ["researcher", "domain", "kinetic_category", "portfolio"],
+            "legal": ["researcher", "authority", "domain", "kinetic_category", "portfolio"],
+            "adoption": ["researcher", "domain", "portfolio"],
         })
 
         # --- Create agents and register with scheduler ---
+        # Optionally map researchers onto RDT&E programs (if any rows loaded)
+        rdte_programs: List[Dict[str, Any]] = list(self.rdte_fy26) if self.rdte_fy26 else []
         self.researchers: List[ResearcherAgent] = []
         for i in range(n_researchers):
-            a = ResearcherAgent(i, self, prototype_rate=0.05, learning_rate=0.1)
+            rdte_row = rdte_programs[i % len(rdte_programs)] if rdte_programs else None
+            a = ResearcherAgent(i, self, prototype_rate=0.05, learning_rate=0.1, rdte_program=rdte_row)
             self.schedule.add(a)
             self.researchers.append(a)
+            # Index by program_id if present
+            program_id = getattr(a, "program_id", None)
+            if isinstance(program_id, str) and program_id:
+                # Last writer wins if duplicates; this is acceptable for a coarse dependency model
+                self.program_index[program_id] = a
 
         offset = n_researchers
         self.policymakers: List[PolicymakerAgent] = []
@@ -161,6 +171,8 @@ class RdteModel(Model):
                 keys.append(f"intel:{getattr(researcher, 'intel_discipline', 'NA')}")
             elif a == "stage" and stage is not None:
                 keys.append(f"stage:{stage}")
+            elif a == "portfolio":
+                keys.append(f"portfolio:{getattr(researcher, 'portfolio', 'NA')}")
         return keys
 
     def penalty_factor(self, gate: str, researcher: ResearcherAgent, stage: Optional[str] = None) -> float:
@@ -238,6 +250,17 @@ class RdteModel(Model):
             return []
 
     def _load_rdte(self, rdte_csv: Optional[str]) -> List[Dict[str, Any]]:
+        """
+        Load FY26 RDT&E line items and normalize into a rich schema.
+
+        New fields are optional; when absent we backfill sane defaults so
+        behavioral logic can still operate:
+            - lab_support_factor / industry_support_factor -> 1.0
+            - authority_alignment_score / digital_maturity_score /
+              mbse_coverage / shock_sensitivity -> 0.5
+            - priority_alignment_* -> 0.5
+            - stage_gate_start derived from budget_activity when missing.
+        """
         if not rdte_csv:
             return []
         try:
@@ -245,11 +268,125 @@ class RdteModel(Model):
             if not path.exists():
                 logging.getLogger(__name__).warning(f"RDT&E CSV not found: {path}")
                 return []
+
+            def norm(s: str) -> str:
+                return s.strip().lower().replace(" ", "_")
+
             rows: List[Dict[str, Any]] = []
             with path.open("r", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
-                for r in reader:
-                    rows.append(dict(r))
+                if not reader.fieldnames:
+                    return []
+                fieldmap = {norm(c): c for c in reader.fieldnames}
+
+                def col(*names: str) -> Optional[str]:
+                    for n in names:
+                        key = norm(n)
+                        if key in fieldmap:
+                            return fieldmap[key]
+                    return None
+
+                # Legacy FY26 columns for compatibility
+                pe_col = col("program_id", "pe_number", "pe_id", "project_id")
+                service_col = col("service_component", "service")
+                ba_col = col("budget_activity", "BA")
+                amount_col = col("funding_fy26", "amount")
+                color_col = col("funding_color", "appropriation")
+
+                # New rich fields (optional)
+                portfolio_col = col("portfolio")
+                lab_support_col = col("lab_support_factor")
+                industry_support_col = col("industry_support_factor")
+                stage_start_col = col("stage_gate_start")
+                authority_align_col = col("authority_alignment_score")
+                nds_align_col = col("priority_alignment_nds")
+                ccmd_align_col = col("priority_alignment_ccmd")
+                service_align_col = col("priority_alignment_service")
+                digital_maturity_col = col("digital_maturity_score")
+                mbse_coverage_col = col("mbse_coverage")
+                shock_sensitivity_col = col("shock_sensitivity")
+                deps_col = col("dependencies")
+                status_col = col("program_status")
+                reprogramming_col = col("reprogramming_eligible")
+
+                for raw in reader:
+                    rec: Dict[str, Any] = {"raw": dict(raw)}
+                    # Identity and core fields
+                    program_id = raw.get(pe_col) if pe_col else None
+                    if not program_id:
+                        program_id = raw.get("PE_number") or raw.get("PE") or None
+                    if not program_id:
+                        # Fallback to a synthetic identifier
+                        program_id = f"PE-{len(rows)}"
+                    rec["program_id"] = str(program_id)
+
+                    rec["service_component"] = (raw.get(service_col) if service_col else None) or ""
+                    budget_activity = (raw.get(ba_col) if ba_col else None) or ""
+                    rec["budget_activity"] = str(budget_activity)
+
+                    try:
+                        amt_raw = raw.get(amount_col) if amount_col else None
+                        rec["funding_fy26"] = float(amt_raw) if amt_raw not in (None, "") else 0.0
+                    except Exception:
+                        rec["funding_fy26"] = 0.0
+
+                    rec["funding_color"] = (raw.get(color_col) if color_col else None) or "RDT&E"
+
+                    # New workbook fields with defaults
+                    rec["portfolio"] = (raw.get(portfolio_col) if portfolio_col else None) or ""
+
+                    def _f(colname: Optional[str], default: float) -> float:
+                        if not colname:
+                            return default
+                        try:
+                            val = raw.get(colname)
+                            return float(val) if val not in (None, "") else default
+                        except Exception:
+                            return default
+
+                    rec["lab_support_factor"] = _f(lab_support_col, 1.0)
+                    rec["industry_support_factor"] = _f(industry_support_col, 1.0)
+
+                    stage_start = (raw.get(stage_start_col) if stage_start_col else None) or ""
+                    rec["stage_gate_start"] = stage_start
+
+                    rec["authority_alignment_score"] = _f(authority_align_col, 0.5)
+                    rec["priority_alignment_nds"] = _f(nds_align_col, 0.5)
+                    rec["priority_alignment_ccmd"] = _f(ccmd_align_col, 0.5)
+                    rec["priority_alignment_service"] = _f(service_align_col, 0.5)
+
+                    rec["digital_maturity_score"] = _f(digital_maturity_col, 0.5)
+                    rec["mbse_coverage"] = _f(mbse_coverage_col, 0.5)
+                    rec["shock_sensitivity"] = _f(shock_sensitivity_col, 0.5)
+
+                    deps_raw = (raw.get(deps_col) if deps_col else "") or ""
+                    rec["dependencies"] = deps_raw
+                    rec["program_status"] = (raw.get(status_col) if status_col else None) or "Active"
+
+                    rep_raw = (raw.get(reprogramming_col) if reprogramming_col else None)
+                    if isinstance(rep_raw, str):
+                        rec["reprogramming_eligible"] = rep_raw.strip().lower() in {"1", "true", "yes", "y"}
+                    elif rep_raw is None:
+                        rec["reprogramming_eligible"] = False
+                    else:
+                        rec["reprogramming_eligible"] = bool(rep_raw)
+
+                    # Backfill stage_gate_start from budget activity if needed
+                    if not rec["stage_gate_start"]:
+                        ba = str(rec["budget_activity"]).upper()
+                        if ba.endswith("2"):
+                            rec["stage_gate_start"] = "feasibility"
+                        elif ba.endswith("3"):
+                            rec["stage_gate_start"] = "prototype_demo"
+                        elif ba.endswith("4"):
+                            rec["stage_gate_start"] = "functional_test"
+                        elif ba.endswith("5"):
+                            rec["stage_gate_start"] = "vulnerability_test"
+                        elif ba.endswith("6") or ba.endswith("7"):
+                            rec["stage_gate_start"] = "operational_test"
+
+                    rows.append(rec)
+
             logging.getLogger(__name__).info(f"Loaded RDT&E: {len(rows)} rows from {path}")
             return rows
         except Exception:
@@ -304,6 +441,8 @@ class RdteModel(Model):
         Ask a random sample of end‑users to evaluate the prototype.
         We use a simple majority vote to decide adoption.
         """
+        # Delegate behavior to adoption_gate, keeping legacy logic for reference.
+        return policies.adoption_gate(self, researcher)
         k = max(1, len(self.endusers) // 5)  # sample 20% (rounded down), at least 1
         sample = self.random.sample(self.endusers, k=k)
         votes = [eu.evaluate(researcher) for eu in sample]
