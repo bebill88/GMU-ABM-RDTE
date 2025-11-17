@@ -2,7 +2,7 @@
 
 This repository provides an Agent-Based Model (ABM) to explore how policy design, funding flexibility, and feedback latency shape the transition of defense innovations from RDT&E to field adoption.
 
-Core idea: Compare a linear governance pipeline vs. an adaptive feedback governance model under normal operations and external shocks (e.g., continuing resolutions, cyber events), measuring transition rate, cycle time, feedback delay, resilience, and diffusion speed.
+Core idea: Compare a linear governance pipeline vs. an adaptive feedback governance model under normal operations and external shocks (e.g., continuing resolutions, world events), measuring transition rate, cycle time, feedback delay, resilience, and diffusion speed.
 
 ---
 
