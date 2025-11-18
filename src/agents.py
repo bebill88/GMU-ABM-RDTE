@@ -298,12 +298,14 @@ class ResearcherAgent(Agent):
                         self.quality = min(1.0, self.quality + self.learning_rate * self.random.random())
                         if hasattr(self.model, "log_event"):
                             self.model.log_event(self, gate="adoption", stage=None, outcome="reject")
-                # Failed test; learn slightly and try again
-                self.model.penalty_record_failure("test", self, stage)
-                self.quality = min(1.0, self.quality + 0.5 * self.learning_rate * self.random.random())
-                if hasattr(self.model, "log_event"):
-                    self.model.log_event(self, gate="test", stage=stage, outcome="fail")
                 return
+
+            # Failed test; learn slightly and try again
+            self.model.penalty_record_failure("test", self, stage)
+            self.quality = min(1.0, self.quality + 0.5 * self.learning_rate * self.random.random())
+            if hasattr(self.model, "log_event"):
+                self.model.log_event(self, gate="test", stage=stage, outcome="fail")
+            return
 
 
 class PolicymakerAgent(Agent):

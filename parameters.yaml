@@ -6,7 +6,6 @@ model:
   n_endusers: 30
   funding_rdte: 1.0         # normalized budget share for RDT&E
   funding_om: 0.5           # normalized budget share for O&M/Procurement
-  oversight_regime: linear  # linear | adaptive
   shock_at: 80              # tick when shock is injected (if scenario=shock)
   seed: 42
 

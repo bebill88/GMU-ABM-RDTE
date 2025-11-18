@@ -132,7 +132,12 @@ def main() -> None:
     p.add_argument("--labs_csv", type=str, default=None, help="Path to labs/hubs locations CSV (overrides parameters.yaml)")
     p.add_argument("--rdte_csv", type=str, default=None, help="Path to FY26 RDT&E line items CSV (overrides parameters.yaml)")
     p.add_argument("--config", type=str, default=None, help="Path to a YAML config file (defaults to parameters.yaml)")
-    p.add_argument("--events", action="store_true", default=True, help="Write per-run event CSVs")
+    p.add_argument(
+        "--events",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Write per-run event CSVs",
+    )
     args = p.parse_args()
 
     # Each run batch gets its own timestamped folder under outputs/

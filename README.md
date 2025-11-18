@@ -140,6 +140,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
   - `--runs`, `--steps`, `--seed`, population sizes (`--n_researchers`, `--n_policymakers`, `--n_endusers`)
   - Funding weights: `--funding_rdte`, `--funding_om`
   - Scenario: `--scenario linear|adaptive|shock`
+  - Event logging: `--events` (default) and `--no-events` control whether per-run gate CSVs are written.
   - Shocks: `--shock_at`, `--shock_duration`
   - Data paths: `--labs_csv`, `--rdte_csv`
   - Config file: `--config my_params.yaml`
@@ -155,6 +156,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 - Results CSV with per-run aggregates (`results.csv`): transition_rate, avg_cycle_time, diffusion_speed, attempts, transitions.
 - Metadata JSON (`metadata.json`) with all run parameters and base_seed.
+- Use `--no-events` if you only need aggregate results and want to skip per-run gate CSVs.
 - Per-run events CSVs (`events_run_<i>.csv`) logging attempt/legal/funding/contracting/test/adoption outcomes per tick.
 - Quick plotting utility: `python -m src.viz --path outputs/.../results.csv` (saves `transition_rate_hist.png`).
 
@@ -183,6 +185,12 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ---
 
+
+### 2025-11-17
+
+- Fixed the researcher stage/test path so failed-test penalties/logging only fire when the gate actually fails and stage success advances cleanly.
+- Added a `--events`/`--no-events` CLI toggle to control per-run gate CSVs and documented how to use it in the configuration/output sections.
+- Removed the unused `model.oversight_regime` key from `parameters.yaml` so the defaults stay aligned with the implemented knobs.
 
 ### 2025-11-04
 
@@ -238,7 +246,8 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
   - Leverage MBSE/digitalâ€‘twin metrics across the pipeline to reduce legal/contracting friction and shorten test cycles when maturity is high.
 
 - Validation and CI
-  - Add unit tests for gate math and penalties; add CSV schema validation for labs/RDT&E; wire a GitHub Actions workflow to run tests.
+  - Add unit tests for gate math, penalties, stage/test failure handling, and CLI `--events`/`--no-events` toggles; add CSV schema validation for labs/RDT&E.
+  - Wire a GitHub Actions workflow to run those tests plus a quick smoke run (e.g., `python -m src.run_experiment --scenario adaptive --runs 1 --steps 50`) so regressions surface before pushing.
 ---
 
 ## Assumptions
