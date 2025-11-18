@@ -22,10 +22,36 @@
     "sponsor": {"type": ["string", "null"]},
     "prime_contractor": {"type": ["string", "null"]},
     "latency_in_stage": {"type": ["integer", "null"]},
+
     "gate_prob_base": {"type": ["number", "null"]},
     "gate_penalty_factor": {"type": ["number", "null"]},
-    "gate_prob_final": {"type": ["number", "null"]}
+    "gate_prob_final": {"type": ["number", "null"]},
+
+    "funding_color_weight": {"type": ["number", "null"]},
+    "contract_org_type": {"type": ["string", "null"]},
+
+    "legal_penalty_applied": {"type": ["number", "null"]},
+    "legal_favorable": {"type": ["number", "null"]},
+    "legal_caveats": {"type": ["number", "null"]},
+    "legal_unfavorable": {"type": ["number", "null"]},
+    "legal_status_mult": {"type": ["number", "null"]},
+
+    "gate_support_mult": {"type": ["number", "null"]},
+    "gate_status_mult": {"type": ["number", "null"]},
+    "gate_portfolio_mult": {"type": ["number", "null"]},
+    "gate_shock_factor": {"type": ["number", "null"]},
+    "gate_evidence_mult": {"type": ["number", "null"]},
+    "gate_dependency_mult": {"type": ["number", "null"]},
+
+    "legal_status_at_test": {"type": ["string", "null"]},
+
+    "dependency_unsatisfied": {"type": ["integer", "null"]},
+    "dependency_multiplier": {"type": ["number", "null"]},
+
+    "adoption_base_vote": {"type": ["integer", "null"]},
+    "adoption_align_mult": {"type": ["number", "null"]},
+    "adoption_status_mult": {"type": ["number", "null"]},
+    "adoption_portfolio_mult": {"type": ["number", "null"]}
   },
   "required": ["tick", "researcher_id", "gate", "outcome"]
 }
-

@@ -1,3 +1,96 @@
-name,latitude,longitude,service,specializations,region
-Example Lab 1,38.8977,-77.0365,Navy,EW;Cyber,NCR
-Example Lab 2,38.8719,-77.0563,Air Force,AI;ISR,NCR
+name,country,state,city,service agency,specialization,region,funding source,cross service agreements,sector
+DARPA,United States,Virginia,Arlington,DoD OSD,AI;autonomy;EW;cyber;space;materials,NCR,DoD RDTE,All services;combatant commands;IC;allies,Federal
+Army Research Laboratory ARL,United States,Maryland,Adelphi,Army DEVCOM,foundational science;AI;networks;materials,Mid Atlantic,Army RDTE,DARPA;AFRL;NRL;DOE labs,Federal
+DEVCOM C5ISR Center,United States,Maryland,Aberdeen Proving Ground,Army DEVCOM,sensors;EW;cyber;C5ISR systems,Mid Atlantic,Army RDTE,Joint staff;IC elements;combatant commands,Federal
+DEVCOM Ground Vehicle Systems Center GVSC,United States,Michigan,Warren,Army DEVCOM,ground vehicles;autonomy;mobility;protection,Midwest,Army RDTE,USMC;OSD;industry partners,Federal
+DEVCOM Armaments Center,United States,New Jersey,Picatinny Arsenal,Army DEVCOM,lethality;munitions;fire control;energetics,Northeast,Army RDTE,SOCOM;Navy;Air Force;allied armies,Federal
+DEVCOM Soldier Center,United States,Massachusetts,Natick,Army DEVCOM,soldier systems;personal equipment;rations;shelters,Northeast,Army RDTE,All services;SOCOM;NATO soldier modernization,Federal
+DEVCOM Chemical Biological Center,United States,Maryland,Aberdeen Proving Ground,Army DEVCOM,CBRN defense;detection;protection,Mid Atlantic,Army RDTE;joint program funds,All services;DHS;allies,Federal
+Engineer Research and Development Center ERDC,United States,Mississippi,Vicksburg,Army Corps of Engineers,military engineering;civil works;geospatial;infrastructure,Southeast,USACE RDTE;civil works,Army;joint force;FEMA;civil agencies,Federal
+ERDC Cold Regions Research and Engineering Laboratory,United States,New Hampshire,Hanover,Army Corps of Engineers,cold regions engineering;terrain;infrastructure,Northeast,USACE RDTE,Army;Arctic partners;other agencies,Federal
+ERDC Coastal and Hydraulics Laboratory,United States,Mississippi,Vicksburg,Army Corps of Engineers,coastal processes;hydraulics;navigation,Southeast,USACE RDTE;civil works,Navy;DHS;port authorities,Federal
+ERDC Environmental Laboratory,United States,Mississippi,Vicksburg,Army Corps of Engineers,environmental science;ecosystems;restoration,Southeast,USACE RDTE;civil works,DOD installations;civil agencies,Federal
+US Army Medical Research and Development Command USAMRDC,United States,Maryland,Fort Detrick,Army medical,medical RDTE;infectious disease;casualty care,Mid Atlantic,Defense Health Program;Army RDTE,Defense Health Agency;NIH;allies,Federal
+Walter Reed Army Institute of Research WRAIR,United States,Maryland,Silver Spring,Army medical,vaccines;infectious disease;neuroscience,Mid Atlantic,Defense Health Program;Army RDTE,DoD;NIH;international health partners,Federal
+US Army Medical Research Institute of Infectious Diseases USAMRIID,United States,Maryland,Fort Detrick,Army medical,biodefense;high containment pathogen research,Mid Atlantic,Defense Health Program;Army RDTE,DHS;HHS;allied biodefense labs,Federal
+US Army Research Institute of Environmental Medicine USARIEM,United States,Massachusetts,Natick,Army medical,environmental medicine;human performance;rations,Northeast,Defense Health Program;Army RDTE,All services;NATO research,Federal
+US Army Aeromedical Research Laboratory USAARL,United States,Alabama,Fort Novosel,Army medical,aviation medicine;neurosensory research;human factors,Southeast,Defense Health Program;Army RDTE,Army aviation;joint aeromedical evacuation,Federal
+US Naval Research Laboratory NRL,United States,District of Columbia,Washington,Navy corporate lab,space;EW;materials;plasma;ocean science,NCR,Navy RDTE;interagency funds,Navy;Marine Corps;NASA;NOAA;other services,Federal
+Naval Surface Warfare Center Dahlgren Division,United States,Virginia,Dahlgren,Navy NAVSEA,weapons;directed energy;combat systems,Mid Atlantic,Navy RDTE;working capital,Army;MDA;allied navies,Federal
+Naval Surface Warfare Center Crane Division,United States,Indiana,Crane,Navy NAVSEA,EW;optronics;expeditionary warfare,Midwest,Navy working capital;RDTE,SOCOM;Army;IC;allies,Federal
+Naval Surface Warfare Center Carderock Division,United States,Maryland,Bethesda,Navy NAVSEA,ship design;hydrodynamics;structures,Mid Atlantic,Navy RDTE;working capital,Navy;allied navies;industry,Federal
+Naval Surface Warfare Center Corona Division,United States,California,Norco,Navy NAVSEA,metrology;weapons data analytics;performance assessment,West Coast,Navy working capital;RDTE,Navy;joint programs;allied navies,Federal
+Naval Surface Warfare Center Indian Head Division,United States,Maryland,Indian Head,Navy NAVSEA,energetics;explosives;EOD technologies,Mid Atlantic,Navy working capital;RDTE,SOCOM;Army;joint EOD;allies,Federal
+Naval Surface Warfare Center Panama City Division,United States,Florida,Panama City,Navy NAVSEA,mine warfare;amphibious warfare;expeditionary systems,Southeast,Navy working capital;RDTE,Navy;Marine Corps;joint amphibious forces,Federal
+Naval Surface Warfare Center Philadelphia Division,United States,Pennsylvania,Philadelphia,Navy NAVSEA,ship machinery;propulsion;electrical systems,Northeast,Navy working capital;RDTE,Navy;allied navies;shipbuilders,Federal
+Naval Surface Warfare Center Port Hueneme Division,United States,California,Port Hueneme,Navy NAVSEA,surface combat systems;missiles;in service engineering,West Coast,Navy working capital;RDTE,Navy;MDA;allied navies,Federal
+Naval Undersea Warfare Center Division Newport,United States,Rhode Island,Newport,Navy NAVSEA,undersea warfare;submarines;sonar;torpedoes,Northeast,Navy RDTE;working capital,U S Navy;allied undersea forces,Federal
+Naval Undersea Warfare Center Division Keyport,United States,Washington,Keyport,Navy NAVSEA,undersea weapons;test;fleet support,Pacific Northwest,Navy working capital;RDTE,Navy;allied navies;range customers,Federal
+Naval Information Warfare Center Pacific,United States,California,San Diego,Navy NAVWAR,information warfare;C4ISR;cyber;space,West Coast,Navy working capital;RDTE,Navy;joint commands;federal agencies,Federal
+Naval Information Warfare Center Atlantic,United States,South Carolina,North Charleston,Navy NAVWAR,C5ISR;enterprise IT;cyber operations,Southeast,Navy working capital;RDTE,Navy;Marine Corps;joint commands;civil agencies,Federal
+Naval Air Warfare Center Aircraft Division Patuxent River,United States,Maryland,Patuxent River,Navy NAVAIR,aircraft;avionics;flight test,Mid Atlantic,Navy RDTE;working capital,Navy;Marine Corps;joint aviation programs,Federal
+Naval Air Warfare Center Weapons Division China Lake,United States,California,China Lake,Navy NAVAIR,weapons;missiles;weapons integration,West Coast,Navy RDTE;working capital,Navy;Air Force;allied weapons programs,Federal
+Naval Air Warfare Center Weapons Division Point Mugu,United States,California,Point Mugu,Navy NAVAIR,weapons test;EW ranges;missile systems,West Coast,Navy working capital;RDTE,Navy;MDA;joint test programs,Federal
+Air Force Research Laboratory Headquarters,United States,Ohio,Wright Patterson AFB,Air Force research,aerospace;materials;human systems;cyber,Midwest,Air Force RDTE,NASA;Army;Navy;DOE labs,Federal
+AFRL Information Directorate,United States,New York,Rome,Air Force research,C4I;cyber;AI;networks,Northeast,Air Force RDTE,Air Force;Space Force;joint cyber,Federal
+AFRL Materials and Manufacturing Directorate,United States,Ohio,Wright Patterson AFB,Air Force research,materials;manufacturing;structures,Midwest,Air Force RDTE,Air Force;Navy;industry,Federal
+AFRL Munitions Directorate,United States,Florida,Eglin AFB,Air Force research,precision weapons;energetics;guidance,Southeast,Air Force RDTE,joint weapons programs,Federal
+AFRL Space Vehicles Directorate,United States,New Mexico,Kirtland AFB,Air Force research,space vehicles;payloads;orbits,Southwest,Air Force and Space Force RDTE,NRO;Space Force;NASA,Federal
+AFRL Directed Energy Directorate,United States,New Mexico,Kirtland AFB,Air Force research,directed energy;lasers;high power microwaves,Southwest,Air Force RDTE,Air Force;MDA;Navy;allies,Federal
+Air Force Office of Scientific Research,United States,Virginia,Arlington,Air Force research,basic research;physics;chemistry;math,NCR,Air Force RDTE,other services;international partners,Federal
+Arnold Engineering Development Complex,United States,Tennessee,Arnold AFB,Air Force test,aeropropulsion;wind tunnels;ground test,Southeast,Air Force RDTE;test funds,Air Force;Navy;NASA;industry,Federal
+412th Test Wing Edwards AFB,United States,California,Edwards AFB,Air Force test,flight test;aircraft;weapons,West Coast,Air Force RDTE;test funds,Air Force;joint test;industry,Federal
+96th Test Wing Eglin AFB,United States,Florida,Eglin AFB,Air Force test,weapons test;EW;avionics,Southeast,Air Force RDTE;test funds,Air Force;joint weapons programs,Federal
+Space Development Agency,United States,District of Columbia,Washington,Space Force,proliferated LEO;missile warning;data transport,NCR,DoD space RDTE;procurement,All services;combatant commands;NRO;allies,Federal
+Space Rapid Capabilities Office,United States,New Mexico,Kirtland AFB,Space Force,rapid space acquisition;classified payloads,Southwest,Air Force and Space Force RDTE,NRO;USSF;COCOMs,Federal
+Intelligence Advanced Research Projects Activity,United States,Maryland,Bethesda,ODNI,advanced collection;analytics;forecasting;AI,NCR,NIP research,CIA;NSA;NGA;NRO;FBI,Federal
+National Reconnaissance Office RD enterprise,United States,Virginia,Chantilly,DoD IC joint,space ISR;satellites;ground systems,NCR,NIP plus MIP,All services;IC;allied space partners,Federal
+National Geospatial Intelligence Agency Research,United States,Virginia,Springfield,DoD IC,GEOINT science;automation;AI,NCR,NIP;DoD RDTE,COCOMs;services;coalition partners,Federal
+CIA Directorate of Science and Technology,United States,Virginia,Langley,CIA,technical collection;covert technologies;analytics,NCR,NIP technical programs,DoD;IC;foreign partners,Federal
+NSA Research Directorate,United States,Maryland,Fort Meade,NSA,cryptology;SIGINT tech;cyber operations,Mid Atlantic,NIP research and mission funds,Cyber Command;services;allied SIGINT,Federal
+FBI Laboratory Quantico,United States,Virginia,Quantico,FBI,forensics;biometrics;scientific analysis,Mid Atlantic,DOJ appropriations;interagency support,DoD;IC;law enforcement,Federal
+Pacific Northwest National Laboratory,United States,Washington,Richland,DOE national lab,nonproliferation;cyber;analytics;grid security,Pacific Northwest,DOE;DoD;DHS;IC,DoD;IC;law enforcement;allies,Federal
+Oak Ridge National Laboratory,United States,Tennessee,Oak Ridge,DOE national lab,HPC;materials;nuclear science,South,Southeast,DOE;DoD;IC,HPC for DoD;IC partners,Federal
+Los Alamos National Laboratory,United States,New Mexico,Los Alamos,DOE NNSA,nuclear weapons;HPC;threat reduction,Southwest,DOE NNSA;DoD;IC,DoD;DHS;allied governments,Federal
+Lawrence Livermore National Laboratory,United States,California,Livermore,DOE NNSA,deterrence;lasers;threat assessment,West Coast,DOE NNSA;DoD;IC,DoD;MDA;NRO;DHS,Federal
+Sandia National Laboratories,United States,New Mexico,Albuquerque,DOE NNSA,weapons engineering;sensors;microelectronics,Southwest,DOE NNSA;DoD;DHS,DoD;DHS;IC;allies,Federal
+MIT Lincoln Laboratory,United States,Massachusetts,Lexington,DoD FFRDC,radars;space;air and missile defense;cyber,Northeast,DoD RDTE;Air Force sponsor,All services;IC;DHS,Federal
+Johns Hopkins University Applied Physics Laboratory,United States,Maryland,Laurel,UARC DoD IC,missile defense;space;C4ISR;cyber;undersea warfare,Mid Atlantic,DoD and IC sponsor funds,All services;combatant commands;IC,Federal
+The Aerospace Corporation,United States,California,El Segundo,Space FFRDC,space systems engineering;launch assurance;space domain awareness,West Coast,Space Force;NRO sponsors,DoD;IC;NASA;allies,Federal
+MITRE National Security Engineering Center,United States,Virginia,McLean,DoD IC FFRDC,systems engineering;C3I;cyber;enterprise architectures,NCR,DoD and IC FFRDC funds,OSD;services;IC;DHS,Federal
+Georgia Tech Research Institute,United States,Georgia,Atlanta,UARC DoD,sensors;EW;ISR;robotics;cyber,Southeast,DoD UARC core;contracts,Air Force;Army;Navy;OSD,Federal
+Applied Research Laboratories University of Texas,United States,Texas,Austin,UARC Navy,undersea warfare;acoustics;ISR,Southwest,Navy UARC funds;DoD contracts,Navy;other services;IC,Federal
+Applied Research Laboratory Penn State,United States,Pennsylvania,State College,UARC Navy,undersea systems;materials;mission engineering,Northeast,Navy UARC funds;DoD contracts,Navy;other services;defense agencies,Federal
+Institute for Defense Analyses Systems and Analyses Center,United States,Virginia,Alexandria,DoD FFRDC,studies and analysis;strategy;acquisition;S and T,NCR,DoD sponsor funds,OSD;joint staff;combatant commands,Federal
+RAND Project Air Force,United States,Virginia,Arlington,Air Force FFRDC,policy;strategy;acquisition analysis for Air Force,NCR,Air Force sponsor funds,Air Force leadership;joint issues,Federal
+RAND Arroyo Center,United States,California,Santa Monica,Army FFRDC,Army strategy;force design;logistics,West Coast,Army sponsor funds,Army;OSD;joint issues,Federal
+RAND National Defense Research Institute,United States,California,Santa Monica,OSD joint FFRDC,defense strategy;acquisition;S and T;RDTE policy,West Coast,OSD;joint staff;defense agencies,All services;defense agencies,Federal
+Center for Naval Analyses CNA,United States,Virginia,Arlington,Navy analytic center,operations research;wargaming;naval analysis,NCR,Department of the Navy sponsor funds,Navy;Marine Corps;joint operations,Federal
+Lockheed Martin,United States,Maryland,Bethesda,defense prime,aerospace;missile defense;ISR;space,Mid Atlantic,DoD procurement and RDTE;NASA;FMS,All services;IC;allied defense,Private
+Northrop Grumman,United States,Virginia,Falls Church,defense prime,stealth aircraft;space systems;C4ISR;cyber,NCR,DoD procurement and RDTE;IC;NASA,B 21;space ISR;joint cyber programs,Private
+RTX Raytheon,United States,Virginia,Arlington,defense prime,missiles;sensors;radars;EW,NCR,DoD procurement and RDTE;NASA;allied sales,Navy;Air Force;MDA;NATO,Private
+General Dynamics,United States,Virginia,Reston,defense prime,combat vehicles;submarines;C4ISR networks,NCR,DoD procurement;RDTE;IC programs,Army;Navy;IC;allied forces,Private
+Boeing Defense Space and Security,United States,Virginia,Arlington,defense prime,military aircraft;rotorcraft;space systems,NCR,DoD and NASA procurement and RDTE;FMS,Air Force;Navy;allied air forces,Private
+BAE Systems Inc,United States,Virginia,Falls Church,defense prime,EW;armored vehicles;naval guns;ISR;cyber,NCR,DoD contracts;allied defense procurement,land;air;maritime;cyber customers,Private
+L3Harris Technologies,United States,Florida,Melbourne,defense prime,C3ISR;tactical radios;EW;optronics,Southeast,DoD and IC contracts;DHS;allied sales,Joint and coalition communications;ISR,Private
+HII Huntington Ingalls Industries,United States,Virginia,Newport News,defense prime,shipbuilding;unmanned systems;ISR;training,Mid Atlantic,DoD shipbuilding and RDTE;FMS,Navy;USMC;allied navies,Private
+Leidos,United States,Virginia,Reston,defense and IC integrator,ISR analytics;cyber;enterprise IT;systems integration,NCR,DoD and IC service and RDTE contracts,combatant commands;IC;civil agencies,Private
+SAIC,United States,Virginia,Reston,defense and space integrator,digital engineering;mission IT;space and ISR,NCR,DoD and IC service contracts,Air Force;Space Force;other services,Private
+Booz Allen Hamilton,United States,Virginia,McLean,defense and IC integrator,AI;analytics;cyber;digital modernization,NCR,DoD and IC contracts;DHS;civil agencies,Joint IC enterprises;combatant commands,Private
+CACI International,United States,Virginia,Reston,defense and IC integrator,SIGINT;EW;cyber;mission IT,NCR,DoD and IC service and RDTE contracts,IC agencies;combatant commands,Private
+Peraton,United States,Virginia,Chantilly,defense and IC integrator,space;cyber;ISR;mission support,NCR,DoD;IC;DHS and civil contracts,COCOMs;IC missions;homeland security,Private
+QinetiQ US,United States,Virginia,Lorton,defense and IC contractor,C5ISR;robotics;test and evaluation;mission engineering,NCR,DoD and IC contracts;joint test support,services;IC;test ranges,Private
+General Atomics Aeronautical Systems,United States,California,Poway,defense contractor,UAS;sensors;datalinks,West Coast,DoD procurement and RDTE;FMS,Air Force;Army;allied air forces,Private
+Kratos Defense and Security Solutions,United States,California,San Diego,defense contractor,target drones;tactical UAS;space communications;missile defense test,West Coast,DoD RDTE and procurement;allied and commercial space,Joint test and operational systems,Private
+Cubic Defense,United States,California,San Diego,defense contractor,training and simulation;LVC training;secure communications,West Coast,DoD and allied training and communications contracts,All services;NATO training customers,Private
+Palantir Technologies,United States,Colorado,Denver,defense and IC software,AI;data fusion;intelligence analysis,Mountain West,DoD and IC software and RDTE contracts;allied MODs,COCOMs;IC agencies;allied partners,Private
+Anduril Industries,United States,California,Costa Mesa,defense technology,autonomous systems;counter UAS;ISR;mission software,West Coast,DoD and allied procurement and RDTE,USMC;SOCOM;border security;allies,Private
+Parsons,United States,Virginia,Centreville,defense and security integrator,space and missile defense;C5ISR;critical infrastructure,NCR,DoD;IC;DHS and transportation contracts,Missile defense;space;homeland security,Private
+KBR Government Solutions,United States,Texas,Houston,government services,engineering;spaceflight operations;test support,Southwest,DoD;NASA and allied contracts,DoD;NASA;allied militaries,Private
+Jacobs Federal and Environmental Solutions,United States,Texas,Dallas,government services,engineering;test and evaluation;infrastructure,Southwest,DoD;NASA;DOE and civil agencies,DoD test ranges;NASA centers,Private
+Amentum,United States,Virginia,Chantilly,government services,mission support;engineering;test;maintenance,NCR,DoD;DOE;DHS and allied contracts,DoD depots;test sites;international bases,Private
+Shield AI,United States,California,San Diego,defense technology,AI pilots;autonomy;UAS,West Coast,DoD and allied RDTE and procurement,Air Force;SOCOM;allied air forces,Private
+Skydio Government Solutions,United States,California,San Mateo,defense technology,small UAS;autonomy;inspection,West Coast,DoD;DHS;public safety contracts,Army;USMC;DHS;law enforcement,Private
+Epirus,United States,California,Los Angeles,defense technology,high power microwave;counter UAS,West Coast,DoD RDTE and procurement,Army;Air Force;SOCOM,Private
+Rebellion Defense,United States,District of Columbia,Washington,defense software,AI;mission planning;defense operating systems,NCR,DoD and IC software contracts,US services;UK MOD;other allies,Private
+Applied Intuition Government,United States,California,Sunnyvale,defense software,autonomy simulation;testing;validation,West Coast,DoD and automotive contracts,DoD autonomy programs;industry partners,Private
