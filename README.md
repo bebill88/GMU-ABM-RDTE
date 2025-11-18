@@ -20,12 +20,16 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 - [Assumptions](#assumptions)
 - [Weights & Sensitivities](#weights--sensitivities)
 - [Next Steps](#next-steps-policy-lever-integration)
-- [Changelog](#changelog)\n- [Live Browser UI](#live-browser-ui)- [VS Code Setup](#vs-code-setup)\n\n---
+- [Changelog](#changelog)
+- [Live Browser UI](#live-browser-ui)
+- [VS Code Setup](#vs-code-setup)
+
+---
 
 ## Overview
 
 - Purpose: explore how governance regimes, funding colors, and shocks affect prototype transition and diffusion.
-- Approach: agent-based model with a stage-gate pipeline (legal â†’ funding â†’ contracting â†’ tests â†’ adoption) and tunable gate logic.
+- Approach: agent-based model with a stage-gate pipeline (legal -> funding -> contracting -> tests -> adoption) and tunable gate logic.
 - Outputs: per-run metrics (transition rate, cycle time, diffusion speed) and per-event logs for gate outcomes.
 
 ---
@@ -86,7 +90,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
     - data\FY2026_SEC4201_RDTandE_All_Line_Items.csv
 
 - Troubleshooting
-  - If venv activation is blocked: run PowerShell “as Administrator” and temporarily allow scripts:
+  - If venv activation is blocked: run PowerShell "as Administrator" and temporarily allow scripts:
     - Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
   - If python resolves to the wrong interpreter: try py -3.11 -m venv .venv then py -3.11 -m pip install -r requirements.txt.
   - If installs are slow or blocked by a proxy, set pip.ini proxy settings or use a corporate index.
@@ -98,11 +102,11 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ## Capabilities
 
-- Stage-gate pipeline with TRL growth: Feasibility â†’ Prototype Demo â†’ Functional â†’ Vulnerability â†’ Operational test â†’ Adoption.
+- Stage-gate pipeline with TRL growth: Feasibility -> Prototype Demo -> Functional -> Vulnerability -> Operational test -> Adoption.
 - Gates: legal review (favorable/caveats/unfavorable/not conducted), stage-aware funding with color/source behavior, contracting, and test gates.
 - Policy alignment bias: small environmental-signal bonus based on alignment to Presidential/NDS/CCMD/Agency priorities.
 - Shock modeling: configurable start (`--shock_at`) and duration (`--shock_duration`).
-- Repeat-failure penalties: configurable system that penalizes â€œrepeat offendersâ€ across axes (researcher, domain, org_type, authority, funding_source, kinetic, intel, stage).
+- Repeat-failure penalties: configurable system that penalizes "repeat offenders" across axes (researcher, domain, org_type, authority, funding_source, kinetic, intel, stage).
 - Data inputs: optional labs/hubs CSV (ecosystem bonus) and FY26 RDT&E line items CSV (available for analysis/reporting).
 - Metrics per run: transition rate, average cycle time, diffusion speed.
 
@@ -121,7 +125,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Labs/hubs locations CSV (recommended to commit under `data/`)
   - parameters.yaml:
     - `data.labs_locations_csv: data/dod_labs_collaboration_hubs_locations.csv`
-  - Effect: adds a small +0.01 â€œecosystem supportâ€ bonus to environmental signal.
+  - Effect: adds a small +0.01 "ecosystem support" bonus to environmental signal.
 
 - FY26 RDT&E line items CSV (recommended to commit under `data/`)
   - parameters.yaml:
@@ -164,14 +168,14 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ## Repository Structure
 
-- `src/model.py` â€” Mesa-style model class (`RdteModel`), scheduling, gates, event logging, loaders.
-- `src/agents.py` â€” Agents and stage pipeline behavior.
-- `src/policies.py` â€” Gate functions (legacy funding/oversight + stage-aware pipeline) with config hooks.
-- `src/metrics.py` â€” MetricTracker, PenaltyBook, EventLogger.
-- `src/run_experiment.py` â€” CLI runner; loads config; writes results/metadata/events.
-- `src/viz.py` â€” Simple plotting.
-- `parameters.yaml` â€” Tunables for gates, penalties, and data paths.
-- `requirements.txt` â€” Dependencies.
+- `src/model.py` — Mesa-style model class (`RdteModel`), scheduling, gates, event logging, loaders.
+- `src/agents.py` — Agents and stage pipeline behavior.
+- `src/policies.py` — Gate functions (legacy funding/oversight + stage-aware pipeline) with config hooks.
+- `src/metrics.py` — MetricTracker, PenaltyBook, EventLogger.
+- `src/run_experiment.py` — CLI runner; loads config; writes results/metadata/events.
+- `src/viz.py` — Simple plotting.
+- `parameters.yaml` — Tunables for gates, penalties, and data paths.
+- `requirements.txt` — Dependencies.
 
 ---
 
@@ -226,7 +230,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 ## Next Steps (Policy Lever Integration)
 
 - Flexible Funding Authorities
-  - Add per-stage funding queues (by color) and a BA-8 â€œbridgeâ€/reprogramming path with time cost and attrition.
+  - Add per-stage funding queues (by color) and a BA-8 "bridge"/reprogramming path with time cost and attrition.
   - Use FY26 RDT&E line items (`data/FY2026_SEC4201_RDTandE_All_Line_Items.csv`) to bias stage availability by portfolio.
   - Expose queue capacities, reprogramming delay, and priority rules in `parameters.yaml` and log queue wait times to events.
 
@@ -234,16 +238,16 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
   - Associate researchers to nearest labs from `data/dod_labs_collaboration_hubs_locations.csv` and apply proximity benefits.
   - Increase `prototype_rate` and early-stage funding/test pass rates when co-located; allow lab-specific parameter sets.
 
-- Dynamic Oversight (MBSEâ€‘enabled)
-  - Introduce a `digital_maturity` attribute (from MBSE/digitalâ€‘twin inputs) and add it as a positive modifier in `test_gate`.
+- Dynamic Oversight (MBSE-enabled)
+  - Introduce a `digital_maturity` attribute (from MBSE/digital-twin inputs) and add it as a positive modifier in `test_gate`.
   - Add optional `--mbse_csv`/`data.mbse_csv` loader and record digital evidence in event logs.
 
 - Integrated Policy Feedback
-  - Add multiâ€‘agency policymaker agents (DoD, IC, Congress) with distinct adaptation curves; aggregate crossâ€‘agency feedback.
-  - Make scenario toggles to compare singleâ€‘agency vs integrated loops and record adaptation metrics.
+  - Add multi-agency policymaker agents (DoD, IC, Congress) with distinct adaptation curves; aggregate cross-agency feedback.
+  - Make scenario toggles to compare single-agency vs integrated loops and record adaptation metrics.
 
 - Digital Engineering Integration
-  - Leverage MBSE/digitalâ€‘twin metrics across the pipeline to reduce legal/contracting friction and shorten test cycles when maturity is high.
+  - Leverage MBSE/digital-twin metrics across the pipeline to reduce legal/contracting friction and shorten test cycles when maturity is high.
 
 - Validation and CI
   - Add unit tests for gate math, penalties, stage/test failure handling, and CLI `--events`/`--no-events` toggles; add CSV schema validation for labs/RDT&E.
@@ -255,7 +259,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 Self-reported modeling assumptions to make runs fast and comparable. Calibrate or relax as you add data.
 
 - Stage pipeline and cadence
-  - Five stages: feasibility â†’ prototype_demo â†’ functional_test â†’ vulnerability_test â†’ operational_test; adoption follows the last stage.
+  - Five stages: feasibility -> prototype_demo -> functional_test -> vulnerability_test -> operational_test; adoption follows the last stage.
   - Gates are attempted once per tick; at most one stage advances per tick.
   - TRL increases by small, fixed increments on each stage pass.
 
@@ -272,10 +276,10 @@ Self-reported modeling assumptions to make runs fast and comparable. Calibrate o
   - Sources (POM/UFR/Partner/etc.) act as simple multipliers, not explicit queues (yet).
 
 - Legal and contracting
-  - Legal outcomes are drawn from a regime/domain/authority-tuned distribution; â€œunfavorableâ€ halts the attempt.
+  - Legal outcomes are drawn from a regime/domain/authority-tuned distribution; "unfavorable" halts the attempt.
   - Contracting success is a simple probability influenced by regime and org type (e.g., commercial benefits in adaptive).
 
-- Penalties (â€œrepeat offendersâ€)
+- Penalties ("repeat offenders")
   - Failures accumulate by axes (e.g., researcher, domain, org_type) and multiply down gate probabilities. Optional decay.
 
 - Data effects
@@ -294,8 +298,8 @@ This model exposes tunable weights in `parameters.yaml` (gates, penalties, and s
   - Keys: `gates.funding_base_*` (linear/adaptive/shock, early/late), `gates.color_weight_late_mix`
   - Justification: baseline budget access and color-of-money friction differ by regime and stage.
   - Effects:
-    - Increase: more stage entries and passes â†’ higher transition_rate, shorter cycle times, higher diffusion.
-    - Decrease: more stalls at funding â†’ longer cycle times, fewer adoptions.
+    - Increase: more stage entries and passes -> higher transition_rate, shorter cycle times, higher diffusion.
+    - Decrease: more stalls at funding -> longer cycle times, fewer adoptions.
 
 - Test pass probabilities and TRL effects
   - Keys: `gates.test_base.{feasibility|prototype_demo|functional_test|vulnerability_test|operational_test}`, `gates.test_trl_bonus_per_level`, `gates.test_trl_bonus_cap`
@@ -312,7 +316,7 @@ This model exposes tunable weights in `parameters.yaml` (gates, penalties, and s
 - Legal review distribution and shifts
   - Keys: `gates.legal_dist.*`, `gates.legal_title50_shift`, `gates.legal_kinetic_shift`, `gates.legal_penalty_shift_cap`
   - Justification: authority and mission area shape legal risk; repeated failures should push toward caveats/unfavorable.
-  - Effects: more â€œfavorableâ€ â†’ faster throughput; higher shift values â†’ more caveats/unfavorable, longer cycles.
+  - Effects: more "favorable" -> faster throughput; higher shift values -> more caveats/unfavorable, longer cycles.
 
 - Contracting success
   - Keys: `gates.contracting_base.{GovLab|GovContractor|Commercial}`, `gates.contracting_adaptive_bonus`, `gates.contracting_linear_commercial_penalty`
@@ -323,22 +327,21 @@ This model exposes tunable weights in `parameters.yaml` (gates, penalties, and s
   - Keys: `penalties.per_failure`, `penalties.max_penalty`, `penalties.decay`, `penalties.axes_by_gate`
   - Justification: persistent underperformance should reduce future success odds; decay allows recovery.
   - Effects:
-    - Increase `per_failure`/`max_penalty`: sharper compounding penalties â†’ lower pass rates after repeated failures.
-    - Increase `decay`: faster â€œforgivenessâ€ â†’ penalties fade quicker.
+    - Increase `per_failure`/`max_penalty`: sharper compounding penalties -> lower pass rates after repeated failures.
+    - Increase `decay`: faster "forgiveness" -> penalties fade quicker.
 
 - Behavior parameters (code defaults)
   - Researchers: `prototype_rate=0.05`, `learning_rate=0.1`
-    - Higher `prototype_rate` â†’ more attempts; higher `learning_rate` â†’ faster quality recovery after rejections.
+    - Higher `prototype_rate` -> more attempts; higher `learning_rate` -> faster quality recovery after rejections.
   - End-users: `adoption_threshold=0.6`
-    - Lower threshold â†’ easier adoption; higher â†’ stricter adoption.
-  - Environmental signal & alignment (code): adaptive +0.1, linear âˆ’0.05, shock âˆ’0.1; alignment bias Â±0.05; labs +0.01
-    - Raise positive biases â†’ faster adoption; lower/negative â†’ slower.
+    - Lower threshold -> easier adoption; higher -> stricter adoption.
+  - Environmental signal & alignment (code): adaptive +0.1, linear -0.05, shock -0.1; alignment bias ±0.05; labs +0.01
+    - Raise positive biases -> faster adoption; lower/negative -> slower.
 
 Sensitivity testing tips
-- Start with `runs=30â€“50`, `steps=200â€“300`, and adjust one group of weights at a time.
+- Start with `runs=30-50`, `steps=200-300`, and adjust one group of weights at a time.
 - Track median and percentiles of cycle time (add to metrics if needed) to see distributional effects, not just means.
 - Use event CSVs to confirm which gate changes drive outcome shifts.
-
 
 
 
