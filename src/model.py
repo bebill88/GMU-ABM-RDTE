@@ -213,13 +213,37 @@ class RdteModel(Model):
 
     # ---- Data loading helpers ----
     def _load_labs(self, labs_csv: Optional[str]) -> List[Dict[str, Any]]:
-        if not labs_csv:
-            return []
+        """
+        Load labs/hubs locations.
+
+        If an explicit path is provided and exists, use it. If no path is
+        provided or the file is missing, fall back to the shipped
+        `data/templates/labs_template.csv` when present so the model has a
+        small but non-empty ecosystem dataset out of the box.
+        """
         try:
-            path = Path(labs_csv)
-            if not path.exists():
-                logging.getLogger(__name__).warning(f"Labs CSV not found: {path}")
-                return []
+            path: Optional[Path] = None
+            if labs_csv:
+                candidate = Path(labs_csv)
+                if candidate.exists():
+                    path = candidate
+                else:
+                    logging.getLogger(__name__).warning(
+                        f"Labs CSV not found at {candidate}; falling back to data/templates/labs_template.csv if available."
+                    )
+            if path is None:
+                template = Path("data") / "templates" / "labs_template.csv"
+                if template.exists():
+                    path = template
+                    logging.getLogger(__name__).info(f"Using labs template CSV at {template}")
+                else:
+                    if not labs_csv:
+                        return []
+                    logging.getLogger(__name__).warning(
+                        f"Labs CSV not found and template missing; proceeding without labs data."
+                    )
+                    return []
+
             rows: List[Dict[str, Any]] = []
             with path.open("r", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
