@@ -25,7 +25,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 ## Overview
 
 - Purpose: explore how governance regimes, funding colors, and shocks affect prototype transition and diffusion.
-- Approach: agent-based model with a stage-gate pipeline (legal â†’ funding â†’ contracting â†’ tests â†’ adoption) and tunable gate logic.
+- Approach: agent-based model with a stage-gate pipeline (legal -> funding -> contracting -> tests -> adoption) and tunable gate logic.
 - Outputs: per-run metrics (transition rate, cycle time, diffusion speed) and per-event logs for gate outcomes.
 
 ---
