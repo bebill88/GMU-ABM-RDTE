@@ -12,6 +12,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 - [Build & Run](#build--run)
 - [Data Inputs](#data-inputs)
 - [Configuration](#configuration)
+- [Schemas](#schemas)
 - [Outputs](#outputs)
 - [Repository Structure](#repository-structure)
 - [Documentation Links](#documentation-links)
@@ -156,6 +157,19 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ---
 
+## Schemas
+
+JSON Schema definitions live under `schemas/` so you can keep the CSV inputs and outputs aligned with what the model actually reads and writes.
+
+- `schemas/event_log.schema.json` captures the per-tick gate/event data written by `EventLogger` (`outputs/<scenario>_<timestamp>/events_run_<i>.csv`) and lists the probability-context fields (`gate_prob_*`, `legal_*`, `dependency_*`, etc.).
+- `schemas/labs.schema.json` documents the optional lab/hub fields (`name/site/facility`, the latitude/longitude variants, `service`, `specializations`, and `region`) and mirrors the header of `data/templates/labs_template.csv`.
+- `schemas/rdte_fy26.schema.json` describes the normalized FY26 line-item fields (`program_id`, `service_component`, funding identifiers, alignment scores, MBSE/digital maturity fields, dependencies, status flags, and so on) that `_load_rdte` stores on each researcher’s program context.
+- `schemas/mbse.schema.json` defines the digital engineering supplement (`project_id`, `digital_maturity`, `model_coverage`, `simulation_runs`, `defect_escape_rate`, `twin_sync_level`) used by the optional MBSE template.
+
+Copy the templates from `data/templates/` before running experiments to guarantee a known-good shape, and use whichever validator you prefer (for example, convert the CSV to JSON and run `jsonschema`, or simply inspect the headers) to confirm your data satisfies the documented properties.
+
+---
+
 ## Outputs
 
 - Results CSV with per-run aggregates (`results.csv`): transition_rate, avg_cycle_time, diffusion_speed, attempts, transitions.
@@ -189,6 +203,11 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ---
 
+
+### 2025-11-18
+
+- Added a `Schemas` section to the README that highlights the JSON Schema files so labs locations, FY26 RDT&E line items, MBSE inputs, and per-run event logs all have documented column expectations.
+- Called out the `data/templates/` files as a known-good shape and reminded users to compare their CSVs against the schema definitions (or their own validation tooling) before running experiments.
 
 ### 2025-11-17
 
@@ -346,8 +365,5 @@ Sensitivity testing tips
 - Start with `runs=30-50`, `steps=200-300`, and adjust one group of weights at a time.
 - Track median and percentiles of cycle time (add to metrics if needed) to see distributional effects, not just means.
 - Use event CSVs to confirm which gate changes drive outcome shifts.
-
-
-
 
 
