@@ -1,4 +1,4 @@
-ï»¿# ABM: Adaptive RDT&E Transitions (DoD/IC)
+# ABM: Adaptive RDT&E Transitions (DoD/IC)
 
 This repository provides an Agent-Based Model (ABM) to explore how policy design, funding flexibility, and feedback latency shape the transition of defense innovations from RDT&E to field adoption.
 
@@ -78,19 +78,19 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 - Prerequisites
   - Install Python 3.11+ from python.org or Microsoft Store. Verify: python -V
-  - Optional (large CSVs): Git LFS â git lfs install
+  - Optional (large CSVs): Git LFS - git lfs install
 
 - Create and activate a virtual environment
   - python -m venv .venv
   - .venv\Scripts\Activate  (PowerShell)
   - Upgrade pip (recommended): python -m pip install --upgrade pip
 
-- Install dependencies
-  - python -m pip install -r requirements.txt
+ - Install dependencies
+   - python -m pip install -r requirements.txt
 
-- Run a quick smoke test (writes to outputs/)
-  - python -m src.run_experiment --scenario adaptive --runs 1 --steps 50 --seed 42
-  - You may see warnings if data CSVs are not present locally (OK for a smoke test).
+ - Run a quick smoke test (writes to outputs/)
+   - python -m src.run_experiment --scenario adaptive --runs 1 --steps 50 --seed 42
+   - You may see warnings if data CSVs are not present locally (OK for a smoke test).
 
 - Generate a simple visualization (PNG)
   - python -m src.viz --path outputs\adaptive_<timestamp>\results.csv
@@ -161,17 +161,16 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ## Data Collection Strategy
 
-The data collection strategy for the RDT&E transition simulation begins with constructing a comprehensive, schema-driven representation of the Defense and Intelligence RDT&E ecosystem, using publicly available NDAA language, Defense Appropriations Act tables, and R-1/R-2 justification documents as the authoritative foundation. The initial phase leans on a large set of realistic, structurally accurate synthetic entries that mirror how DoD and IC programs are organizedâcapturing Budget Activity codes, Program Element identifiers, mission focus areas, authority alignments, labs or contractors, team structures, technical maturity, and transition-relevant risk attributes. This simulated dataset delivers the diversity and coverage needed to prototype and validate the core agent-based model (ABM) behavior before real program data is introduced.
-
-The second phase layers in targeted âR-1 liteâ ingestion, replacing a subset of synthetic entries with true program records sampled across Services and Agencies to improve fidelity where it matters mostâparticularly for mission-critical areas like ISR, cyber, space sensing, hypersonics, EW, and CBRNE. Each real-world entry is mapped into the established schema, with funding history, program stage, and technical descriptions extracted directly from R-1/R-2 documentation to calibrate maturity, risk scores, and cross-domain dependencies. As the model matures, the process expands into domain-focused ingestion (e.g., all missile defense or autonomy programs), enabling partial but meaningful grounding of the simulated portfolio in real fiscal and developmental structures.
-
-Throughout, metadata flags track the provenance of each rowâdistinguishing synthetic placeholders, estimated values awaiting R-1 validation, and fully ingested program elementsâto keep data hygiene transparent and support sensitivity analysis. This staged approach lets the ABM evolve from a conceptually rich but synthetic environment into a calibrated simulation that reflects true transition dynamics while preserving the flexibility to deepen fidelity incrementally as additional R-1/R-2 data is incorporated.
+- We build a comprehensive picture of the Defense and Intelligence RDT&E ecosystem by normalizing NDAA language, Defense Appropriations Act tables, and R-1/R-2 justification documents into a canonical schema. The initial phase relies on synthetic, structurally accurate entries so we can calibrate the agent-based model before real programs are introduced.
+- The second phase stitches in targeted R-1-lite records, substituting synthetic placeholders with sampled programs across Services and Agencies (ISR, cyber, hypersonics, EW, CBRNE, etc.) for higher-fidelity coverage. Real entries are mapped with funding history, stage, and maturity context directly from those documents.
+- Metadata flags keep provenance visible (synthetic placeholder, R-1 pending, fully ingested), so analysts can surface sensitivity and hygiene for each row.
+- The ingestion pipeline converts R-1 exhibits, R-2 Justification Books, NDAA line tables, and Defense Appropriations Act summaries into structured rows that define program identifiers, PE numbers, appropriations, BAs, mission domains, authority alignments, execution organizations, maturity indicators, and dependencies.
 
 ---
 
 ## Technical Data Ingestion Workflow (RDT&E to ABM)
 
-The data ingestion pipeline converts raw RDT&E program documentationâprimarily R-1 budget exhibits, R-2 Justification Books, NDAA line-item tables, and Defense Appropriations Act summariesâinto structured, simulation-ready entities for the ABM. The workflow begins by establishing a canonical schema that normalizes attributes across DoD, Defense Agencies, Intelligence Community elements, and dual-use programs, defining unique program identifiers, PE numbers, appropriations, Budget Activity codes, mission domains, authority alignments, execution organizations, technical maturity indicators, and dependency relationships.
+The data ingestion pipeline converts raw RDT&E program documentation-primarily R-1 budget exhibits, R-2 Justification Books, NDAA line-item tables, and Defense Appropriations Act summaries-into structured, simulation-ready entities for the ABM. The workflow begins by establishing a canonical schema that normalizes attributes across DoD, Defense Agencies, Intelligence Community elements, and dual-use programs, defining unique program identifiers, PE numbers, appropriations, Budget Activity codes, mission domains, authority alignments, execution organizations, technical maturity indicators, and dependency relationships.
 
 1. **Source Acquisition & Parsing**  
    R-1/R-2 PDFs are pulled from official `.mil`, comptroller, or congressional sites, converted to machine-readable text (with OCR where necessary), and segmented into document fragments that isolate PE titles, BA classification blocks, funding tables, program descriptions, milestone schedules, and contractor/lab references. Every fragment is stored with timestamped version control for traceability.
@@ -217,7 +216,7 @@ JSON Schema definitions live under `schemas/` so you can keep the CSV inputs and
 
 - `schemas/event_log.schema.json` captures the per-tick gate/event data written by `EventLogger` (`outputs/<scenario>_<timestamp>/events_run_<i>.csv`) and lists the probability-context fields (`gate_prob_*`, `legal_*`, `dependency_*`, etc.).
 - `schemas/labs.schema.json` documents the optional lab/hub fields (`name/site/facility`, the latitude/longitude variants, `service`, `specializations`, and `region`) and mirrors the header of `data/templates/labs_template.csv`.
-- `schemas/rdte_fy26.schema.json` describes the normalized FY26 line-item fields (`program_id`, `service_component`, funding identifiers, alignment scores, MBSE/digital maturity fields, dependencies, status flags, and so on) that `_load_rdte` stores on each researcherâs program context.
+- `schemas/rdte_fy26.schema.json` describes the normalized FY26 line-item fields (`program_id`, `service_component`, funding identifiers, alignment scores, MBSE/digital maturity fields, dependencies, status flags, and so on) that `_load_rdte` stores on each researchers program context.
 - `schemas/mbse.schema.json` defines the digital engineering supplement (`project_id`, `digital_maturity`, `model_coverage`, `simulation_runs`, `defect_escape_rate`, `twin_sync_level`) used by the optional MBSE template.
 
 Copy the templates from `data/templates/` before running experiments to guarantee a known-good shape, and use whichever validator you prefer (for example, convert the CSV to JSON and run `jsonschema`, or simply inspect the headers) to confirm your data satisfies the documented properties.
@@ -253,8 +252,8 @@ Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; a
 3. **Gate logic can consume entity metadata**  
    Look up `primary_entity_id` in `entities_by_id` during `funding_gate`/`test_gate`, use its `base_budget_type`/`base_budget_ba`/`service`/`authority_flags` to select CR or BA-specific modifiers, apply the ecosystem bonus for well-connected nodes, and cap probabilities if an entity's `estimated_rdte_capacity_musd` or `estimated_rdte_staff` is shared among many programs.
 4. **Plain-language summaries for non-ABM readers**  
-   - `rdte_entities.csv` = "Who actually does the work?" (org roster for services, program offices, labs, agencies with budget/domains).  
-   - `program_entity_roles.csv` = "Who owns which program?" (mapping of programs to sponsoring/executing/test/ops roles plus effort shares).
+   - `rdte_entities.csv` = "Who actually does the work" (org roster for services, program offices, labs, agencies with budget/domains).  
+   - `program_entity_roles.csv` = "Who owns which program" (mapping of programs to sponsoring/executing/test/ops roles plus effort shares).
 
 ---
 
@@ -270,14 +269,14 @@ Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; a
 
 ## Repository Structure
 
-- `src/model.py` â Mesa-style model class (`RdteModel`), scheduling, gates, event logging, loaders.
-- `src/agents.py` â Agents and stage pipeline behavior.
-- `src/policies.py` â Gate functions (legacy funding/oversight + stage-aware pipeline) with config hooks.
-- `src/metrics.py` â MetricTracker, PenaltyBook, EventLogger.
-- `src/run_experiment.py` â CLI runner; loads config; writes results/metadata/events.
-- `src/viz.py` â Simple plotting.
-- `parameters.yaml` â Tunables for gates, penalties, and data paths.
-- `requirements.txt` â Dependencies.
+- `src/model.py` - Mesa-style model class (`RdteModel`), scheduling, gates, event logging, loaders.
+- `src/agents.py` - Agents and stage pipeline behavior.
+- `src/policies.py` - Gate functions (legacy funding/oversight + stage-aware pipeline) with config hooks.
+- `src/metrics.py` - MetricTracker, PenaltyBook, EventLogger.
+- `src/run_experiment.py` - CLI runner; loads config; writes results/metadata/events.
+- `src/viz.py` - Simple plotting.
+- `parameters.yaml` - Tunables for gates, penalties, and data paths.
+- `requirements.txt` - Dependencies.
 
 ---
 
@@ -446,7 +445,7 @@ This model exposes tunable weights in `parameters.yaml` (gates, penalties, and s
     - Higher `prototype_rate` -> more attempts; higher `learning_rate` -> faster quality recovery after rejections.
   - End-users: `adoption_threshold=0.6`
     - Lower threshold -> easier adoption; higher -> stricter adoption.
-  - Environmental signal & alignment (code): adaptive +0.1, linear -0.05, shock -0.1; alignment bias Â±0.05; labs +0.01
+  - Environmental signal & alignment (code): adaptive +0.1, linear -0.05, shock -0.1; alignment bias +/-0.05; labs +0.01
     - Raise positive biases -> faster adoption; lower/negative -> slower.
 
 Sensitivity testing tips
@@ -458,9 +457,9 @@ Sensitivity testing tips
 
 ## Glossary
 
-- **ABM (Agent-Based Model)** â Simulates individual researchers, policymakers, and end-users to surface how gate logic, funding, and adoption feedback create aggregate transition metrics.
-- **RDT&E (Research, Development, Test & Evaluation)** â The lifecycle stage from prototyping through trials before programs flow into O&M; inputs to the ABM are the RDT&E line items and program attributes.
-- **PE (Program Element)** â A DoD/IC funding bucket described in R-1 exhibits; we map the PE number into `program_id`/`Mapped_PE_Number` so researchers align with real programs.
-- **BA (Budget Activity)** â High-level categories (BA2, BA3, BA4, etc.) that shape the starting gate (`feasibility`, `prototype_demo`, â¦) and funding priorities.
-- **NDAA / Appropriations / R-1/R-2** â The legislative and comptroller documents that provide authoritative funding, mission, and maturity context for each PE; the ingestion workflow extracts these into schema fields.
-- **Schema/Template Files** â JSON Schema files under `schemas/` and CSV templates under `data/templates/` capture the required columns so both synthetic and real data stay aligned with the loader expectations.
+- **ABM (Agent-Based Model)** - Simulates individual researchers, policymakers, and end-users to surface how gate logic, funding, and adoption feedback create aggregate transition metrics.
+- **RDT&E (Research, Development, Test & Evaluation)** - The lifecycle stage from prototyping through trials before programs flow into O&M; inputs to the ABM are the RDT&E line items and program attributes.
+- **PE (Program Element)** - A DoD/IC funding bucket described in R-1 exhibits; we map the PE number into `program_id`/`Mapped_PE_Number` so researchers align with real programs.
+- **BA (Budget Activity)** - High-level categories (BA2, BA3, BA4, etc.) that shape the starting gate (`feasibility`, `prototype_demo`, ) and funding priorities.
+- **NDAA / Appropriations / R-1/R-2** - The legislative and comptroller documents that provide authoritative funding, mission, and maturity context for each PE; the ingestion workflow extracts these into schema fields.
+- **Schema/Template Files** - JSON Schema files under `schemas/` and CSV templates under `data/templates/` capture the required columns so both synthetic and real data stay aligned with the loader expectations.
