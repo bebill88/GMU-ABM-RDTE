@@ -23,7 +23,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 - [Assumptions](#assumptions)
 - [Weights & Sensitivities](#weights--sensitivities)
 - [Glossary](#glossary)
-- [Next Steps](#next-steps-policy-lever-integration)
+- [Next Steps](#next-steps)
 - [Changelog](#changelog)
 - [Live Browser UI](#live-browser-ui)
 - [VS Code Setup](#vs-code-setup)
@@ -56,6 +56,7 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
      - `python -m src.run_experiment --scenario shock --runs 10 --steps 200 --seed 42 --shock_at 80 --shock_duration 20`
 - Use a custom config file (overrides parameters.yaml):
   - `python -m src.run_experiment --scenario adaptive --config my_params.yaml`
+  - Agent behavior knobs now respect `parameters.yaml:agents.*` (prototype_rate, learning_rate, policymaker agility/rigidity, end-user thresholds).
 
 **Smoke test (Mesa)** - run a short linear scenario to validate the new data stack before larger experiments:
 
@@ -109,6 +110,13 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
   - If matplotlib needs a backend on headless servers, PNG output still works via Agg (already default for our usage).
 
 ---
+
+## Live Browser UI
+
+- Launch: `python -m src.server --host 127.0.0.1 --port 8521 --open-browser`
+- What's new: refreshed "RDT&E Transition Lab" styling (CSS injected), KPI cards, stage-distribution pills, gate-context pills, and dual charts (adoptions + stage progression).
+- Controls: sliders for population/funding/shock timing; dropdowns for regime/portfolio/service/org mix/funding pattern; `focus_researcher_id` to spotlight one project.
+- Data: UI reads live from the running model; event CSVs still land under `outputs/<scenario>_<timestamp>/events_run_<i>.csv` when using the CLI runner.
 
 ---
 
@@ -291,6 +299,13 @@ Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; a
 ---
 
 
+### 2025-11-20
+
+- Made gate progression more resilient: stage-age boosts for funding/contracting/test gates and a 0.4 penalty floor so runs keep moving; adoption rejections now retry from the final stage.
+- Modernized the Mesa UI with injected CSS, KPI cards, stage-distribution pills, gate-context pills, and dual charts (adoptions + stage progression); documented launch steps.
+- Agent behavior now respects `parameters.yaml:agents.*` (researcher prototype/learning rates, policymaker agility/rigidity, end-user thresholds) across CLI runs and the UI.
+- Updated README with UI details, config notes, and refreshed next steps.
+
 ### 2025-11-18
 
 - Added a `Schemas` section to the README that highlights the JSON Schema files so labs locations, FY26 RDT&E line items, MBSE inputs, and per-run event logs all have documented column expectations.
@@ -333,35 +348,23 @@ Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; a
 
 ---
 
-## Next Steps (Policy Lever Integration)
+## Next Steps
 
-- Flexible Funding Authorities
-  - Add per-stage funding queues (by color) and a BA-8 "bridge"/reprogramming path with time cost and attrition.
-  - Use FY26 RDT&E line items (`data/FY2026_SEC4201_RDTandE_All_Line_Items.csv`) to bias stage availability by portfolio.
-  - Expose queue capacities, reprogramming delay, and priority rules in `parameters.yaml` and log queue wait times to events.
+- Calibration & baselines
+  - Calibrate gate weights and penalty floors to target realistic transition rates by regime; publish baseline presets for linear/adaptive/shock in the UI.
+  - Add percentile cycle-time reporting and default demo presets to speed briefings.
 
-- Decentralized Experimentation
-  - Associate researchers to nearest labs from `data/dod_labs_collaboration_hubs_locations.csv` and apply proximity benefits.
-  - Increase `prototype_rate` and early-stage funding/test pass rates when co-located; allow lab-specific parameter sets.
+- Data richness
+  - Extend loaders to pull MBSE/digital maturity and lab proximity into gate modifiers; write these signals to event logs.
+  - Validate CSVs against schemas during CLI runs and surface friendly errors in the GUI when files are missing/mis-shaped.
 
-- Dynamic Oversight (MBSE-enabled)
-  - Introduce a `digital_maturity` attribute (from MBSE/digital-twin inputs) and add it as a positive modifier in `test_gate`.
-  - Add optional `--mbse_csv`/`data.mbse_csv` loader and record digital evidence in event logs.
+- UX polish
+  - Add export buttons in the GUI for the latest events/metrics and a "rerun with new seed" quick action.
+  - Add inline help/hover tips for sliders and dropdowns plus a focused-project mini-timeline (stage/gate outcomes).
 
-- Integrated Policy Feedback
-  - Add multi-agency policymaker agents (DoD, IC, Congress) with distinct adaptation curves; aggregate cross-agency feedback.
-  - Make scenario toggles to compare single-agency vs integrated loops and record adaptation metrics.
-
-- Digital Engineering Integration
-  - Leverage MBSE/digital-twin metrics across the pipeline to reduce legal/contracting friction and shorten test cycles when maturity is high.
-
-- Live Browser UI clarity
-  - Rename the Mesa UI sliders/inputs so they describe their function (agent cohorts, funding levels, governance regime, shock timing, random seed) and are easy to scan for broader audiences.
-  - Consider adding inline helper text or hover tips describing what each control adjusts so visitors can explore without diving into the code first.
-
-- Validation and CI
-  - Add unit tests for gate math, penalties, stage/test failure handling, and CLI `--events`/`--no-events` toggles; add CSV schema validation for labs/RDT&E.
-  - Wire a GitHub Actions workflow to run those tests plus a quick smoke run (e.g., `python -m src.run_experiment --scenario adaptive --runs 1 --steps 50`) so regressions surface before pushing.
+- Quality gates
+  - Add unit tests for gate math, penalty decay/floors, adoption retry behavior, and CLI flag parsing; wire a GitHub Actions smoke run.
+  - Capture median/percentile cycle times and basic shock recovery metrics in `metrics.summary()`.
 ---
 
 ## Assumptions
