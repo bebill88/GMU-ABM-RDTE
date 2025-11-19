@@ -208,6 +208,19 @@ Copy the templates from `data/templates/` before running experiments to guarante
 
 ---
 
+## Supplementary Data Integration
+
+External inputs such as GAO findings, shock events, vendor evaluations, and collaboration ecosystem records should be documented via `docs/schema_*.md` and seeded with stub CSVs under `data/stubs/`. Wire them into the Mesa model as follows:
+
+1. **GAO findings (`docs/schema_gao_findings.md`)** – Preload the CSV each run, map `program_id` into `RdteModel.program_index`, and use `severity`/`repeat_offender` to bump `PenaltyBook.counts` so the per-gate penalties degrade `funding`/`test` probabilities for flagged programs.
+2. **Shock events (`docs/schema_shock_events.md`)** – Treat each row as a scheduled perturbation: when the current tick falls between `start_tick` and `start_tick + duration`, scale `funding_rdte`/`funding_om` by `budget_impact` and emit metadata through `EventLogger` to tie gate outcomes to the shock type.
+3. **Vendor/program evaluations (`docs/schema_vendor_evaluations.md`)** – Fold `performance_score`/`reliability_score` into `ResearcherAgent.quality` adjustments or gate multipliers, and trigger `PenaltyBook.bump` if `flag_followup` is `true` so low-performing contractors become repeat-offender cases.
+4. **Collaboration ecosystem (`docs/schema_collaboration_ecosystem.md`)** – Load these rows alongside labs (e.g., extend `_load_labs` or add a helper) to populate `service_component`, `ecosystem_support`, and network metrics such as `network_centrality_score` when matching labs/partners to researchers.
+
+Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; add CLI options or parameter overrides that point to the real CSVs when you move beyond the `data/stubs/` placeholders. Validating the inputs with `jsonschema` or header inspections before a run keeps the pipelines stable.
+
+---
+
 ## Outputs
 
 - Results CSV with per-run aggregates (`results.csv`): transition_rate, avg_cycle_time, diffusion_speed, attempts, transitions.
