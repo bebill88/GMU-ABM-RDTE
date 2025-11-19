@@ -463,3 +463,6 @@ Sensitivity testing tips
 - **BA (Budget Activity)** - High-level categories (BA2, BA3, BA4, etc.) that shape the starting gate (`feasibility`, `prototype_demo`, ) and funding priorities.
 - **NDAA / Appropriations / R-1/R-2** - The legislative and comptroller documents that provide authoritative funding, mission, and maturity context for each PE; the ingestion workflow extracts these into schema fields.
 - **Schema/Template Files** - JSON Schema files under `schemas/` and CSV templates under `data/templates/` capture the required columns so both synthetic and real data stay aligned with the loader expectations.
+
+- <img width="1112" height="902" alt="image" src="https://github.com/user-attachments/assets/b3dd07f2-2f37-45f1-b860-cf2b1f85a51a" />
+
