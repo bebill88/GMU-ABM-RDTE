@@ -48,7 +48,16 @@ class RdteModel(Model):
                  rdte_csv: Optional[str] = None,
                  penalty_config: Optional[Dict[str, Any]] = None,
                  gate_config: Optional[Dict[str, Any]] = None,
-                 events_path: Optional[str] = None):
+                 events_path: Optional[str] = None,
+                 alignment_profile: str = "Medium",
+                 digital_maturity_profile: str = "Medium",
+                 shock_resilience: str = "Medium",
+                 ecosystem_support: str = "Medium",
+                 portfolio_focus: str = "Mixed",
+                 service_focus: str = "Joint",
+                 org_mix: str = "Balanced",
+                 funding_pattern: str = "ProgramBase",
+                 focus_researcher_id: int = -1):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
@@ -66,6 +75,16 @@ class RdteModel(Model):
         self.funding_om = float(funding_om)
         self.metrics = MetricTracker()
         self._in_shock = False
+        # Scenario-level knobs derived from data categories
+        self.alignment_profile = str(alignment_profile)
+        self.digital_maturity_profile = str(digital_maturity_profile)
+        self.shock_resilience = str(shock_resilience)
+        self.ecosystem_support = str(ecosystem_support)
+        self.portfolio_focus = str(portfolio_focus)
+        self.service_focus = str(service_focus)
+        self.org_mix = str(org_mix)
+        self.funding_pattern = str(funding_pattern)
+        self.focus_researcher_id = int(focus_researcher_id)
         self.labs: List[Dict[str, Any]] = self._load_labs(labs_csv)
         self.rdte_fy26: List[Dict[str, Any]] = self._load_rdte(rdte_csv)
         # Map of program_id -> researcher will be populated after agent creation
@@ -296,120 +315,135 @@ class RdteModel(Model):
             def norm(s: str) -> str:
                 return s.strip().lower().replace(" ", "_")
 
-            rows: List[Dict[str, Any]] = []
-            with path.open("r", encoding="utf-8") as f:
-                reader = csv.DictReader(f)
-                if not reader.fieldnames:
+            # Support either a single CSV file or a directory of FY CSVs.
+            paths: List[Path]
+            if path.is_file():
+                paths = [path]
+            elif path.is_dir():
+                candidates = sorted(p for p in path.glob("*.csv"))
+                if not candidates:
+                    logging.getLogger(__name__).warning(f"No RDT&E CSVs found in directory: {path}")
                     return []
-                fieldmap = {norm(c): c for c in reader.fieldnames}
+                paths = candidates
+            else:
+                logging.getLogger(__name__).warning(f"RDT&E path is neither file nor directory: {path}")
+                return []
 
-                def col(*names: str) -> Optional[str]:
-                    for n in names:
-                        key = norm(n)
-                        if key in fieldmap:
-                            return fieldmap[key]
-                    return None
+            rows: List[Dict[str, Any]] = []
+            for csv_path in paths:
+                with csv_path.open("r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    if not reader.fieldnames:
+                        continue
+                    fieldmap = {norm(c): c for c in reader.fieldnames}
 
-                # Legacy FY26 columns for compatibility
-                pe_col = col("program_id", "pe_number", "pe_id", "project_id")
-                service_col = col("service_component", "service")
-                ba_col = col("budget_activity", "BA")
-                amount_col = col("funding_fy26", "amount")
-                color_col = col("funding_color", "appropriation")
+                    def col(*names: str) -> Optional[str]:
+                        for n in names:
+                            key = norm(n)
+                            if key in fieldmap:
+                                return fieldmap[key]
+                        return None
 
-                # New rich fields (optional)
-                portfolio_col = col("portfolio")
-                lab_support_col = col("lab_support_factor")
-                industry_support_col = col("industry_support_factor")
-                stage_start_col = col("stage_gate_start")
-                authority_align_col = col("authority_alignment_score")
-                nds_align_col = col("priority_alignment_nds")
-                ccmd_align_col = col("priority_alignment_ccmd")
-                service_align_col = col("priority_alignment_service")
-                digital_maturity_col = col("digital_maturity_score")
-                mbse_coverage_col = col("mbse_coverage")
-                shock_sensitivity_col = col("shock_sensitivity")
-                deps_col = col("dependencies")
-                status_col = col("program_status")
-                reprogramming_col = col("reprogramming_eligible")
+                    # Legacy FY26 columns for compatibility
+                    pe_col = col("program_id", "pe_number", "pe_id", "project_id")
+                    service_col = col("service_component", "service")
+                    ba_col = col("budget_activity", "BA")
+                    amount_col = col("funding_fy26", "amount")
+                    color_col = col("funding_color", "appropriation")
 
-                for raw in reader:
-                    rec: Dict[str, Any] = {"raw": dict(raw)}
-                    # Identity and core fields
-                    program_id = raw.get(pe_col) if pe_col else None
-                    if not program_id:
-                        program_id = raw.get("PE_number") or raw.get("PE") or None
-                    if not program_id:
-                        # Fallback to a synthetic identifier
-                        program_id = f"PE-{len(rows)}"
-                    rec["program_id"] = str(program_id)
+                    # New rich fields (optional)
+                    portfolio_col = col("portfolio")
+                    lab_support_col = col("lab_support_factor")
+                    industry_support_col = col("industry_support_factor")
+                    stage_start_col = col("stage_gate_start")
+                    authority_align_col = col("authority_alignment_score")
+                    nds_align_col = col("priority_alignment_nds")
+                    ccmd_align_col = col("priority_alignment_ccmd")
+                    service_align_col = col("priority_alignment_service")
+                    digital_maturity_col = col("digital_maturity_score")
+                    mbse_coverage_col = col("mbse_coverage")
+                    shock_sensitivity_col = col("shock_sensitivity")
+                    deps_col = col("dependencies")
+                    status_col = col("program_status")
+                    reprogramming_col = col("reprogramming_eligible")
 
-                    rec["service_component"] = (raw.get(service_col) if service_col else None) or ""
-                    budget_activity = (raw.get(ba_col) if ba_col else None) or ""
-                    rec["budget_activity"] = str(budget_activity)
+                    for raw in reader:
+                        rec: Dict[str, Any] = {"raw": dict(raw)}
+                        # Identity and core fields
+                        program_id = raw.get(pe_col) if pe_col else None
+                        if not program_id:
+                            program_id = raw.get("PE_number") or raw.get("PE") or None
+                        if not program_id:
+                            # Fallback to a synthetic identifier
+                            program_id = f"PE-{len(rows)}"
+                        rec["program_id"] = str(program_id)
 
-                    try:
-                        amt_raw = raw.get(amount_col) if amount_col else None
-                        rec["funding_fy26"] = float(amt_raw) if amt_raw not in (None, "") else 0.0
-                    except Exception:
-                        rec["funding_fy26"] = 0.0
+                        rec["service_component"] = (raw.get(service_col) if service_col else None) or ""
+                        budget_activity = (raw.get(ba_col) if ba_col else None) or ""
+                        rec["budget_activity"] = str(budget_activity)
 
-                    rec["funding_color"] = (raw.get(color_col) if color_col else None) or "RDT&E"
-
-                    # New workbook fields with defaults
-                    rec["portfolio"] = (raw.get(portfolio_col) if portfolio_col else None) or ""
-
-                    def _f(colname: Optional[str], default: float) -> float:
-                        if not colname:
-                            return default
                         try:
-                            val = raw.get(colname)
-                            return float(val) if val not in (None, "") else default
+                            amt_raw = raw.get(amount_col) if amount_col else None
+                            rec["funding_fy26"] = float(amt_raw) if amt_raw not in (None, "") else 0.0
                         except Exception:
-                            return default
+                            rec["funding_fy26"] = 0.0
 
-                    rec["lab_support_factor"] = _f(lab_support_col, 1.0)
-                    rec["industry_support_factor"] = _f(industry_support_col, 1.0)
+                        rec["funding_color"] = (raw.get(color_col) if color_col else None) or "RDT&E"
 
-                    stage_start = (raw.get(stage_start_col) if stage_start_col else None) or ""
-                    rec["stage_gate_start"] = stage_start
+                        # New workbook fields with defaults
+                        rec["portfolio"] = (raw.get(portfolio_col) if portfolio_col else None) or ""
 
-                    rec["authority_alignment_score"] = _f(authority_align_col, 0.5)
-                    rec["priority_alignment_nds"] = _f(nds_align_col, 0.5)
-                    rec["priority_alignment_ccmd"] = _f(ccmd_align_col, 0.5)
-                    rec["priority_alignment_service"] = _f(service_align_col, 0.5)
+                        def _f(colname: Optional[str], default: float) -> float:
+                            if not colname:
+                                return default
+                            try:
+                                val = raw.get(colname)
+                                return float(val) if val not in (None, "") else default
+                            except Exception:
+                                return default
 
-                    rec["digital_maturity_score"] = _f(digital_maturity_col, 0.5)
-                    rec["mbse_coverage"] = _f(mbse_coverage_col, 0.5)
-                    rec["shock_sensitivity"] = _f(shock_sensitivity_col, 0.5)
+                        rec["lab_support_factor"] = _f(lab_support_col, 1.0)
+                        rec["industry_support_factor"] = _f(industry_support_col, 1.0)
 
-                    deps_raw = (raw.get(deps_col) if deps_col else "") or ""
-                    rec["dependencies"] = deps_raw
-                    rec["program_status"] = (raw.get(status_col) if status_col else None) or "Active"
+                        stage_start = (raw.get(stage_start_col) if stage_start_col else None) or ""
+                        rec["stage_gate_start"] = stage_start
 
-                    rep_raw = (raw.get(reprogramming_col) if reprogramming_col else None)
-                    if isinstance(rep_raw, str):
-                        rec["reprogramming_eligible"] = rep_raw.strip().lower() in {"1", "true", "yes", "y"}
-                    elif rep_raw is None:
-                        rec["reprogramming_eligible"] = False
-                    else:
-                        rec["reprogramming_eligible"] = bool(rep_raw)
+                        rec["authority_alignment_score"] = _f(authority_align_col, 0.5)
+                        rec["priority_alignment_nds"] = _f(nds_align_col, 0.5)
+                        rec["priority_alignment_ccmd"] = _f(ccmd_align_col, 0.5)
+                        rec["priority_alignment_service"] = _f(service_align_col, 0.5)
 
-                    # Backfill stage_gate_start from budget activity if needed
-                    if not rec["stage_gate_start"]:
-                        ba = str(rec["budget_activity"]).upper()
-                        if ba.endswith("2"):
-                            rec["stage_gate_start"] = "feasibility"
-                        elif ba.endswith("3"):
-                            rec["stage_gate_start"] = "prototype_demo"
-                        elif ba.endswith("4"):
-                            rec["stage_gate_start"] = "functional_test"
-                        elif ba.endswith("5"):
-                            rec["stage_gate_start"] = "vulnerability_test"
-                        elif ba.endswith("6") or ba.endswith("7"):
-                            rec["stage_gate_start"] = "operational_test"
+                        rec["digital_maturity_score"] = _f(digital_maturity_col, 0.5)
+                        rec["mbse_coverage"] = _f(mbse_coverage_col, 0.5)
+                        rec["shock_sensitivity"] = _f(shock_sensitivity_col, 0.5)
 
-                    rows.append(rec)
+                        deps_raw = (raw.get(deps_col) if deps_col else "") or ""
+                        rec["dependencies"] = deps_raw
+                        rec["program_status"] = (raw.get(status_col) if status_col else None) or "Active"
+
+                        rep_raw = (raw.get(reprogramming_col) if reprogramming_col else None)
+                        if isinstance(rep_raw, str):
+                            rec["reprogramming_eligible"] = rep_raw.strip().lower() in {"1", "true", "yes", "y"}
+                        elif rep_raw is None:
+                            rec["reprogramming_eligible"] = False
+                        else:
+                            rec["reprogramming_eligible"] = bool(rep_raw)
+
+                        # Backfill stage_gate_start from budget activity if needed
+                        if not rec["stage_gate_start"]:
+                            ba = str(rec["budget_activity"]).upper()
+                            if ba.endswith("2"):
+                                rec["stage_gate_start"] = "feasibility"
+                            elif ba.endswith("3"):
+                                rec["stage_gate_start"] = "prototype_demo"
+                            elif ba.endswith("4"):
+                                rec["stage_gate_start"] = "functional_test"
+                            elif ba.endswith("5"):
+                                rec["stage_gate_start"] = "vulnerability_test"
+                            elif ba.endswith("6") or ba.endswith("7"):
+                                rec["stage_gate_start"] = "operational_test"
+
+                        rows.append(rec)
 
             logging.getLogger(__name__).info(f"Loaded RDT&E: {len(rows)} rows from {path}")
             return rows

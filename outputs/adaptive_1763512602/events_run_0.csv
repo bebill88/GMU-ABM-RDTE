@@ -1,0 +1,1022 @@
+authority,contract_org_type,domain,funding_color_weight,funding_source,gate,gate_dependency_mult,gate_evidence_mult,gate_penalty_factor,gate_portfolio_mult,gate_prob_base,gate_prob_final,gate_shock_factor,gate_status_mult,gate_support_mult,intel,kinetic,latency_in_stage,legal_caveats,legal_favorable,legal_penalty_applied,legal_status,legal_status_at_test,legal_status_mult,legal_unfavorable,org_type,outcome,prime_contractor,program_office,project_id,researcher_id,service_component,sponsor,stage,tick,trl
+Title50,,ISR,,Partner,attempt,,,,,,,,,,MASINT,NonKinetic,,,,,not_conducted,,,,Commercial,start,LM,PEO C4I,proj-35,35,Air Force,Agency,,0,3
+Title50,,ISR,1.0,Partner,funding,,,1.0,1.0,0.3,0.24,1.0,1.0,0.8,MASINT,NonKinetic,0,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,0,3
+Title10,,ISR,1.0,ProgramBase,attempt,,,1.0,1.0,0.3,0.24,1.0,1.0,0.8,SIGINT,Kinetic,,,,,not_conducted,,,,Commercial,start,LM,DARPA,proj-17,17,Army,CCMD,,1,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.9025,1.0,0.4,0.2888,1.0,1.0,0.8,SIGINT,Kinetic,0,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,1,4
+Title10,,Land,1.0,UFR,attempt,,,0.9025,1.0,0.4,0.2888,1.0,1.0,0.8,SIGINT,NonKinetic,,,,,not_conducted,,,,GovLab,start,NG,DARPA,proj-27,27,Space Force,CCMD,,1,4
+Title10,,Land,1.0,UFR,funding,,,1.0,1.0,0.28,0.224,1.0,1.0,0.8,SIGINT,NonKinetic,0,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,1,4
+Title50,,ISR,1.0,Partner,funding,,,0.731025,1.0,0.3,0.175446,1.0,1.0,0.8,MASINT,NonKinetic,1,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,1,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.652056,1.0,0.4,0.208658,1.0,1.0,0.8,SIGINT,Kinetic,1,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,2,4
+Title10,,Land,1.0,UFR,funding,,,0.814506,1.0,0.28,0.182449,1.0,1.0,0.8,SIGINT,NonKinetic,1,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,2,4
+Title10,,Air,1.0,POM,attempt,,,0.814506,1.0,0.28,0.182449,1.0,1.0,0.8,SIGINT,NonKinetic,,,,,not_conducted,,,,Commercial,start,LM,DARPA,proj-32,32,Navy,Service HQ,,2,3
+Title10,,Air,1.0,POM,funding,,,0.8,1.0,0.36,0.2304,1.0,1.0,0.8,SIGINT,NonKinetic,0,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,2,3
+Title50,,ISR,1.0,Partner,funding,,,0.486,1.0,0.3,0.11664,1.0,1.0,0.8,MASINT,NonKinetic,2,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,2,3
+Title50,,Cyber,1.0,POM,attempt,,,0.486,1.0,0.3,0.11664,1.0,1.0,0.8,OSINT,Kinetic,,,,,not_conducted,,,,GovLab,start,None,PEO C4I,proj-0,0,Space Force,POC-User,,3,2
+Title50,,Cyber,,POM,legal,,,,,,,,,,OSINT,Kinetic,0,0.35,0.45,0.0,unfavorable,,1.0,0.15,GovLab,unfavorable,None,PEO C4I,proj-0,0,Space Force,POC-User,feasibility,3,2
+Title50,,Air,,POM,attempt,,,,,,,,,,SIGINT,NonKinetic,,0.35,0.45,0.0,not_conducted,,1.0,0.15,GovContractor,start,NG,AFLCMC,proj-1,1,IC,POC-User,,3,4
+Title50,,Air,,POM,legal,,,,,,,,,,SIGINT,NonKinetic,0,0.354125,0.45125,0.0975,unfavorable,,1.0,0.144625,GovContractor,unfavorable,NG,AFLCMC,proj-1,1,IC,POC-User,feasibility,3,4
+Title10,Commercial,ISR,,ProgramBase,contracting,,,0.4725,,0.6,0.2835,,1.0,,SIGINT,Kinetic,2,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,3,4
+Title50,Commercial,Land,,UFR,attempt,,,0.4725,,0.6,0.2835,,1.0,,GEOINT,NonKinetic,,,,,not_conducted,,,,GovLab,start,Leidos,NAVWAR,proj-18,18,USMC,CCMD,,3,3
+Title50,,Land,,UFR,legal,,,,,,,,,,GEOINT,NonKinetic,0,0.400675,0.38475,0.2305,unfavorable,,1.0,0.164575,GovLab,unfavorable,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,3,3
+Title10,,Land,1.0,UFR,funding,,,0.61965,1.0,0.28,0.138802,1.0,1.0,0.8,SIGINT,NonKinetic,2,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,3,4
+Title10,,Air,1.0,POM,funding,,,0.568575,1.0,0.36,0.16375,1.0,1.0,0.8,SIGINT,NonKinetic,1,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,3,3
+Title50,,ISR,1.0,Partner,funding,,,0.354025,1.0,0.3,0.084966,1.0,1.0,0.8,MASINT,NonKinetic,3,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,3,3
+Title50,,Maritime,1.0,Partner,attempt,,,0.354025,1.0,0.3,0.084966,1.0,1.0,0.8,MASINT,Kinetic,,,,,not_conducted,,,,GovContractor,start,None,DARPA,proj-2,2,Army,POC-User,,4,3
+Title50,,Maritime,,Partner,legal,,,,,,,,,,MASINT,Kinetic,0,0.417375,0.35375,0.1925,unfavorable,,1.0,0.178875,GovContractor,unfavorable,None,DARPA,proj-2,2,Army,POC-User,feasibility,4,3
+Title10,,Land,,ProgramBase,attempt,,,,,,,,,,HUMINT,NonKinetic,,0.417375,0.35375,0.1925,not_conducted,,1.0,0.178875,GovLab,start,Leidos,NRL,proj-13,13,USMC,POC-User,,4,3
+Title10,,Land,,ProgramBase,legal,,,,,,,,,,HUMINT,NonKinetic,0,0.3606,0.442,0.316,unfavorable,,1.0,0.1474,GovLab,unfavorable,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,4,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.37485,1.0,0.4,0.119952,1.0,1.0,0.8,SIGINT,Kinetic,3,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,4,4
+Title50,,Land,1.0,UFR,attempt,,,0.37485,1.0,0.4,0.119952,1.0,1.0,0.8,GEOINT,NonKinetic,,,,,unfavorable,,,,GovLab,start,Leidos,NAVWAR,proj-18,18,USMC,CCMD,,4,3
+Title50,GovLab,Land,,UFR,contracting,,,0.605625,,0.6,0.363375,,1.0,,GEOINT,NonKinetic,0,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,4,3
+Title10,,Land,1.0,UFR,funding,,,0.4046,1.0,0.28,0.09063,1.0,1.0,0.8,SIGINT,NonKinetic,3,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,4,4
+Title10,Commercial,Air,,POM,contracting,,,0.5355,,0.6,0.3213,,1.0,,SIGINT,NonKinetic,2,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,4,3
+Title50,,ISR,1.0,Partner,funding,,,0.3136,1.0,0.3,0.075264,1.0,1.0,0.8,MASINT,NonKinetic,4,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,4,3
+Title10,,ISR,1.0,ProgramBase,attempt,,,0.3136,1.0,0.3,0.075264,1.0,1.0,0.8,HUMINT,Kinetic,,,,,not_conducted,,,,GovContractor,start,SAIC,DEVCOM,proj-12,12,USMC,CCMD,,5,2
+Title10,,ISR,,ProgramBase,legal,,,,,,,,,,HUMINT,Kinetic,0,0.420525,0.34925,0.4015,unfavorable,,1.0,0.180225,GovContractor,unfavorable,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,5,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.3332,1.0,0.4,0.106624,1.0,1.0,0.8,SIGINT,Kinetic,4,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,5,4
+Title50,GovLab,Land,,UFR,contracting,,,0.4725,,0.6,0.2835,,1.0,,GEOINT,NonKinetic,1,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,5,3
+Title50,GovLab,Cyber,,POM,attempt,,,0.4725,,0.6,0.2835,,1.0,,HUMINT,Kinetic,,,,,not_conducted,,,,Commercial,start,Boeing,DARPA,proj-23,23,USMC,CCMD,,5,2
+Title50,,Cyber,,POM,legal,,,,,,,,,,HUMINT,Kinetic,0,0.485205,0.25685,0.3863,unfavorable,,1.0,0.207945,Commercial,unfavorable,Boeing,DARPA,proj-23,23,USMC,CCMD,feasibility,5,2
+Title10,,Land,1.0,UFR,funding,,,0.3136,1.0,0.28,0.070246,1.0,1.0,0.8,SIGINT,NonKinetic,4,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,5,4
+Title10,,Air,1.0,POM,funding,,,0.4284,1.0,0.36,0.123379,1.0,1.0,0.8,SIGINT,NonKinetic,3,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,5,3
+Title50,,ISR,1.0,Partner,funding,,,0.275625,1.0,0.3,0.06615,1.0,1.0,0.8,MASINT,NonKinetic,5,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,5,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.294,1.0,0.4,0.09408,1.0,1.0,0.8,SIGINT,Kinetic,5,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,6,4
+Title50,,Land,1.0,UFR,funding,,,0.312375,1.0,0.28,0.069972,1.0,1.0,0.8,GEOINT,NonKinetic,2,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,6,3
+Title10,,Land,1.0,UFR,funding,,,0.25725,1.0,0.28,0.057624,1.0,1.0,0.8,SIGINT,NonKinetic,5,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,6,4
+Title10,Commercial,Air,,POM,contracting,,,0.42,,0.6,0.252,,1.0,,SIGINT,NonKinetic,4,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,6,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,6,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,6,3
+Title10,,Space,1.0,POM,attempt,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,HUMINT,Kinetic,,,,,not_conducted,,,,Commercial,start,Boeing,DARPA,proj-10,10,Space Force,POC-User,,7,4
+Title10,,Space,1.0,POM,funding,,,0.595,1.0,0.36,0.17136,1.0,1.0,0.8,HUMINT,Kinetic,0,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,7,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.25725,1.0,0.4,0.08232,1.0,1.0,0.8,SIGINT,Kinetic,6,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,7,4
+Title50,,Land,1.0,UFR,funding,,,0.2744,1.0,0.28,0.061466,1.0,1.0,0.8,GEOINT,NonKinetic,3,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,7,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,6,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,7,4
+Title10,Commercial,Air,,POM,contracting,,,0.3675,,0.6,0.2205,,1.0,,SIGINT,NonKinetic,5,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,7,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,7,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,7,3
+Title10,Commercial,Space,,POM,contracting,,,0.63175,,0.6,0.37905,,1.0,,HUMINT,Kinetic,1,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,8,4
+Title10,Commercial,ISR,,ProgramBase,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,Kinetic,7,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,8,4
+Title50,,Land,1.0,UFR,funding,,,0.25725,1.0,0.28,0.057624,1.0,1.0,0.8,GEOINT,NonKinetic,4,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,8,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,7,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,8,4
+Title50,,Maritime,1.0,External,attempt,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,HUMINT,Kinetic,,,,,not_conducted,,,,Commercial,start,SAIC,NAVWAR,proj-29,29,Navy,POC-User,,8,4
+Title50,Commercial,Maritime,,External,contracting,,,0.665,,0.6,0.399,,1.0,,HUMINT,Kinetic,0,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,8,4
+Title10,,Air,1.0,POM,funding,,,0.2744,1.0,0.36,0.079027,1.0,1.0,0.8,SIGINT,NonKinetic,6,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,8,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,8,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,8,3
+Title10,,Space,1.0,POM,funding,,,0.42525,1.0,0.36,0.122472,1.0,1.0,0.8,HUMINT,Kinetic,2,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,9,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,8,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,9,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,5,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,9,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,8,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,9,4
+Title50,,Maritime,1.0,External,funding,,,0.5985,1.0,0.32,0.153216,1.0,1.0,0.8,HUMINT,Kinetic,1,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,9,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,7,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,9,3
+Title50,,Cyber,1.0,Partner,attempt,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,Kinetic,,,,,not_conducted,,,,GovLab,start,Leidos,NRL,proj-34,34,IC,CCMD,,9,3
+Title50,,Cyber,1.0,Partner,funding,,,0.441,1.0,0.3,0.10584,1.0,1.0,0.8,GEOINT,Kinetic,0,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,9,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,9,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,9,3
+Title10,,Space,1.0,POM,funding,,,0.354025,1.0,0.36,0.101959,1.0,1.0,0.8,HUMINT,Kinetic,3,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,10,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,9,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,10,4
+Title50,GovLab,Land,,UFR,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,NonKinetic,6,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,10,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,9,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,10,4
+Title50,,Maritime,1.0,External,funding,,,0.508725,1.0,0.32,0.130234,1.0,1.0,0.8,HUMINT,Kinetic,2,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,10,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,8,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,10,3
+Title50,,Cyber,1.0,Partner,funding,,,0.395675,1.0,0.3,0.094962,1.0,1.0,0.8,GEOINT,Kinetic,1,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,10,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,10,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,10,3
+Title10,,Air,1.0,External,attempt,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,,,,,not_conducted,,,,Commercial,start,LM,DEVCOM,proj-37,37,USMC,CCMD,,10,4
+Title10,,Air,1.0,External,funding,,,0.441,1.0,0.32,0.112896,1.0,1.0,0.8,SIGINT,Kinetic,0,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,10,4
+Title10,,Space,1.0,POM,funding,,,0.3136,1.0,0.36,0.090317,1.0,1.0,0.8,HUMINT,Kinetic,4,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,11,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,10,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,11,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,7,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,11,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,10,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,11,4
+Title50,,Maritime,1.0,External,funding,,,0.4046,1.0,0.32,0.103578,1.0,1.0,0.8,HUMINT,Kinetic,3,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,11,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,9,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,11,3
+Title50,,Cyber,1.0,Partner,funding,,,0.3528,1.0,0.3,0.084672,1.0,1.0,0.8,GEOINT,Kinetic,2,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,11,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,11,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,11,3
+Title10,,Air,1.0,External,funding,,,0.3724,1.0,0.32,0.095334,1.0,1.0,0.8,SIGINT,Kinetic,1,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,11,4
+Title10,,Space,1.0,POM,funding,,,0.275625,1.0,0.36,0.07938,1.0,1.0,0.8,HUMINT,Kinetic,5,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,12,4
+Title10,,ISR,1.0,ProgramBase,attempt,,,0.275625,1.0,0.36,0.07938,1.0,1.0,0.8,HUMINT,Kinetic,,,,,unfavorable,,,,GovContractor,start,SAIC,DEVCOM,proj-12,12,USMC,CCMD,,12,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.4655,1.0,0.4,0.14896,1.0,1.0,0.8,HUMINT,Kinetic,0,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,12,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,11,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,12,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,8,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,12,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,11,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,12,4
+Title50,,Maritime,1.0,External,funding,,,0.315,1.0,0.32,0.08064,1.0,1.0,0.8,HUMINT,Kinetic,4,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,12,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,10,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,12,3
+Title50,,Cyber,1.0,Partner,funding,,,0.312375,1.0,0.3,0.07497,1.0,1.0,0.8,GEOINT,Kinetic,3,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,12,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,12,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,12,3
+Title10,,Air,1.0,External,funding,,,0.3087,1.0,0.32,0.079027,1.0,1.0,0.8,SIGINT,Kinetic,2,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,12,4
+Title10,,Space,1.0,Partner,attempt,,,0.3087,1.0,0.32,0.079027,1.0,1.0,0.8,SIGINT,Kinetic,,,,,not_conducted,,,,GovContractor,start,None,NAVWAR,proj-9,9,Air Force,CCMD,,13,4
+Title10,GovContractor,Space,,Partner,contracting,,,0.665,,0.65,0.43225,,1.0,,SIGINT,Kinetic,0,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,13,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,6,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,13,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.3969,1.0,0.4,0.127008,1.0,1.0,0.8,HUMINT,Kinetic,1,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,13,2
+Title10,,Land,1.0,ProgramBase,attempt,,,0.3969,1.0,0.4,0.127008,1.0,1.0,0.8,HUMINT,NonKinetic,,,,,unfavorable,,,,GovLab,start,Leidos,NRL,proj-13,13,USMC,POC-User,,13,3
+Title10,,Land,1.0,ProgramBase,funding,,,0.32585,1.0,0.4,0.104272,1.0,1.0,0.8,HUMINT,NonKinetic,0,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,13,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,12,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,13,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,9,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,13,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,12,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,13,4
+Title50,,Maritime,1.0,External,funding,,,0.25725,1.0,0.32,0.065856,1.0,1.0,0.8,HUMINT,Kinetic,5,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,13,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,11,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,13,3
+Title50,,Cyber,,Partner,test,1.0,0.5,0.4032,1.0,0.65,0.13104,1.0,1.0,,GEOINT,Kinetic,4,,,,favorable_with_caveats,favorable_with_caveats,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,13,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,13,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,13,3
+Title10,,Air,1.0,External,funding,,,0.29155,1.0,0.32,0.074637,1.0,1.0,0.8,SIGINT,Kinetic,3,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,13,4
+Title10,,Space,1.0,Partner,funding,,,0.395675,1.0,0.3,0.094962,1.0,1.0,0.8,SIGINT,Kinetic,1,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,14,4
+Title10,,Space,,POM,test,1.0,0.5,0.3675,1.0,0.71,0.130462,1.0,1.0,,HUMINT,Kinetic,7,,,,favorable,favorable,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,14,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.3332,1.0,0.4,0.106624,1.0,1.0,0.8,HUMINT,Kinetic,2,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,14,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.3087,1.0,0.4,0.098784,1.0,1.0,0.8,HUMINT,NonKinetic,1,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,14,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,13,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,14,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,10,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,14,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,13,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,14,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,6,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,14,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,12,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,14,3
+Title50,,Cyber,1.0,Partner,funding,,,0.25725,1.0,0.3,0.06174,1.0,1.0,0.8,GEOINT,Kinetic,5,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,14,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,14,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,14,3
+Title10,,Air,1.0,External,funding,,,0.2744,1.0,0.32,0.070246,1.0,1.0,0.8,SIGINT,Kinetic,4,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,14,4
+Title10,,Space,1.0,Partner,funding,,,0.33075,1.0,0.3,0.07938,1.0,1.0,0.8,SIGINT,Kinetic,2,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,15,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,8,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,15,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2744,1.0,0.4,0.087808,1.0,1.0,0.8,HUMINT,Kinetic,3,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,15,2
+Title10,GovLab,Land,,ProgramBase,contracting,,,0.4165,,0.6,0.2499,,1.0,,HUMINT,NonKinetic,2,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,15,3
+Title10,GovLab,Cyber,,ProgramBase,attempt,,,0.4165,,0.6,0.2499,,1.0,,MASINT,NonKinetic,,,,,not_conducted,,,,GovLab,start,None,NRL,proj-15,15,Navy,POC-User,,15,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.343,1.0,0.4,0.10976,1.0,1.0,0.8,MASINT,NonKinetic,0,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,15,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,14,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,15,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,11,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,15,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,14,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,15,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,7,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,15,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,13,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,15,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,6,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,15,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,15,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,15,3
+Title10,,Air,1.0,External,funding,,,0.25725,1.0,0.32,0.065856,1.0,1.0,0.8,SIGINT,Kinetic,5,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,15,4
+Title10,,Cyber,1.0,ProgramBase,attempt,,,0.25725,1.0,0.32,0.065856,1.0,1.0,0.8,GEOINT,Kinetic,,,,,not_conducted,,,,Commercial,start,SAIC,NRL,proj-39,39,IC,Service HQ,,15,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.343,1.0,0.4,0.10976,1.0,1.0,0.8,GEOINT,Kinetic,0,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,15,2
+Title10,,Cyber,1.0,ProgramBase,attempt,,,0.343,1.0,0.4,0.10976,1.0,1.0,0.8,SIGINT,NonKinetic,,,,,not_conducted,,,,Commercial,start,NG,AFLCMC,proj-3,3,Army,POC-User,,16,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.343,1.0,0.4,0.10976,1.0,1.0,0.8,SIGINT,NonKinetic,0,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,16,4
+Title10,,Space,1.0,Partner,funding,,,0.29155,1.0,0.3,0.069972,1.0,1.0,0.8,SIGINT,Kinetic,3,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,16,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,9,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,16,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.25725,1.0,0.4,0.08232,1.0,1.0,0.8,HUMINT,Kinetic,4,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,16,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2744,1.0,0.4,0.087808,1.0,1.0,0.8,HUMINT,NonKinetic,3,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,16,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.32585,1.0,0.4,0.104272,1.0,1.0,0.8,MASINT,NonKinetic,1,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,16,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,15,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,16,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,12,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,16,3
+Title10,,Land,1.0,POM,attempt,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,MASINT,Kinetic,,,,,not_conducted,,,,GovLab,start,NG,NAVWAR,proj-25,25,Air Force,Service HQ,,16,3
+Title10,,Land,1.0,POM,funding,,,0.343,1.0,0.36,0.098784,1.0,1.0,0.8,MASINT,Kinetic,0,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,16,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,15,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,16,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,8,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,16,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,14,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,16,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,7,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,16,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,16,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,16,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,6,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,16,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.32585,1.0,0.4,0.104272,1.0,1.0,0.8,GEOINT,Kinetic,1,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,16,2
+Title10,Commercial,Cyber,,ProgramBase,contracting,,,0.4655,,0.6,0.2793,,1.0,,SIGINT,NonKinetic,1,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,17,4
+Title10,,Space,1.0,Partner,funding,,,0.2744,1.0,0.3,0.065856,1.0,1.0,0.8,SIGINT,Kinetic,4,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,17,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,10,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,17,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,5,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,17,2
+Title10,GovLab,Land,,ProgramBase,test,,,0.3675,,0.6,0.2205,,1.0,,HUMINT,NonKinetic,4,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,17,3
+Title10,GovLab,Air,,POM,attempt,,,0.3675,,0.6,0.2205,,1.0,,GEOINT,NonKinetic,,,,,not_conducted,,,,GovLab,start,LM,NRL,proj-14,14,Navy,Agency,,17,2
+Title10,,Air,1.0,POM,funding,,,0.343,1.0,0.36,0.098784,1.0,1.0,0.8,GEOINT,NonKinetic,0,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,17,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.3087,1.0,0.4,0.098784,1.0,1.0,0.8,MASINT,NonKinetic,2,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,17,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,16,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,17,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,13,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,17,3
+Title10,,Land,1.0,POM,funding,,,0.32585,1.0,0.36,0.093845,1.0,1.0,0.8,MASINT,Kinetic,1,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,17,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,16,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,17,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,9,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,17,4
+Title10,Commercial,Air,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,15,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,17,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,8,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,17,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,17,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,17,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,7,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,17,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.3087,1.0,0.4,0.098784,1.0,1.0,0.8,GEOINT,Kinetic,2,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,17,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.3087,1.0,0.4,0.098784,1.0,1.0,0.8,SIGINT,NonKinetic,2,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,18,4
+Title10,,Air,1.0,External,attempt,,,0.3087,1.0,0.4,0.098784,1.0,1.0,0.8,OSINT,NonKinetic,,,,,not_conducted,,,,GovContractor,start,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,,18,4
+Title10,,Air,1.0,External,funding,,,0.343,1.0,0.32,0.087808,1.0,1.0,0.8,OSINT,NonKinetic,0,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,18,4
+Title10,,Space,1.0,Partner,funding,,,0.25725,1.0,0.3,0.06174,1.0,1.0,0.8,SIGINT,Kinetic,5,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,18,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,11,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,18,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,6,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,18,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,5,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,18,3
+Title10,,Air,1.0,POM,funding,,,0.32585,1.0,0.36,0.093845,1.0,1.0,0.8,GEOINT,NonKinetic,1,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,18,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.29155,1.0,0.4,0.093296,1.0,1.0,0.8,MASINT,NonKinetic,3,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,18,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,17,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,18,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,14,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,18,3
+Title10,,Land,1.0,POM,funding,,,0.3087,1.0,0.36,0.088906,1.0,1.0,0.8,MASINT,Kinetic,2,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,18,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,17,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,18,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,10,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,18,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,16,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,18,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,9,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,18,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,18,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,18,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,8,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,18,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.29155,1.0,0.4,0.093296,1.0,1.0,0.8,GEOINT,Kinetic,3,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,18,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.29155,1.0,0.4,0.093296,1.0,1.0,0.8,SIGINT,NonKinetic,3,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,19,4
+Title10,,Air,1.0,External,funding,,,0.32585,1.0,0.32,0.083418,1.0,1.0,0.8,OSINT,NonKinetic,1,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,19,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,6,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,19,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,12,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,19,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,7,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,19,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,6,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,19,3
+Title10,GovLab,Air,,POM,contracting,,,0.441,,0.6,0.2646,,1.0,,GEOINT,NonKinetic,2,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,19,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2744,1.0,0.4,0.087808,1.0,1.0,0.8,MASINT,NonKinetic,4,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,19,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,18,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,19,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,15,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,19,3
+Title10,,Land,1.0,POM,funding,,,0.29155,1.0,0.36,0.083966,1.0,1.0,0.8,MASINT,Kinetic,3,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,19,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,18,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,19,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,11,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,19,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,17,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,19,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,10,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,19,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,19,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,19,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,9,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,19,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2744,1.0,0.4,0.087808,1.0,1.0,0.8,GEOINT,Kinetic,4,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,19,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2744,1.0,0.4,0.087808,1.0,1.0,0.8,SIGINT,NonKinetic,4,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,20,4
+Title10,,Air,1.0,External,funding,,,0.3087,1.0,0.32,0.079027,1.0,1.0,0.8,OSINT,NonKinetic,2,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,20,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,7,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,20,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,13,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,20,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,8,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,20,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,7,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,20,3
+Title10,,Air,1.0,POM,funding,,,0.29155,1.0,0.36,0.083966,1.0,1.0,0.8,GEOINT,NonKinetic,3,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,20,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.25725,1.0,0.4,0.08232,1.0,1.0,0.8,MASINT,NonKinetic,5,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,20,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,19,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,20,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,16,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,20,3
+Title10,,Land,1.0,POM,funding,,,0.2744,1.0,0.36,0.079027,1.0,1.0,0.8,MASINT,Kinetic,4,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,20,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,19,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,20,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,12,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,20,4
+Title10,,EW,1.0,Partner_CoDev,attempt,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,NonKinetic,,,,,not_conducted,,,,GovLab,start,Boeing,AFLCMC,proj-30,30,IC,Agency,,20,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.7,1.0,0.34,0.1904,1.0,1.0,0.8,SIGINT,NonKinetic,0,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,20,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,18,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,20,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,11,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,20,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,20,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,20,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,10,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,20,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.25725,1.0,0.4,0.08232,1.0,1.0,0.8,GEOINT,Kinetic,5,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,20,2
+Title10,Commercial,Cyber,,ProgramBase,contracting,,,0.3675,,0.6,0.2205,,1.0,,SIGINT,NonKinetic,5,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,21,4
+Title10,,Air,1.0,External,funding,,,0.29155,1.0,0.32,0.074637,1.0,1.0,0.8,OSINT,NonKinetic,3,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,21,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,8,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,21,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,14,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,21,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,9,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,21,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,8,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,21,3
+Title10,,Air,1.0,POM,funding,,,0.2744,1.0,0.36,0.079027,1.0,1.0,0.8,GEOINT,NonKinetic,4,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,21,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,6,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,21,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,20,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,21,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,17,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,21,3
+Title10,,Land,1.0,POM,funding,,,0.25725,1.0,0.36,0.074088,1.0,1.0,0.8,MASINT,Kinetic,5,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,21,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,20,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,21,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,13,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,21,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.600162,1.0,0.34,0.163244,1.0,1.0,0.8,SIGINT,NonKinetic,1,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,21,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,19,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,21,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,12,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,21,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,21,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,21,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,11,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,21,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,6,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,21,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,6,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,22,4
+Title10,,Air,1.0,External,funding,,,0.2744,1.0,0.32,0.070246,1.0,1.0,0.8,OSINT,NonKinetic,4,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,22,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,9,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,22,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,15,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,22,4
+Title10,GovContractor,ISR,,ProgramBase,contracting,,,0.343,,0.65,0.22295,,1.0,,HUMINT,Kinetic,10,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,22,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,9,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,22,3
+Title10,,Air,1.0,POM,funding,,,0.25725,1.0,0.36,0.074088,1.0,1.0,0.8,GEOINT,NonKinetic,5,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,22,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,7,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,22,2
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,21,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,22,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,18,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,22,3
+Title10,,EW,1.0,Partner_CoDev,attempt,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,Kinetic,,,,,not_conducted,,,,Commercial,start,Leidos,NAVWAR,proj-20,20,Army,Service HQ,,22,4
+Title10,Commercial,EW,,Partner_CoDev,contracting,,,0.63,,0.6,0.378,,1.0,,GEOINT,Kinetic,0,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,22,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,6,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,22,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,21,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,22,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,14,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,22,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.48195,1.0,0.34,0.13109,1.0,1.0,0.8,SIGINT,NonKinetic,2,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,22,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,20,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,22,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,13,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,22,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,22,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,22,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,12,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,22,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,7,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,22,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,7,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,23,4
+Title10,,Air,1.0,External,funding,,,0.25725,1.0,0.32,0.065856,1.0,1.0,0.8,OSINT,NonKinetic,5,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,23,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,10,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,23,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,16,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,23,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,11,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,23,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,10,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,23,3
+Title10,GovLab,Air,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,NonKinetic,6,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,23,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,8,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,23,2
+Title50,,Maritime,1.0,Partner_CoDev,attempt,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,NonKinetic,,,,,not_conducted,,,,Commercial,start,None,AFLCMC,proj-16,16,Air Force,CCMD,,23,3
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.4165,1.0,0.34,0.113288,1.0,1.0,0.8,GEOINT,NonKinetic,0,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,23,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,22,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,23,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,19,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,23,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.4256,1.0,0.34,0.115763,1.0,1.0,0.8,GEOINT,Kinetic,1,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,23,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,7,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,23,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,22,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,23,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,15,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,23,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.334687,1.0,0.34,0.091035,1.0,1.0,0.8,SIGINT,NonKinetic,3,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,23,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,21,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,23,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,14,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,23,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,23,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,23,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,13,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,23,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,8,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,23,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,8,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,24,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,6,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,24,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,11,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,24,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,17,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,24,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,12,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,24,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,11,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,24,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,7,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,24,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,9,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,24,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.32585,1.0,0.34,0.088631,1.0,1.0,0.8,GEOINT,NonKinetic,1,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,24,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,23,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,24,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,20,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,24,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.3087,1.0,0.34,0.083966,1.0,1.0,0.8,GEOINT,Kinetic,2,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,24,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,8,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,24,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,23,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,24,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,16,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,24,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2744,1.0,0.34,0.074637,1.0,1.0,0.8,SIGINT,NonKinetic,4,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,24,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,22,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,24,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,15,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,24,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,24,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,24,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,14,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,24,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,9,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,24,2
+Title10,,Cyber,,ProgramBase,test,1.0,0.5,0.3332,1.0,0.73,0.121618,1.0,1.0,,SIGINT,NonKinetic,9,,,,favorable_with_caveats,favorable_with_caveats,,,Commercial,pass,NG,AFLCMC,proj-3,3,Army,POC-User,feasibility,25,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,7,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,25,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,12,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,25,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,18,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,25,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,13,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,25,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,12,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,25,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,8,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,25,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,10,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,25,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.3087,1.0,0.34,0.083966,1.0,1.0,0.8,GEOINT,NonKinetic,2,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,25,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,24,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,25,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,21,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,25,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.29155,1.0,0.34,0.079302,1.0,1.0,0.8,GEOINT,Kinetic,3,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,25,4
+Title50,,ISR,1.0,Partner,attempt,,,0.29155,1.0,0.34,0.079302,1.0,1.0,0.8,GEOINT,Kinetic,,,,,not_conducted,,,,GovLab,start,SAIC,DARPA,proj-22,22,Army,Agency,,25,4
+Title50,,ISR,1.0,Partner,funding,,,0.343,1.0,0.3,0.08232,1.0,1.0,0.8,GEOINT,Kinetic,0,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,25,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,9,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,25,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,24,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,25,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,17,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,25,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.25725,1.0,0.34,0.069972,1.0,1.0,0.8,SIGINT,NonKinetic,5,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,25,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,23,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,25,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,16,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,25,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,25,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,25,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,15,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,25,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,10,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,25,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,1,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,26,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,8,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,26,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,13,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,26,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,19,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,26,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,14,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,26,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,13,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,26,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,9,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,26,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,11,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,26,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.29155,1.0,0.34,0.079302,1.0,1.0,0.8,GEOINT,NonKinetic,3,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,26,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,25,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,26,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,22,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,26,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2744,1.0,0.34,0.074637,1.0,1.0,0.8,GEOINT,Kinetic,4,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,26,4
+Title50,,ISR,1.0,Partner,funding,,,0.32585,1.0,0.3,0.078204,1.0,1.0,0.8,GEOINT,Kinetic,1,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,26,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,10,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,26,3
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,25,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,26,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,18,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,26,4
+Title10,GovLab,EW,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,6,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,26,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,24,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,26,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,17,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,26,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,26,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,26,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,16,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,26,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,11,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,26,2
+Title50,,Maritime,1.0,Partner,attempt,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,Kinetic,,,,,unfavorable,,,,GovContractor,start,None,DARPA,proj-2,2,Army,POC-User,,27,3
+Title50,,Maritime,1.0,Partner,funding,,,0.32585,1.0,0.3,0.078204,1.0,1.0,0.8,MASINT,Kinetic,0,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,27,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,2,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,27,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,9,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,27,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,14,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,27,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,20,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,27,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,15,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,27,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,14,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,27,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,10,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,27,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,12,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,27,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2744,1.0,0.34,0.074637,1.0,1.0,0.8,GEOINT,NonKinetic,4,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,27,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,26,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,27,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,23,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,27,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.25725,1.0,0.34,0.069972,1.0,1.0,0.8,GEOINT,Kinetic,5,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,27,4
+Title50,,ISR,1.0,Partner,funding,,,0.3087,1.0,0.3,0.074088,1.0,1.0,0.8,GEOINT,Kinetic,2,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,27,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,11,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,27,3
+Title10,,Air,1.0,UFR,attempt,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,,,,,not_conducted,,,,GovLab,start,NG,PEO C4I,proj-26,26,Space Force,POC-User,,27,2
+Title10,,Air,1.0,UFR,funding,,,0.343,1.0,0.28,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,0,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,27,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,26,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,27,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,19,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,27,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,7,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,27,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,25,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,27,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,18,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,27,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,27,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,27,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,17,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,27,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,12,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,27,2
+Title50,,Maritime,1.0,Partner,funding,,,0.3087,1.0,0.3,0.074088,1.0,1.0,0.8,MASINT,Kinetic,1,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,28,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,3,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,28,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,10,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,28,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,15,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,28,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,21,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,28,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,16,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,28,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,15,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,28,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,11,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,28,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,13,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,28,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.25725,1.0,0.34,0.069972,1.0,1.0,0.8,GEOINT,NonKinetic,5,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,28,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,27,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,28,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,24,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,28,3
+Title10,Commercial,EW,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,Kinetic,6,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,28,4
+Title50,Commercial,EW,,Partner,attempt,,,0.343,,0.6,0.2058,,1.0,,SIGINT,Kinetic,,,,,not_conducted,,,,GovContractor,start,None,DEVCOM,proj-21,21,USMC,Agency,,28,4
+Title50,,EW,1.0,Partner,funding,,,0.343,1.0,0.3,0.08232,1.0,1.0,0.8,SIGINT,Kinetic,0,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,28,4
+Title50,,ISR,1.0,Partner,funding,,,0.29155,1.0,0.3,0.069972,1.0,1.0,0.8,GEOINT,Kinetic,3,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,28,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,12,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,28,3
+Title10,,Air,1.0,UFR,funding,,,0.32585,1.0,0.28,0.07299,1.0,1.0,0.8,SIGINT,NonKinetic,1,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,28,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,27,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,28,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,20,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,28,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,8,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,28,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,26,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,28,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,19,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,28,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,28,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,28,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,18,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,28,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,13,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,28,2
+Title50,,Maritime,1.0,Partner,funding,,,0.29155,1.0,0.3,0.069972,1.0,1.0,0.8,MASINT,Kinetic,2,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,29,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,4,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,29,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,11,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,29,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,16,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,29,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,22,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,29,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,17,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,29,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,16,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,29,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,12,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,29,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,14,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,29,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,6,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,29,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,28,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,29,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,25,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,29,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,7,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,29,4
+Title50,,EW,1.0,Partner,funding,,,0.32585,1.0,0.3,0.078204,1.0,1.0,0.8,SIGINT,Kinetic,1,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,29,4
+Title50,,ISR,1.0,Partner,funding,,,0.2744,1.0,0.3,0.065856,1.0,1.0,0.8,GEOINT,Kinetic,4,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,29,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,13,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,29,3
+Title10,,Air,,UFR,test,1.0,0.5,0.4788,1.0,0.73,0.174762,1.0,1.0,,SIGINT,NonKinetic,2,,,,favorable,favorable,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,29,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,28,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,29,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,21,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,29,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,9,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,29,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,27,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,29,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,20,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,29,3
+Title50,Commercial,ISR,,Partner,contracting,,,0.343,,0.6,0.2058,,1.0,,MASINT,NonKinetic,29,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,29,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,19,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,29,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,14,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,29,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2744,1.0,0.3,0.065856,1.0,1.0,0.8,MASINT,Kinetic,3,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,30,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,5,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,30,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,12,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,30,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,17,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,30,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,23,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,30,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,18,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,30,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,17,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,30,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,13,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,30,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,15,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,30,2
+Title50,Commercial,Maritime,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,NonKinetic,7,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,30,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,29,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,30,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,26,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,30,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,8,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,30,4
+Title50,,EW,1.0,Partner,funding,,,0.3087,1.0,0.3,0.074088,1.0,1.0,0.8,SIGINT,Kinetic,2,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,30,4
+Title50,GovLab,ISR,,Partner,contracting,,,0.3675,,0.6,0.2205,,1.0,,GEOINT,Kinetic,5,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,30,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,14,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,30,3
+Title10,,Air,1.0,UFR,funding,,,0.29155,1.0,0.28,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,3,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,30,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,29,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,30,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,22,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,30,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,10,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,30,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,28,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,30,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,21,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,30,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,30,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,30,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,20,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,30,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,15,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,30,2
+Title50,,Maritime,1.0,Partner,funding,,,0.25725,1.0,0.3,0.06174,1.0,1.0,0.8,MASINT,Kinetic,4,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,31,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,6,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,31,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,13,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,31,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,18,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,31,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,24,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,31,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,19,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,31,2
+Title10,GovLab,Land,,ProgramBase,test,,,0.343,,0.6,0.2058,,1.0,,HUMINT,NonKinetic,18,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,31,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,14,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,31,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,16,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,31,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,8,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,31,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,30,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,31,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,27,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,31,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,9,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,31,4
+Title50,,EW,1.0,Partner,funding,,,0.29155,1.0,0.3,0.069972,1.0,1.0,0.8,SIGINT,Kinetic,3,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,31,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,6,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,31,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,15,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,31,3
+Title10,,Air,1.0,UFR,funding,,,0.2744,1.0,0.28,0.061466,1.0,1.0,0.8,SIGINT,NonKinetic,4,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,31,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,30,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,31,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,23,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,31,4
+Title10,GovLab,EW,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,11,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,31,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,29,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,31,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,22,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,31,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,31,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,31,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,21,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,31,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,16,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,31,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,5,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,32,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,7,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,32,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,14,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,32,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,19,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,32,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,25,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,32,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,20,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,32,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,19,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,32,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,15,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,32,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,17,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,32,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,9,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,32,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,31,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,32,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,28,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,32,3
+Title10,Commercial,EW,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,Kinetic,10,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,32,4
+Title50,,EW,1.0,Partner,funding,,,0.2744,1.0,0.3,0.065856,1.0,1.0,0.8,SIGINT,Kinetic,4,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,32,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,7,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,32,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,16,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,32,3
+Title10,,Air,1.0,UFR,funding,,,0.25725,1.0,0.28,0.057624,1.0,1.0,0.8,SIGINT,NonKinetic,5,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,32,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,31,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,32,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,24,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,32,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,12,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,32,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,30,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,32,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,23,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,32,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,32,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,32,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,22,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,32,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,17,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,32,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,6,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,33,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,8,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,33,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,15,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,33,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,20,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,33,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,26,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,33,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,21,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,33,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,20,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,33,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,16,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,33,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,18,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,33,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,10,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,33,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,32,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,33,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,29,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,33,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,11,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,33,4
+Title50,GovContractor,EW,,Partner,contracting,,,0.3675,,0.65,0.238875,,1.0,,SIGINT,Kinetic,5,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,33,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,8,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,33,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,17,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,33,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,6,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,33,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,32,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,33,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,25,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,33,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,13,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,33,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,31,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,33,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,24,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,33,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,33,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,33,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,23,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,33,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,18,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,33,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,7,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,34,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,9,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,34,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,16,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,34,4
+Title10,,Space,,Partner,test,1.0,0.5,0.32585,1.0,0.68,0.110789,1.0,1.0,,SIGINT,Kinetic,21,,,,favorable_with_caveats,favorable_with_caveats,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,34,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,27,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,34,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,22,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,34,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,21,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,34,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,17,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,34,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,19,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,34,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,11,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,34,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,33,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,34,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,30,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,34,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,12,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,34,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,6,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,34,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,9,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,34,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,18,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,34,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,7,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,34,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,33,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,34,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,26,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,34,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,14,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,34,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,32,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,34,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,25,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,34,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,34,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,34,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,24,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,34,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,19,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,34,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,8,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,35,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,10,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,35,5
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,17,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,35,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,22,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,35,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,28,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,35,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,23,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,35,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,22,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,35,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,18,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,35,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,20,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,35,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,12,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,35,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,34,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,35,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,31,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,35,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,13,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,35,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,7,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,35,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,10,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,35,4
+Title50,,Maritime,1.0,External,attempt,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,HUMINT,Kinetic,,,,,not_conducted,,,,Commercial,start,LM,AFLCMC,proj-24,24,IC,Service HQ,,35,4
+Title50,,Maritime,1.0,External,funding,,,0.343,1.0,0.32,0.087808,1.0,1.0,0.8,HUMINT,Kinetic,0,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,35,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,19,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,35,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,8,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,35,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,34,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,35,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,27,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,35,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,15,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,35,4
+Title10,,Air,,POM,test,1.0,0.5,0.3087,1.0,0.73,0.112675,1.0,1.0,,SIGINT,NonKinetic,33,,,,favorable,favorable,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,35,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,26,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,35,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,35,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,35,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,25,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,35,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,20,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,35,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,9,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,36,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,11,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,36,5
+Title50,,Space,1.0,Partner_CoDev,attempt,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,,,,,not_conducted,,,,Commercial,start,None,AFLCMC,proj-6,6,Navy,POC-User,,36,4
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.343,1.0,0.34,0.093296,1.0,1.0,0.8,HUMINT,NonKinetic,0,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,36,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,18,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,36,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,23,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,36,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,29,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,36,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,24,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,36,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,23,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,36,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,19,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,36,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,21,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,36,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,13,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,36,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,35,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,36,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,32,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,36,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,14,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,36,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,8,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,36,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,11,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,36,4
+Title50,,Maritime,1.0,External,funding,,,0.32585,1.0,0.32,0.083418,1.0,1.0,0.8,HUMINT,Kinetic,1,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,36,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,20,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,36,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,9,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,36,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,35,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,36,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,28,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,36,4
+Title10,GovLab,EW,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,16,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,36,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,34,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,36,3
+Title50,GovLab,Cyber,,Partner,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,Kinetic,27,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,36,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,36,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,36,3
+Title10,Commercial,Air,,External,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,Kinetic,26,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,36,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,21,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,36,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,10,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,37,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,12,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,37,5
+Title50,,ISR,1.0,External,attempt,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,OSINT,Kinetic,,,,,not_conducted,,,,GovContractor,start,Leidos,DEVCOM,proj-5,5,Air Force,CCMD,,37,2
+Title50,,ISR,1.0,External,funding,,,0.343,1.0,0.32,0.087808,1.0,1.0,0.8,OSINT,Kinetic,0,,,,not_conducted,,,,GovContractor,fail,Leidos,DEVCOM,proj-5,5,Air Force,CCMD,feasibility,37,2
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.32585,1.0,0.34,0.088631,1.0,1.0,0.8,HUMINT,NonKinetic,1,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,37,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,19,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,37,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,24,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,37,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,30,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,37,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,25,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,37,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,24,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,37,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,20,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,37,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,22,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,37,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,14,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,37,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,36,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,37,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,33,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,37,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,15,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,37,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,9,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,37,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,12,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,37,4
+Title50,,Maritime,1.0,External,funding,,,0.3087,1.0,0.32,0.079027,1.0,1.0,0.8,HUMINT,Kinetic,2,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,37,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,21,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,37,3
+Title10,GovLab,Air,,UFR,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,10,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,37,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,36,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,37,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,29,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,37,4
+Title10,GovLab,EW,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,17,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,37,4
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,35,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,37,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,28,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,37,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,37,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,37,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,27,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,37,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,22,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,37,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,11,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,38,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,13,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,38,5
+Title50,,ISR,,External,legal,,,,,,,,,,OSINT,Kinetic,1,0.583916,0.115834,0.668331,unfavorable,,1.0,0.25025,GovContractor,unfavorable,Leidos,DEVCOM,proj-5,5,Air Force,CCMD,feasibility,38,2
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.3087,1.0,0.34,0.083966,1.0,1.0,0.8,HUMINT,NonKinetic,2,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,38,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,20,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,38,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,25,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,38,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,31,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,38,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,26,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,38,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,25,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,38,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,21,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,38,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,23,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,38,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,15,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,38,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,37,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,38,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,34,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,38,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,16,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,38,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,10,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,38,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,13,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,38,4
+Title50,,Maritime,1.0,External,funding,,,0.29155,1.0,0.32,0.074637,1.0,1.0,0.8,HUMINT,Kinetic,3,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,38,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,22,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,38,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,11,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,38,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,37,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,38,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,30,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,38,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,18,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,38,4
+Title50,,Air,1.0,External,attempt,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,MASINT,Kinetic,,,,,not_conducted,,,,Commercial,start,Boeing,NRL,proj-31,31,USMC,CCMD,,38,2
+Title50,,Air,1.0,External,funding,,,0.343,1.0,0.32,0.087808,1.0,1.0,0.8,MASINT,Kinetic,0,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,38,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,36,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,38,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,29,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,38,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,38,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,38,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,28,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,38,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,23,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,38,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,12,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,39,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,14,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,39,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.29155,1.0,0.34,0.079302,1.0,1.0,0.8,HUMINT,NonKinetic,3,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,39,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,21,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,39,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,26,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,39,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,32,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,39,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,27,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,39,2
+Title10,GovLab,Land,,ProgramBase,contracting,,,0.343,,0.6,0.2058,,1.0,,HUMINT,NonKinetic,26,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,39,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,22,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,39,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,24,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,39,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,16,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,39,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,38,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,39,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,35,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,39,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,17,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,39,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,11,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,39,4
+Title50,GovLab,ISR,,Partner,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,Kinetic,14,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,39,4
+Title50,,Maritime,1.0,External,funding,,,0.2744,1.0,0.32,0.070246,1.0,1.0,0.8,HUMINT,Kinetic,4,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,39,4
+Title10,GovLab,Land,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,MASINT,Kinetic,23,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,39,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,12,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,39,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,38,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,39,4
+Title50,Commercial,Maritime,,External,contracting,,,0.343,,0.6,0.2058,,1.0,,HUMINT,Kinetic,31,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,39,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,19,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,39,4
+Title50,,Air,1.0,External,funding,,,0.32585,1.0,0.32,0.083418,1.0,1.0,0.8,MASINT,Kinetic,1,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,39,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,37,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,39,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,30,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,39,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,39,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,39,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,29,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,39,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,24,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,39,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,13,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,40,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,15,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,40,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2744,1.0,0.34,0.074637,1.0,1.0,0.8,HUMINT,NonKinetic,4,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,40,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,22,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,40,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,27,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,40,4
+Title10,Commercial,Space,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,HUMINT,Kinetic,33,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,40,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,28,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,40,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,27,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,40,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,23,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,40,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,25,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,40,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,17,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,40,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,39,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,40,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,36,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,40,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,18,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,40,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,12,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,40,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,15,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,40,4
+Title50,,Maritime,1.0,External,funding,,,0.25725,1.0,0.32,0.065856,1.0,1.0,0.8,HUMINT,Kinetic,5,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,40,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,24,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,40,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,13,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,40,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,39,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,40,4
+Title50,Commercial,Maritime,,External,contracting,,,0.343,,0.6,0.2058,,1.0,,HUMINT,Kinetic,32,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,40,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,20,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,40,4
+Title50,,Air,1.0,External,funding,,,0.3087,1.0,0.32,0.079027,1.0,1.0,0.8,MASINT,Kinetic,2,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,40,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,38,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,40,3
+Title50,,Cyber,1.0,Partner,attempt,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,NonKinetic,,,,,not_conducted,,,,GovContractor,start,SAIC,NAVWAR,proj-33,33,Navy,Agency,,40,3
+Title50,,Cyber,1.0,Partner,funding,,,0.343,1.0,0.3,0.08232,1.0,1.0,0.8,MASINT,NonKinetic,0,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,40,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,31,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,40,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,40,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,40,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,30,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,40,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,25,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,40,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,14,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,41,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,16,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,41,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.25725,1.0,0.34,0.069972,1.0,1.0,0.8,HUMINT,NonKinetic,5,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,41,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,23,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,41,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,28,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,41,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,34,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,41,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,29,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,41,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,28,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,41,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,24,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,41,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,26,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,41,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,18,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,41,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,40,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,41,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,37,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,41,3
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,19,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,41,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,13,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,41,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,16,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,41,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,6,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,41,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,25,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,41,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,14,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,41,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,40,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,41,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,33,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,41,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,21,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,41,4
+Title50,,Air,1.0,External,funding,,,0.29155,1.0,0.32,0.074637,1.0,1.0,0.8,MASINT,Kinetic,3,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,41,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,39,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,41,3
+Title50,,Cyber,1.0,Partner,funding,,,0.32585,1.0,0.3,0.078204,1.0,1.0,0.8,MASINT,NonKinetic,1,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,41,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,32,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,41,3
+Title50,,ISR,,Partner,test,1.0,0.5,0.3087,1.0,0.7,0.108045,1.0,1.0,,MASINT,NonKinetic,41,,,,favorable_with_caveats,favorable_with_caveats,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,41,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,31,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,41,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,26,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,41,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,15,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,42,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,17,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,42,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,6,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,42,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,24,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,42,4
+Title50,,Space,1.0,External,attempt,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,,,,,not_conducted,,,,GovLab,start,Leidos,DARPA,proj-8,8,Navy,Service HQ,,42,2
+Title50,,Space,,External,legal,,,,,,,,,,HUMINT,Kinetic,0,0.591955,0.10435,0.6913,unfavorable,,1.0,0.253695,GovLab,unfavorable,Leidos,DARPA,proj-8,8,Navy,Service HQ,feasibility,42,2
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,29,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,42,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,35,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,42,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,30,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,42,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,29,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,42,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,25,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,42,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,27,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,42,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,19,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,42,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,41,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,42,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,38,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,42,3
+Title10,,Cyber,1.0,ProgramBase,attempt,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,,,,,not_conducted,,,,Commercial,start,NG,NAVWAR,proj-19,19,Army,CCMD,,42,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.343,1.0,0.4,0.10976,1.0,1.0,0.8,GEOINT,NonKinetic,0,,,,favorable,,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,42,4
+Title10,Commercial,EW,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,Kinetic,20,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,42,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,14,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,42,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,17,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,42,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,7,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,42,4
+Title10,GovLab,Land,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,MASINT,Kinetic,26,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,42,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,15,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,42,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,41,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,42,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,34,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,42,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,22,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,42,4
+Title50,,Air,1.0,External,funding,,,0.2744,1.0,0.32,0.070246,1.0,1.0,0.8,MASINT,Kinetic,4,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,42,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,40,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,42,3
+Title50,,Cyber,1.0,Partner,funding,,,0.3087,1.0,0.3,0.074088,1.0,1.0,0.8,MASINT,NonKinetic,2,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,42,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,33,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,42,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,42,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,42,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,32,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,42,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,27,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,42,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,16,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,43,3
+Title10,,Cyber,,ProgramBase,test,1.0,0.5,0.29155,1.0,0.71,0.1035,1.0,1.0,,SIGINT,NonKinetic,18,,,,favorable_with_caveats,favorable_with_caveats,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,43,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,7,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,43,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,25,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,43,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,30,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,43,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,36,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,43,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,31,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,43,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,30,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,43,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,26,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,43,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,28,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,43,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,20,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,43,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,42,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,43,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,39,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,43,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.32585,1.0,0.4,0.104272,1.0,1.0,0.8,GEOINT,NonKinetic,1,,,,favorable,,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,43,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,21,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,43,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,15,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,43,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,18,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,43,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,8,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,43,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,27,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,43,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,16,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,43,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,42,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,43,4
+Title50,,Land,1.0,Partner,attempt,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,HUMINT,NonKinetic,,,,,not_conducted,,,,GovContractor,start,SAIC,NRL,proj-28,28,IC,Agency,,43,2
+Title50,,Land,1.0,Partner,funding,,,0.343,1.0,0.3,0.08232,1.0,1.0,0.8,HUMINT,NonKinetic,0,,,,not_conducted,,,,GovContractor,fail,SAIC,NRL,proj-28,28,IC,Agency,feasibility,43,2
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,35,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,43,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,23,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,43,4
+Title50,,Air,1.0,External,funding,,,0.25725,1.0,0.32,0.065856,1.0,1.0,0.8,MASINT,Kinetic,5,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,43,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,41,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,43,3
+Title50,,Cyber,1.0,Partner,funding,,,0.29155,1.0,0.3,0.069972,1.0,1.0,0.8,MASINT,NonKinetic,3,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,43,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,34,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,43,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,43,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,43,3
+Title10,Commercial,Air,,External,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,Kinetic,33,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,43,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,28,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,43,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,17,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,44,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,19,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,44,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,8,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,44,4
+Title10,,Air,,External,test,1.0,0.5,0.29155,1.0,0.73,0.106416,1.0,1.0,,OSINT,NonKinetic,26,,,,favorable_with_caveats,favorable_with_caveats,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,44,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,31,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,44,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,37,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,44,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,32,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,44,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,31,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,44,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,27,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,44,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,29,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,44,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,21,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,44,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,43,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,44,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,40,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,44,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.3087,1.0,0.4,0.098784,1.0,1.0,0.8,GEOINT,NonKinetic,2,,,,favorable,,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,44,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,22,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,44,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,16,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,44,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,19,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,44,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,9,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,44,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,28,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,44,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,17,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,44,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,43,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,44,4
+Title50,,Land,1.0,Partner,funding,,,0.32585,1.0,0.3,0.078204,1.0,1.0,0.8,HUMINT,NonKinetic,1,,,,favorable,,,,GovContractor,fail,SAIC,NRL,proj-28,28,IC,Agency,feasibility,44,2
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,36,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,44,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,24,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,44,4
+Title50,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,MASINT,Kinetic,6,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,44,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,42,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,44,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2744,1.0,0.3,0.065856,1.0,1.0,0.8,MASINT,NonKinetic,4,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,44,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,35,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,44,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,44,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,44,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,34,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,44,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,29,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,44,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,18,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,45,3
+Title10,,Cyber,,ProgramBase,test,1.0,0.5,0.2744,1.0,0.71,0.097412,1.0,1.0,,SIGINT,NonKinetic,20,,,,favorable_with_caveats,favorable_with_caveats,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,45,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,9,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,45,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,27,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,45,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,32,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,45,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,38,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,45,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,33,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,45,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,32,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,45,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,28,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,45,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,30,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,45,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,22,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,45,3
+Title10,Commercial,ISR,,ProgramBase,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,Kinetic,44,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,45,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,41,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,45,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.29155,1.0,0.4,0.093296,1.0,1.0,0.8,GEOINT,NonKinetic,3,,,,favorable,,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,45,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,23,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,45,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,17,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,45,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,20,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,45,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,10,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,45,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,29,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,45,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,18,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,45,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,44,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,45,4
+Title50,,Land,1.0,Partner,funding,,,0.3087,1.0,0.3,0.074088,1.0,1.0,0.8,HUMINT,NonKinetic,2,,,,favorable,,,,GovContractor,fail,SAIC,NRL,proj-28,28,IC,Agency,feasibility,45,2
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,37,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,45,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,25,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,45,4
+Title50,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,MASINT,Kinetic,7,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,45,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,43,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,45,3
+Title50,,Cyber,1.0,Partner,funding,,,0.25725,1.0,0.3,0.06174,1.0,1.0,0.8,MASINT,NonKinetic,5,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,45,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,36,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,45,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,45,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,45,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,35,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,45,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,30,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,45,2
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,19,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,46,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,21,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,46,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,10,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,46,4
+Title10,GovContractor,Air,,External,contracting,,,0.343,,0.65,0.22295,,1.0,,OSINT,NonKinetic,28,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,46,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,33,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,46,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,39,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,46,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,34,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,46,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,33,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,46,3
+Title10,GovLab,Air,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,NonKinetic,29,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,46,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,31,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,46,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,23,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,46,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,45,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,46,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,42,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,46,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2744,1.0,0.4,0.087808,1.0,1.0,0.8,GEOINT,NonKinetic,4,,,,favorable,,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,46,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,24,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,46,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,18,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,46,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,21,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,46,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,11,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,46,4
+Title10,,Land,,POM,test,1.0,0.5,0.2744,1.0,0.65,0.08918,1.0,1.0,,MASINT,Kinetic,30,,,,favorable_with_caveats,favorable_with_caveats,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,46,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,19,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,46,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,45,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,46,4
+Title50,,Land,1.0,Partner,funding,,,0.29155,1.0,0.3,0.069972,1.0,1.0,0.8,HUMINT,NonKinetic,3,,,,favorable,,,,GovContractor,fail,SAIC,NRL,proj-28,28,IC,Agency,feasibility,46,2
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,38,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,46,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,26,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,46,4
+Title50,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,MASINT,Kinetic,8,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,46,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,44,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,46,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,6,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,46,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,37,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,46,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,46,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,46,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,36,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,46,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,31,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,46,2
+Title50,,Air,1.0,POM,attempt,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,,,,,unfavorable,,,,GovContractor,start,NG,AFLCMC,proj-1,1,IC,POC-User,,47,4
+Title50,,Air,1.0,POM,funding,,,0.32585,1.0,0.36,0.093845,1.0,1.0,0.8,SIGINT,NonKinetic,0,,,,unfavorable,,,,GovContractor,fail,NG,AFLCMC,proj-1,1,IC,POC-User,feasibility,47,4
+Title50,GovContractor,Maritime,,Partner,contracting,,,0.343,,0.65,0.22295,,1.0,,MASINT,Kinetic,20,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,47,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,22,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,47,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,11,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,47,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,29,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,47,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,34,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,47,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,40,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,47,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,35,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,47,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,34,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,47,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,30,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,47,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,32,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,47,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,24,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,47,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,46,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,47,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,43,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,47,3
+Title10,Commercial,Cyber,,ProgramBase,contracting,,,0.3675,,0.6,0.2205,,1.0,,GEOINT,NonKinetic,5,,,,favorable,,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,47,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,25,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,47,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,19,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,47,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,22,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,47,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,12,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,47,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,31,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,47,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,20,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,47,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,46,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,47,4
+Title50,GovContractor,Land,,Partner,contracting,,,0.392,,0.65,0.2548,,1.0,,HUMINT,NonKinetic,4,,,,favorable,,,,GovContractor,fail,SAIC,NRL,proj-28,28,IC,Agency,feasibility,47,2
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,39,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,47,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,27,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,47,4
+Title50,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,MASINT,Kinetic,9,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,47,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,45,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,47,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,7,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,47,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,38,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,47,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,47,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,47,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,37,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,47,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,32,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,47,2
+Title50,,Air,1.0,POM,funding,,,0.3087,1.0,0.36,0.088906,1.0,1.0,0.8,SIGINT,NonKinetic,1,,,,unfavorable,,,,GovContractor,fail,NG,AFLCMC,proj-1,1,IC,POC-User,feasibility,48,4
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,21,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,48,3
+Title10,Commercial,Cyber,,ProgramBase,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,23,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,48,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,12,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,48,4
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,OSINT,NonKinetic,30,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,48,4
+Title10,,Space,,Partner,test,1.0,0.5,0.29155,1.0,0.68,0.099127,1.0,1.0,,SIGINT,Kinetic,35,,,,favorable_with_caveats,favorable_with_caveats,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,48,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,41,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,48,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,36,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,48,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,35,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,48,3
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,GEOINT,NonKinetic,31,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,48,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,33,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,48,2
+Title50,,Maritime,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,NonKinetic,25,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,48,3
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,Kinetic,47,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,48,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,44,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,48,3
+Title10,,Cyber,,ProgramBase,test,1.0,0.5,0.25725,1.0,0.76,0.097755,1.0,1.0,,GEOINT,NonKinetic,6,,,,favorable,favorable,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,48,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,26,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,48,4
+Title50,GovContractor,EW,,Partner,contracting,,,0.343,,0.65,0.22295,,1.0,,SIGINT,Kinetic,20,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,48,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,23,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,48,4
+Title50,Commercial,Maritime,,External,contracting,,,0.343,,0.6,0.2058,,1.0,,HUMINT,Kinetic,13,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,48,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,32,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,48,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,21,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,48,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,47,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,48,4
+Title50,,Land,1.0,Partner,funding,,,0.25725,1.0,0.3,0.06174,1.0,1.0,0.8,HUMINT,NonKinetic,5,,,,favorable,,,,GovContractor,fail,SAIC,NRL,proj-28,28,IC,Agency,feasibility,48,2
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,40,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,48,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,28,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,48,4
+Title50,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,MASINT,Kinetic,10,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,48,2
+Title10,,Air,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,SIGINT,NonKinetic,46,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,48,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,8,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,48,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,39,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,48,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,48,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,48,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,38,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,48,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,33,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,48,2
+Title50,,Air,1.0,POM,funding,,,0.29155,1.0,0.36,0.083966,1.0,1.0,0.8,SIGINT,NonKinetic,2,,,,unfavorable,,,,GovContractor,fail,NG,AFLCMC,proj-1,1,IC,POC-User,feasibility,49,4
+Title50,,Maritime,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,Kinetic,22,,,,unfavorable,,,,GovContractor,fail,None,DARPA,proj-2,2,Army,POC-User,feasibility,49,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,SIGINT,NonKinetic,24,,,,favorable_with_caveats,,,,Commercial,fail,NG,AFLCMC,proj-3,3,Army,POC-User,prototype_demo,49,5
+Title50,,Space,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,HUMINT,NonKinetic,13,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-6,6,Navy,POC-User,feasibility,49,4
+Title10,GovContractor,Air,,External,contracting,,,0.343,,0.65,0.22295,,1.0,,OSINT,NonKinetic,31,,,,favorable_with_caveats,,,,GovContractor,fail,Leidos,NAVWAR,proj-7,7,Space Force,Service HQ,feasibility,49,4
+Title10,,Space,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,36,,,,favorable_with_caveats,,,,GovContractor,fail,None,NAVWAR,proj-9,9,Air Force,CCMD,feasibility,49,4
+Title10,,Space,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,HUMINT,Kinetic,42,,,,favorable,,,,Commercial,fail,Boeing,DARPA,proj-10,10,Space Force,POC-User,feasibility,49,4
+Title10,,ISR,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,Kinetic,37,,,,unfavorable,,,,GovContractor,fail,SAIC,DEVCOM,proj-12,12,USMC,CCMD,feasibility,49,2
+Title10,,Land,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,HUMINT,NonKinetic,36,,,,unfavorable,,,,GovLab,fail,Leidos,NRL,proj-13,13,USMC,POC-User,feasibility,49,3
+Title10,GovLab,Air,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,NonKinetic,32,,,,favorable_with_caveats,,,,GovLab,fail,LM,NRL,proj-14,14,Navy,Agency,feasibility,49,2
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,MASINT,NonKinetic,34,,,,favorable_with_caveats,,,,GovLab,fail,None,NRL,proj-15,15,Navy,POC-User,feasibility,49,2
+Title50,Commercial,Maritime,,Partner_CoDev,contracting,,,0.343,,0.6,0.2058,,1.0,,GEOINT,NonKinetic,26,,,,favorable_with_caveats,,,,Commercial,fail,None,AFLCMC,proj-16,16,Air Force,CCMD,feasibility,49,3
+Title10,Commercial,ISR,,ProgramBase,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,Kinetic,48,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-17,17,Army,CCMD,feasibility,49,4
+Title50,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,GEOINT,NonKinetic,45,,,,unfavorable,,,,GovLab,fail,Leidos,NAVWAR,proj-18,18,USMC,CCMD,feasibility,49,3
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,NonKinetic,7,,,,favorable,,,,Commercial,fail,NG,NAVWAR,proj-19,19,Army,CCMD,feasibility,49,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,GEOINT,Kinetic,27,,,,favorable_with_caveats,,,,Commercial,fail,Leidos,NAVWAR,proj-20,20,Army,Service HQ,feasibility,49,4
+Title50,,EW,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,SIGINT,Kinetic,21,,,,favorable_with_caveats,,,,GovContractor,fail,None,DEVCOM,proj-21,21,USMC,Agency,feasibility,49,4
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,24,,,,favorable,,,,GovLab,fail,SAIC,DARPA,proj-22,22,Army,Agency,feasibility,49,4
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,14,,,,favorable_with_caveats,,,,Commercial,fail,LM,AFLCMC,proj-24,24,IC,Service HQ,feasibility,49,4
+Title10,,Land,1.0,POM,funding,,,0.2401,1.0,0.36,0.069149,1.0,1.0,0.8,MASINT,Kinetic,33,,,,favorable_with_caveats,,,,GovLab,fail,NG,NAVWAR,proj-25,25,Air Force,Service HQ,feasibility,49,3
+Title10,,Air,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,22,,,,favorable,,,,GovLab,fail,NG,PEO C4I,proj-26,26,Space Force,POC-User,feasibility,49,2
+Title10,,Land,1.0,UFR,funding,,,0.2401,1.0,0.28,0.053782,1.0,1.0,0.8,SIGINT,NonKinetic,48,,,,favorable_with_caveats,,,,GovLab,fail,NG,DARPA,proj-27,27,Space Force,CCMD,feasibility,49,4
+Title50,,Land,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,HUMINT,NonKinetic,6,,,,favorable,,,,GovContractor,fail,SAIC,NRL,proj-28,28,IC,Agency,feasibility,49,2
+Title50,,Maritime,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,HUMINT,Kinetic,41,,,,favorable,,,,Commercial,fail,SAIC,NAVWAR,proj-29,29,Navy,POC-User,feasibility,49,4
+Title10,,EW,1.0,Partner_CoDev,funding,,,0.2401,1.0,0.34,0.065307,1.0,1.0,0.8,SIGINT,NonKinetic,29,,,,favorable_with_caveats,,,,GovLab,fail,Boeing,AFLCMC,proj-30,30,IC,Agency,feasibility,49,4
+Title50,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,MASINT,Kinetic,11,,,,favorable,,,,Commercial,fail,Boeing,NRL,proj-31,31,USMC,CCMD,feasibility,49,2
+Title10,Commercial,Air,,POM,contracting,,,0.343,,0.6,0.2058,,1.0,,SIGINT,NonKinetic,47,,,,favorable,,,,Commercial,fail,LM,DARPA,proj-32,32,Navy,Service HQ,feasibility,49,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,9,,,,favorable_with_caveats,,,,GovContractor,fail,SAIC,NAVWAR,proj-33,33,Navy,Agency,feasibility,49,3
+Title50,,Cyber,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,GEOINT,Kinetic,40,,,,favorable_with_caveats,,,,GovLab,fail,Leidos,NRL,proj-34,34,IC,CCMD,feasibility,49,3
+Title50,,ISR,1.0,Partner,funding,,,0.2401,1.0,0.3,0.057624,1.0,1.0,0.8,MASINT,NonKinetic,49,,,,favorable_with_caveats,,,,Commercial,fail,LM,PEO C4I,proj-35,35,Air Force,Agency,feasibility,49,3
+Title10,,Air,1.0,External,funding,,,0.2401,1.0,0.32,0.061466,1.0,1.0,0.8,SIGINT,Kinetic,39,,,,favorable,,,,Commercial,fail,LM,DEVCOM,proj-37,37,USMC,CCMD,feasibility,49,4
+Title10,,Cyber,1.0,ProgramBase,funding,,,0.2401,1.0,0.4,0.076832,1.0,1.0,0.8,GEOINT,Kinetic,34,,,,favorable,,,,Commercial,fail,SAIC,NRL,proj-39,39,IC,Service HQ,feasibility,49,2

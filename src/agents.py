@@ -49,6 +49,9 @@ class ResearcherAgent(Agent):
         self.trl: int = int(self.random.randint(2, 4))
         self.current_stage_index: Optional[int] = None
         self.stage_enter_tick: Optional[int] = None
+        # Per-project attempt/transition counters for focused projections
+        self.attempts: int = 0
+        self.transitions: int = 0
 
         # Program context attributes.
         # If an RDT&E program row is provided, prefer its fields; otherwise fall back to toy distributions.
@@ -167,13 +170,8 @@ class ResearcherAgent(Agent):
             self.align_ccmd = self.priority_alignment_ccmd >= 0.5
             self.align_agency = self.priority_alignment_service >= 0.5
 
-        # Precompute alignment score (0..1)
-        self.alignment_score = (
-            (1.0 if self.align_priority else 0.0)
-            + (1.0 if self.align_nds else 0.0)
-            + (1.0 if self.align_ccmd else 0.0)
-            + (1.0 if self.align_agency else 0.0)
-        ) / 4.0
+        # Apply scenario-level profiles and recompute alignment score
+        self._apply_scenario_profiles()
 
     def _stage_from_budget_activity(self, budget_activity: str) -> str:
         """
@@ -192,6 +190,122 @@ class ResearcherAgent(Agent):
         if ba.endswith("6") or ba.endswith("7"):
             return "operational_test"
         return "feasibility"
+
+    def _apply_scenario_profiles(self) -> None:
+        """
+        Apply scenario-level GUI profiles (from the model) to this
+        researcher's program attributes, then recompute alignment score.
+        """
+        model = getattr(self, "model", None)
+        if model is not None:
+            # Portfolio/domain focus
+            focus = getattr(model, "portfolio_focus", "Mixed")
+            if isinstance(focus, str) and focus != "Mixed":
+                if self.random.random() < 0.8:
+                    self.domain = focus
+                    self.portfolio = focus
+
+            # Service component focus
+            service_focus = getattr(model, "service_focus", "Joint")
+            if isinstance(service_focus, str) and service_focus != "Joint":
+                if self.random.random() < 0.8:
+                    self.service_component = service_focus
+
+            # Organization type mix
+            org_mix = getattr(model, "org_mix", "Balanced")
+            org_choices = ["GovLab", "GovContractor", "Commercial"]
+            org_weights_map = {
+                "Balanced": [1, 1, 1],
+                "GovLab-heavy": [3, 1, 1],
+                "Contractor-heavy": [1, 3, 1],
+                "Commercial-heavy": [1, 1, 3],
+            }
+            weights = org_weights_map.get(org_mix, org_weights_map["Balanced"])
+            total = float(sum(weights))
+            r = self.random.random() * total
+            acc = 0.0
+            for name, w in zip(org_choices, weights):
+                acc += float(w)
+                if r <= acc:
+                    self.org_type = name
+                    break
+
+            # Funding source pattern
+            pattern = getattr(model, "funding_pattern", "ProgramBase")
+            source_choices = ["ProgramBase", "POM", "UFR", "External", "Partner", "Partner_CoDev"]
+            source_weights_map = {
+                "ProgramBase": [3, 2, 1, 1, 1, 1],
+                "POM-heavy": [1, 3, 1, 1, 1, 1],
+                "UFR-heavy": [1, 1, 3, 1, 1, 1],
+                "Partner-heavy": [1, 1, 1, 1, 2, 2],
+            }
+            sweights = source_weights_map.get(pattern, source_weights_map["ProgramBase"])
+            stotal = float(sum(sweights))
+            sr = self.random.random() * stotal
+            sacc = 0.0
+            for name, w in zip(source_choices, sweights):
+                sacc += float(w)
+                if sr <= sacc:
+                    self.funding_source = name
+                    break
+
+            # Alignment profile scaling
+            align_profile = getattr(model, "alignment_profile", "Medium")
+            align_scale_map = {"Low": 0.7, "Medium": 1.0, "High": 1.3}
+            a_scale = float(align_scale_map.get(align_profile, 1.0))
+            for attr in [
+                "authority_alignment_score",
+                "priority_alignment_nds",
+                "priority_alignment_ccmd",
+                "priority_alignment_service",
+            ]:
+                val = float(getattr(self, attr, 0.5))
+                val = max(0.0, min(1.0, val * a_scale))
+                setattr(self, attr, val)
+
+            # Digital maturity / MBSE coverage profile
+            dig_profile = getattr(model, "digital_maturity_profile", "Medium")
+            dig_scale_map = {"Low": 0.7, "Medium": 1.0, "High": 1.3}
+            d_scale = float(dig_scale_map.get(dig_profile, 1.0))
+            for attr in ["digital_maturity_score", "mbse_coverage"]:
+                val = float(getattr(self, attr, 0.5))
+                val = max(0.0, min(1.0, val * d_scale))
+                setattr(self, attr, val)
+
+            # Shock resilience profile (maps to shock_sensitivity)
+            shock_prof = getattr(model, "shock_resilience", "Medium")
+            if shock_prof == "High":  # highly resilient => lower sensitivity
+                s_scale = 0.5
+            elif shock_prof == "Low":  # low resilience => higher sensitivity
+                s_scale = 1.5
+            else:
+                s_scale = 1.0
+            val = float(getattr(self, "shock_sensitivity", 0.5))
+            val = max(0.0, min(1.0, val * s_scale))
+            setattr(self, "shock_sensitivity", val)
+
+            # Ecosystem support profile (labs/industry support)
+            eco_profile = getattr(model, "ecosystem_support", "Medium")
+            eco_scale_map = {"Low": 0.7, "Medium": 1.0, "High": 1.3}
+            e_scale = float(eco_scale_map.get(eco_profile, 1.0))
+            for attr in ["lab_support_factor", "industry_support_factor"]:
+                sval = float(getattr(self, attr, 1.0))
+                sval = max(0.0, min(2.0, sval * e_scale))
+                setattr(self, attr, sval)
+
+        # Recompute alignment booleans and score from (possibly updated) scores
+        self.align_priority = self.authority_alignment_score >= 0.5
+        self.align_nds = self.priority_alignment_nds >= 0.5
+        self.align_ccmd = self.priority_alignment_ccmd >= 0.5
+        self.align_agency = self.priority_alignment_service >= 0.5
+
+        # Precompute alignment score (0..1)
+        self.alignment_score = (
+            (1.0 if self.align_priority else 0.0)
+            + (1.0 if self.align_nds else 0.0)
+            + (1.0 if self.align_ccmd else 0.0)
+            + (1.0 if self.align_agency else 0.0)
+        ) / 4.0
 
     def step(self) -> None:
         """
@@ -217,6 +331,7 @@ class ResearcherAgent(Agent):
                 self.current_stage_index = 0
             self.stage_enter_tick = self.model.schedule.time
             # Register an attempt for metrics
+            self.attempts += 1
             self.model.metrics.on_attempt()
             if hasattr(self.model, "log_event"):
                 self.model.log_event(self, gate="attempt", stage=None, outcome="start")
@@ -290,6 +405,7 @@ class ResearcherAgent(Agent):
                                 self.model.schedule.time - self.prototype_start_tick
                             )
                             self.prototype_start_tick = None
+                        self.transitions += 1
                         if hasattr(self.model, "log_event"):
                             self.model.log_event(self, gate="adoption", stage=None, outcome="success")
                     else:
