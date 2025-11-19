@@ -5,10 +5,11 @@ exposes helper functions for policy gates and adoption evaluation.
 """
 from __future__ import annotations
 
+from datetime import datetime
 from mesa import Model
 from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional
 import csv
 from pathlib import Path
 import logging
@@ -16,6 +17,12 @@ import logging
 from .agents import ResearcherAgent, PolicymakerAgent, EndUserAgent
 from . import policies
 from .metrics import MetricTracker, PenaltyBook, EventLogger
+from .data_loader import (
+    load_gao_penalties,
+    load_shock_events,
+    load_performance_penalties,
+    load_collaboration_bonus,
+)
 
 
 class RdteModel(Model):
@@ -57,7 +64,8 @@ class RdteModel(Model):
                  service_focus: str = "Joint",
                  org_mix: str = "Balanced",
                  funding_pattern: str = "ProgramBase",
-                 focus_researcher_id: int = -1):
+                 focus_researcher_id: int = -1,
+                 data_config: Optional[Dict[str, Any]] = None):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
@@ -117,6 +125,26 @@ class RdteModel(Model):
             "legal": ["researcher", "authority", "domain", "kinetic_category", "portfolio"],
             "adoption": ["researcher", "domain", "portfolio"],
         })
+        self.gao_penalty_scale = float(pc.get("gao_penalty_scale", 0.02))
+        self.perf_penalty_scale = float(pc.get("perf_penalty_scale", 0.02))
+        self.ecosystem_scale = float(pc.get("ecosystem_scale", 0.05))
+
+        self.data_config = data_config or {}
+        try:
+            current_year = int(self.data_config.get("current_year", datetime.now().year))
+        except Exception:
+            current_year = datetime.now().year
+        self.gaop: Dict[str, float] = load_gao_penalties(self.data_config.get("gao_findings_csv"))
+        self.shocks: List[Dict[str, object]] = load_shock_events(self.data_config.get("shock_events_csv"))
+        self.vendor_penalty: Dict[str, float]
+        self.program_perf_penalty: Dict[str, float]
+        self.program_perf_penalty, self.vendor_penalty = load_performance_penalties(
+            self.data_config.get("program_vendor_evals_csv")
+        )
+        self.ecosystem_bonus: Dict[str, float] = load_collaboration_bonus(
+            self.data_config.get("collaboration_network_csv"),
+            current_year,
+        )
 
         # --- Create agents and register with scheduler ---
         # Optionally map researchers onto RDT&E programs (if any rows loaded)
@@ -127,6 +155,13 @@ class RdteModel(Model):
             a = ResearcherAgent(i, self, prototype_rate=0.05, learning_rate=0.1, rdte_program=rdte_row)
             self.schedule.add(a)
             self.researchers.append(a)
+            entity_id = getattr(a, "entity_id", getattr(a, "program_id", ""))
+            vendor_id = getattr(a, "vendor_id", "")
+            a.gao_penalty = self.gaop.get(getattr(a, "program_id", ""), 0.0)
+            perf_base = self.program_perf_penalty.get(getattr(a, "program_id", ""), 0.0)
+            vendor_bonus = self.vendor_penalty.get(vendor_id, 0.0)
+            a.perf_penalty = perf_base + vendor_bonus
+            a.ecosystem_bonus = self.ecosystem_bonus.get(entity_id, 0.0)
             # Index by program_id if present
             program_id = getattr(a, "program_id", None)
             if isinstance(program_id, str) and program_id:
@@ -364,6 +399,8 @@ class RdteModel(Model):
                     digital_maturity_col = col("digital_maturity_score", "tech_maturity_level")
                     mbse_coverage_col = col("mbse_coverage")
                     shock_sensitivity_col = col("shock_sensitivity")
+                    entity_col = col("entity_id", "lab_unit_or_contractor")
+                    vendor_col = col("vendor_id", "prime_contractor", "vendor")
                     deps_col = col("dependencies")
                     status_col = col("program_status")
                     reprogramming_col = col("reprogramming_eligible")
@@ -446,6 +483,9 @@ class RdteModel(Model):
                         rec["dependencies"] = deps_raw
                         rec["intel_discipline"] = (raw.get(intel_col) if intel_col else None) or ""
                         rec["program_status"] = (raw.get(status_col) if status_col else None) or "Active"
+                        entity_val = (raw.get(entity_col) if entity_col else None) or ""
+                        rec["entity_id"] = str(entity_val) if entity_val else rec["program_id"]
+                        rec["vendor_id"] = (raw.get(vendor_col) if vendor_col else None) or ""
 
                         rep_raw = (raw.get(reprogramming_col) if reprogramming_col else None)
                         if isinstance(rep_raw, str):
@@ -476,6 +516,53 @@ class RdteModel(Model):
         except Exception:
             logging.getLogger(__name__).warning("Failed to load RDT&E CSV; proceeding without rdte data.")
             return []
+
+    def get_shock_modifier(self, gate: str, researcher: ResearcherAgent) -> float:
+        """
+        Compute a cumulative multiplier for the current tick/gate based on loaded shocks.
+        """
+        if not getattr(self, "shocks", None):
+            return 1.0
+        total = 0.0
+        gate_key = (gate or "all").lower()
+        tick = getattr(self.schedule, "time", 0)
+        for event in self.shocks:
+            duration = int(event.get("duration_steps", 0))
+            start = int(event.get("start_step", 0))
+            if duration <= 0 or not (start <= tick < start + duration):
+                continue
+            affected_gate = str(event.get("affected_gate", "all") or "all").lower()
+            if affected_gate not in {"all", gate_key}:
+                continue
+            if not self._matches_shock_dimension(event, researcher):
+                continue
+            total += float(event.get("magnitude", 0.0))
+        return max(0.0, 1.0 + total)
+
+    def _matches_shock_dimension(self, event: Dict[str, object], researcher: ResearcherAgent) -> bool:
+        dim = str(event.get("target_dimension_type", "all") or "all").lower()
+        value = str(event.get("target_dimension_value", "*") or "*")
+        if dim == "all" or value == "*" or not value:
+            return True
+        attr_map = {
+            "funding_source": "funding_source",
+            "ba": "budget_activity",
+            "budget_activity": "budget_activity",
+            "domain": "domain",
+            "org_type": "org_type",
+            "authority": "authority",
+            "service_component": "service_component",
+            "entity_id": "entity_id",
+        }
+        attr = attr_map.get(dim)
+        if not attr:
+            return True
+        current = getattr(researcher, attr, "")
+        if not current:
+            return False
+        normalized = str(current).strip().lower()
+        target = value.strip().lower()
+        return normalized == target
 
     def is_in_shock(self) -> bool:
         """Whether the system is currently in a shock window."""

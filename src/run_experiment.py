@@ -95,6 +95,7 @@ def run_once(args) -> dict:
         penalty_config=penalty_config,
         gate_config=gates_config,
         events_path=getattr(args, "events_path", None),
+        data_config=params.get("data", {}) or {},
     )
     summary = model.run(steps=args.steps)
     summary.update({

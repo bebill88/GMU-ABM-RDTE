@@ -83,6 +83,31 @@ def _dependency_multiplier(model, researcher, stage: str) -> float:
         pass
     return mult
 
+def _penalty_multiplier(model, researcher) -> float:
+    gao = getattr(researcher, "gao_penalty", 0.0)
+    perf = getattr(researcher, "perf_penalty", 0.0)
+    penalty_scale = getattr(model, "gao_penalty_scale", 0.02)
+    perf_scale = getattr(model, "perf_penalty_scale", 0.02)
+    factor = 1.0 - (penalty_scale * gao + perf_scale * perf)
+    return max(0.0, factor)
+
+
+def _ecosystem_multiplier(model, researcher) -> float:
+    bonus = getattr(researcher, "ecosystem_bonus", 0.0)
+    eco_scale = getattr(model, "ecosystem_scale", 0.05)
+    return max(0.0, 1.0 + eco_scale * bonus)
+
+
+def _apply_external_modifiers(model, researcher, gate: str, base_prob: float) -> float:
+    penalty = _penalty_multiplier(model, researcher)
+    ecosystem = _ecosystem_multiplier(model, researcher)
+    shock = 1.0
+    try:
+        shock = model.get_shock_modifier(gate, researcher)
+    except Exception:
+        pass
+    return max(0.0, min(1.0, base_prob * penalty * ecosystem * shock))
+
 
 def funding_gate(model, researcher) -> bool:
     """
@@ -209,6 +234,7 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
         "funding_source": source,
         "funding_color_weight": round(color_weight, 6),
     }
+    p = _apply_external_modifiers(model, researcher, "funding", p)
     return model.random.random() < p
 
 
@@ -306,6 +332,7 @@ def contracting_gate(model, researcher) -> bool:
         "gate_prob_final": round(p, 6),
         "contract_org_type": org,
     }
+    p = _apply_external_modifiers(model, researcher, "contracting", p)
     return model.random.random() < p
 
 
@@ -387,6 +414,7 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
         "gate_prob_final": round(p, 6),
         "legal_status_at_test": legal_status,
     }
+    p = _apply_external_modifiers(model, researcher, "test", p)
     return model.random.random() < p
 
 
@@ -434,6 +462,7 @@ def adoption_gate(model, researcher) -> bool:
     except Exception:
         pass
 
+    p = _apply_external_modifiers(model, researcher, "adoption", p)
     return model.random.random() < p
 
 

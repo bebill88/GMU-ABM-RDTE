@@ -141,6 +141,14 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
   - `--labs_csv` and `--rdte_csv` override parameters.yaml.
   - `--config` loads an alternate YAML (CLI flags still override).
 
+- Extended data sources
+  - `parameters.yaml` now exposes:
+    - `data.gao_findings_csv` (GAO oversight & repeat-offender penalties)
+    - `data.shock_events_csv` (CRs, conflicts, policy shocks)
+    - `data.program_vendor_evals_csv` (CPARS-lite vendor/performance records)
+    - `data.collaboration_network_csv` (lab/MOU graph edges feeding ecosystem bonuses)
+  - Use the stub files under `data/stubs/` until your actual exports are ready; each schema doc under `docs/` explains the expected headers.
+
 ---
 
 ## Data Collection Strategy
@@ -215,9 +223,9 @@ External inputs such as GAO findings, shock events, vendor evaluations, and coll
 1. **GAO findings (`docs/schema_gao_findings.md`)** – Preload the CSV each run, map `program_id` into `RdteModel.program_index`, and use `severity`/`repeat_offender` to bump `PenaltyBook.counts` so the per-gate penalties degrade `funding`/`test` probabilities for flagged programs.
 2. **Shock events (`docs/schema_shock_events.md`)** – Treat each row as a scheduled perturbation: when the current tick falls between `start_tick` and `start_tick + duration`, scale `funding_rdte`/`funding_om` by `budget_impact` and emit metadata through `EventLogger` to tie gate outcomes to the shock type.
 3. **Vendor/program evaluations (`docs/schema_vendor_evaluations.md`)** – Fold `performance_score`/`reliability_score` into `ResearcherAgent.quality` adjustments or gate multipliers, and trigger `PenaltyBook.bump` if `flag_followup` is `true` so low-performing contractors become repeat-offender cases.
-4. **Collaboration ecosystem (`docs/schema_collaboration_ecosystem.md`)** – Load these rows alongside labs (e.g., extend `_load_labs` or add a helper) to populate `service_component`, `ecosystem_support`, and network metrics such as `network_centrality_score` when matching labs/partners to researchers.
+4. **Collaboration network (`docs/schema_collaboration_network.md`)** – Ingest the edge rows that connect labs, services, vendors, and agencies. Build node-centrality scores from `intensity`-weighted edges, feed the resulting `ecosystem_support`/`innovation_leverage_factor`, and use the linkage to bias `network_centrality_score` when matching researchers to labs/vendors.
 
-Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; add CLI options or parameter overrides that point to the real CSVs when you move beyond the `data/stubs/` placeholders. Validating the inputs with `jsonschema` or header inspections before a run keeps the pipelines stable.
+Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; add CLI options or parameter overrides that point to the real CSVs when you move beyond the `data/stubs/` placeholders. The new `docs/data_schema.md` outlines how to capture the program ↔ org links that tie GAO/shock/vendor/collaboration inputs together, making `entity_id` the connective tissue for program penalties and ecosystem bonuses. Validating the inputs with `jsonschema` or header inspections before a run keeps the pipelines stable.
 
 ---
 

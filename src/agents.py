@@ -102,6 +102,11 @@ class ResearcherAgent(Agent):
 
         self.dependencies: List[str] = []
         self.program_status = "Active"
+        self.entity_id = self.program_id
+        self.vendor_id = ""
+        self.gao_penalty = 0.0
+        self.perf_penalty = 0.0
+        self.ecosystem_bonus = 0.0
 
         if not rdte_program:
             # Policy alignment toggles for the toy setup
@@ -181,6 +186,12 @@ class ResearcherAgent(Agent):
             self.align_nds = self.priority_alignment_nds >= 0.5
             self.align_ccmd = self.priority_alignment_ccmd >= 0.5
             self.align_agency = self.priority_alignment_service >= 0.5
+            entity_id = _get("entity_id", "")
+            if entity_id:
+                self.entity_id = str(entity_id)
+            vendor_val = _get("vendor_id", "")
+            if vendor_val:
+                self.vendor_id = str(vendor_val)
 
         # Apply scenario-level profiles and recompute alignment score
         self._apply_scenario_profiles()

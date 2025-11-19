@@ -1,1 +1,1 @@
-finding_id,program_id,year,issue_area,severity,description,repeat_offender,timestamp
+finding_id,report_id,report_year,program_id,program_name,authority,funding_source,domain,org_type,finding_type,severity,repeat_issue_flag,recommendation_count,implemented_recs,open_recs,summary
