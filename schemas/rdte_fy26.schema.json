@@ -3,77 +3,33 @@
   "title": "FY26 RDT&E Line Items (Enhanced)",
   "type": "object",
   "properties": {
-    "program_id": {"type": ["string", "null"]},
-    "service_component": {"type": ["string", "null"]},
-    "portfolio": {"type": ["string", "null"]},
-    "budget_activity": {"type": ["string", "number", "null"]},
-    "funding_fy26": {"type": ["number", "string", "null"]},
-    "funding_color": {"type": ["string", "null"]},
-    "reprogramming_eligible": {"type": ["boolean", "string", "null"]},
-    "mission_focus": {"type": ["string", "null"]},
-
-    "lab_support_factor": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 2.0
-    },
-    "industry_support_factor": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 2.0
-    },
-
-    "stage_gate_start": {"type": ["string", "null"]},
-    "authority_alignment_score": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 1.0
-    },
-
-    "priority_alignment_nds": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 1.0
-    },
-    "priority_alignment_ccmd": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 1.0
-    },
-    "priority_alignment_service": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 1.0
-    },
-
-    "digital_maturity_score": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 1.0
-    },
-    "mbse_coverage": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 1.0
-    },
-
-    "shock_sensitivity": {
-      "type": ["number", "string", "null"],
-      "minimum": 0.0,
-      "maximum": 1.0
-    },
-
-    "dependencies": {"type": ["string", "null"]},
-    "program_status": {"type": ["string", "null"]},
-    "intel_discipline": {"type": ["string", "null"]},
-    "authority": {"type": ["string", "null"]},
-
-    "PE_number": {"type": ["string", "null"]},
-    "PE_title": {"type": ["string", "null"]},
-    "BA": {"type": ["string", "number", "null"]},
-    "appropriation": {"type": ["string", "null"]},
-    "FY": {"type": ["string", "number", "null"]},
-    "amount": {"type": ["number", "string", "null"]},
-    "service": {"type": ["string", "null"]}
+    "Program_ID": {"type": ["string", "null"]},
+    "Mapped_PE_Number": {"type": ["string", "null"]},
+    "Program_Name": {"type": ["string", "null"]},
+    "Agency": {"type": ["string", "null"]},
+    "Service_Component": {"type": ["string", "null"]},
+    "Sub_Agency": {"type": ["string", "null"]},
+    "Budget_Activity": {"type": ["string", "null"]},
+    "Mission_Focus": {"type": ["string", "null"]},
+    "Intel_Discipline": {"type": ["string", "null"]},
+    "Authority_Alignment": {"type": ["string", "number", "null"]},
+    "FY24_Actual_$K": {"type": ["number", "string", "null"], "minimum": 0},
+    "FY25_Enacted_$K": {"type": ["number", "string", "null"], "minimum": 0},
+    "FY26_Request_$K": {"type": ["number", "string", "null"], "minimum": 0},
+    "Period_of_Performance": {"type": ["string", "null"]},
+    "Size_of_Team": {"type": ["number", "string", "null"], "minimum": 0},
+    "Lab_Unit_Or_Contractor": {"type": ["string", "null"]},
+    "Organic_Capabilities": {"type": ["string", "null"]},
+    "Outsourced_Capabilities": {"type": ["string", "null"]},
+    "Current_Status": {"type": ["string", "null"]},
+    "Network_Centrality_Score": {"type": ["number", "string", "null"], "minimum": 0},
+    "Transition_Risk_Index": {"type": ["number", "string", "null"], "minimum": 0},
+    "Tech_Maturity_Level": {"type": ["number", "string", "null"], "minimum": 0},
+    "Mission_Criticality_Score": {"type": ["number", "string", "null"], "minimum": 0},
+    "Cross_Domain_Dependency_Count": {"type": ["number", "string", "null"], "minimum": 0},
+    "Supply_Chain_Risk_Level": {"type": ["string", "null"]},
+    "Innovation_Leverage_Factor": {"type": ["string", "null"]},
+    "Sourcing_Status": {"type": ["string", "null"]},
+    "Notes": {"type": ["string", "null"]}
   }
 }
