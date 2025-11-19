@@ -10,6 +10,7 @@
     "funding_fy26": {"type": ["number", "string", "null"]},
     "funding_color": {"type": ["string", "null"]},
     "reprogramming_eligible": {"type": ["boolean", "string", "null"]},
+    "mission_focus": {"type": ["string", "null"]},
 
     "lab_support_factor": {
       "type": ["number", "string", "null"],
@@ -64,6 +65,8 @@
 
     "dependencies": {"type": ["string", "null"]},
     "program_status": {"type": ["string", "null"]},
+    "intel_discipline": {"type": ["string", "null"]},
+    "authority": {"type": ["string", "null"]},
 
     "PE_number": {"type": ["string", "null"]},
     "PE_title": {"type": ["string", "null"]},

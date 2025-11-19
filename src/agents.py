@@ -157,6 +157,18 @@ class ResearcherAgent(Agent):
             status = str(_get("program_status", self.program_status) or self.program_status)
             self.program_status = status
 
+            authority_val = _get("authority", self.authority)
+            if authority_val:
+                self.authority = str(authority_val)
+            intel_val = _get("intel_discipline", self.intel_discipline)
+            if intel_val:
+                self.intel_discipline = str(intel_val)
+            domain_val = _get("domain", "") or ""
+            if not domain_val:
+                domain_val = _get("mission_focus", "") or ""
+            if domain_val:
+                self.domain = str(domain_val)
+
             # Stage gate starting point may be provided directly; otherwise derive from BA.
             stage_start = str(_get("stage_gate_start", "") or "").strip().lower()
             if stage_start in self.STAGES:

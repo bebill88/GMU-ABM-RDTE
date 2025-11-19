@@ -348,24 +348,26 @@ class RdteModel(Model):
                     pe_col = col("program_id", "pe_number", "pe_id", "project_id")
                     service_col = col("service_component", "service")
                     ba_col = col("budget_activity", "BA")
-                    amount_col = col("funding_fy26", "amount")
+                    amount_col = col("funding_fy26", "amount", "fy26_request_$k", "fy26_request")
                     color_col = col("funding_color", "appropriation")
 
                     # New rich fields (optional)
                     portfolio_col = col("portfolio")
+                    mission_focus_col = col("mission_focus", "portfolio_or_mission_area")
                     lab_support_col = col("lab_support_factor")
                     industry_support_col = col("industry_support_factor")
                     stage_start_col = col("stage_gate_start")
-                    authority_align_col = col("authority_alignment_score")
+                    authority_align_col = col("authority_alignment_score", "authority_alignment")
                     nds_align_col = col("priority_alignment_nds")
                     ccmd_align_col = col("priority_alignment_ccmd")
                     service_align_col = col("priority_alignment_service")
-                    digital_maturity_col = col("digital_maturity_score")
+                    digital_maturity_col = col("digital_maturity_score", "tech_maturity_level")
                     mbse_coverage_col = col("mbse_coverage")
                     shock_sensitivity_col = col("shock_sensitivity")
                     deps_col = col("dependencies")
                     status_col = col("program_status")
                     reprogramming_col = col("reprogramming_eligible")
+                    intel_col = col("intel_discipline", "intel")
 
                     for raw in reader:
                         rec: Dict[str, Any] = {"raw": dict(raw)}
@@ -391,7 +393,11 @@ class RdteModel(Model):
                         rec["funding_color"] = (raw.get(color_col) if color_col else None) or "RDT&E"
 
                         # New workbook fields with defaults
-                        rec["portfolio"] = (raw.get(portfolio_col) if portfolio_col else None) or ""
+                        portfolio_val = (raw.get(portfolio_col) if portfolio_col else None) or (
+                            raw.get(mission_focus_col) if mission_focus_col else None
+                        ) or ""
+                        rec["portfolio"] = portfolio_val
+                        rec["mission_focus"] = (raw.get(mission_focus_col) if mission_focus_col else None) or ""
 
                         def _f(colname: Optional[str], default: float) -> float:
                             if not colname:
@@ -408,17 +414,37 @@ class RdteModel(Model):
                         stage_start = (raw.get(stage_start_col) if stage_start_col else None) or ""
                         rec["stage_gate_start"] = stage_start
 
-                        rec["authority_alignment_score"] = _f(authority_align_col, 0.5)
+                        authority_raw = raw.get(authority_align_col) if authority_align_col else None
+                        if authority_raw not in (None, ""):
+                            try:
+                                authority_score = float(authority_raw)
+                            except Exception:
+                                norm_val = str(authority_raw).strip().lower()
+                                if norm_val.startswith("title10"):
+                                    authority_score = 0.9
+                                elif norm_val.startswith("title50"):
+                                    authority_score = 0.3
+                                else:
+                                    authority_score = 0.5
+                        else:
+                            authority_score = 0.5
+                        rec["authority_alignment_score"] = authority_score
+                        rec["authority"] = str(authority_raw) if authority_raw not in (None, "") else ""
+
                         rec["priority_alignment_nds"] = _f(nds_align_col, 0.5)
                         rec["priority_alignment_ccmd"] = _f(ccmd_align_col, 0.5)
                         rec["priority_alignment_service"] = _f(service_align_col, 0.5)
 
-                        rec["digital_maturity_score"] = _f(digital_maturity_col, 0.5)
+                        digital_score = _f(digital_maturity_col, 0.5)
+                        if digital_score > 1.0:
+                            digital_score = min(1.0, digital_score / 10.0)
+                        rec["digital_maturity_score"] = digital_score
                         rec["mbse_coverage"] = _f(mbse_coverage_col, 0.5)
                         rec["shock_sensitivity"] = _f(shock_sensitivity_col, 0.5)
 
                         deps_raw = (raw.get(deps_col) if deps_col else "") or ""
                         rec["dependencies"] = deps_raw
+                        rec["intel_discipline"] = (raw.get(intel_col) if intel_col else None) or ""
                         rec["program_status"] = (raw.get(status_col) if status_col else None) or "Active"
 
                         rep_raw = (raw.get(reprogramming_col) if reprogramming_col else None)
