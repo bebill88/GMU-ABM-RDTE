@@ -57,13 +57,13 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 - Use a custom config file (overrides parameters.yaml):
   - `python -m src.run_experiment --scenario adaptive --config my_params.yaml`
 
-**Smoke test (Mesa)** – run a short linear scenario to validate the new data stack before larger experiments:
+**Smoke test (Mesa)** - run a short linear scenario to validate the new data stack before larger experiments:
 
 ```
 python -m src.run_experiment --scenario linear --runs 1 --steps 20 --seed 45
 ```
 
-Mesa’s server (`python -m src.server --scenario adaptive`) still works with these inputs; just point `--config` or `parameters.yaml` at your entity/role CSVs plus the GAO/shock/vendor/collaboration sources before launching the GUI.
+Mesa's server (`python -m src.server --scenario adaptive`) still works with these inputs; just point `--config` or `parameters.yaml` at your entity/role CSVs plus the GAO/shock/vendor/collaboration sources before launching the GUI.
 
 4. Inspect outputs
    - Results: `outputs/<scenario>_<timestamp>/results.csv`
@@ -228,10 +228,10 @@ Copy the templates from `data/templates/` before running experiments to guarante
 
 External inputs such as GAO findings, shock events, vendor evaluations, and collaboration ecosystem records should be documented via `docs/schema_*.md` and seeded with stub CSVs under `data/stubs/`. Wire them into the Mesa model as follows:
 
-1. **GAO findings (`docs/schema_gao_findings.md`)** – Preload the CSV each run, map `program_id` into `RdteModel.program_index`, and use `severity`/`repeat_offender` to bump `PenaltyBook.counts` so the per-gate penalties degrade `funding`/`test` probabilities for flagged programs.
-2. **Shock events (`docs/schema_shock_events.md`)** – Treat each row as a scheduled perturbation: when the current tick falls between `start_tick` and `start_tick + duration`, scale `funding_rdte`/`funding_om` by `budget_impact` and emit metadata through `EventLogger` to tie gate outcomes to the shock type.
-3. **Vendor/program evaluations (`docs/schema_vendor_evaluations.md`)** – Fold `performance_score`/`reliability_score` into `ResearcherAgent.quality` adjustments or gate multipliers, and trigger `PenaltyBook.bump` if `flag_followup` is `true` so low-performing contractors become repeat-offender cases.
-4. **Collaboration network (`docs/schema_collaboration_network.md`)** – Ingest the edge rows that connect labs, services, vendors, and agencies. Build node-centrality scores from `intensity`-weighted edges, feed the resulting `ecosystem_support`/`innovation_leverage_factor`, and use the linkage to bias `network_centrality_score` when matching researchers to labs/vendors.
+1. **GAO findings (`docs/schema_gao_findings.md`)** - Preload the CSV each run, map `program_id` into `RdteModel.program_index`, and use `severity`/`repeat_offender` to bump `PenaltyBook.counts` so the per-gate penalties degrade `funding`/`test` probabilities for flagged programs.
+2. **Shock events (`docs/schema_shock_events.md`)** - Treat each row as a scheduled perturbation: when the current tick falls between `start_tick` and `start_tick + duration`, scale `funding_rdte`/`funding_om` by `budget_impact` and emit metadata through `EventLogger` to tie gate outcomes to the shock type.
+3. **Vendor/program evaluations (`docs/schema_vendor_evaluations.md`)** - Fold `performance_score`/`reliability_score` into `ResearcherAgent.quality` adjustments or gate multipliers, and trigger `PenaltyBook.bump` if `flag_followup` is `true` so low-performing contractors become repeat-offender cases.
+4. **Collaboration network (`docs/schema_collaboration_network.md`)** - Ingest the edge rows that connect labs, services, vendors, and agencies. Build node-centrality scores from `intensity`-weighted edges, feed the resulting `ecosystem_support`/`innovation_leverage_factor`, and use the linkage to bias `network_centrality_score` when matching researchers to labs/vendors.
 
 Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; add CLI options or parameter overrides that point to the real CSVs when you move beyond the `data/stubs/` placeholders. The new `docs/data_schema.md` shows how `entity_id`/`program_id` serve as the canonical keys across GAO, vendor, shock, collaboration, and organization tables, and `docs/schema_rdte_entities.md` describes the entity master list (`data/rdte_entities.csv`) that feeds `data/program_entity_roles.csv`. Validating the inputs with `jsonschema` or header inspections before a run keeps the pipelines stable.
 
@@ -251,10 +251,10 @@ Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; a
 2. **Attach org links to each program agent**  
    When a program row maps to researchers, derive `sponsor_entities`, `executing_entities`, `test_entities`, `ops_entities`, and a `primary_entity_id` (largest `effort_share`) so every program knows which org owns which role. Those entity IDs already feed GAO, vendor, collaboration, and shock tables.
 3. **Gate logic can consume entity metadata**  
-   Look up `primary_entity_id` in `entities_by_id` during `funding_gate`/`test_gate`, use its `base_budget_type`/`base_budget_ba`/`service`/`authority_flags` to select CR or BA-specific modifiers, apply the ecosystem bonus for well-connected nodes, and cap probabilities if an entity’s `estimated_rdte_capacity_musd` or `estimated_rdte_staff` is shared among many programs.
+   Look up `primary_entity_id` in `entities_by_id` during `funding_gate`/`test_gate`, use its `base_budget_type`/`base_budget_ba`/`service`/`authority_flags` to select CR or BA-specific modifiers, apply the ecosystem bonus for well-connected nodes, and cap probabilities if an entity's `estimated_rdte_capacity_musd` or `estimated_rdte_staff` is shared among many programs.
 4. **Plain-language summaries for non-ABM readers**  
-   - `rdte_entities.csv` = “Who actually does the work?” (org roster for services, program offices, labs, agencies with budget/domains).  
-   - `program_entity_roles.csv` = “Who owns which program?” (mapping of programs to sponsoring/executing/test/ops roles plus effort shares).
+   - `rdte_entities.csv` = "Who actually does the work?" (org roster for services, program offices, labs, agencies with budget/domains).  
+   - `program_entity_roles.csv` = "Who owns which program?" (mapping of programs to sponsoring/executing/test/ops roles plus effort shares).
 
 ---
 
