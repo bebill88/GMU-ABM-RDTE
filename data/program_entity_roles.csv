@@ -1,0 +1,5 @@
+program_id,entity_id,role,effort_share,note
+PRG-ISR-001,SRV-ARMY-AFC-ISR,sponsor,0.6,"Army Futures ISR office is primary program sponsor"
+PRG-ISR-001,LAB-NAVY-NRL-ISR,executing,0.7,"NRL ISR division executes majority of lab development work"
+PRG-ISR-001,AGY-DIA-TECH,transition_partner,0.3,"DIA tech office expected transition partner for IC use"
+PRG-ISR-001,UNIT-USMC-INTBN-01,ops,0.2,"USMC intel unit serves as early operational adopter and experimenter"

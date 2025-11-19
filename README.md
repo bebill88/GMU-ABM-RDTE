@@ -225,7 +225,28 @@ External inputs such as GAO findings, shock events, vendor evaluations, and coll
 3. **Vendor/program evaluations (`docs/schema_vendor_evaluations.md`)** – Fold `performance_score`/`reliability_score` into `ResearcherAgent.quality` adjustments or gate multipliers, and trigger `PenaltyBook.bump` if `flag_followup` is `true` so low-performing contractors become repeat-offender cases.
 4. **Collaboration network (`docs/schema_collaboration_network.md`)** – Ingest the edge rows that connect labs, services, vendors, and agencies. Build node-centrality scores from `intensity`-weighted edges, feed the resulting `ecosystem_support`/`innovation_leverage_factor`, and use the linkage to bias `network_centrality_score` when matching researchers to labs/vendors.
 
-Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; add CLI options or parameter overrides that point to the real CSVs when you move beyond the `data/stubs/` placeholders. The new `docs/data_schema.md` shows how `entity_id`/`program_id` serve as the canonical keys across GAO, vendor, shock, collaboration, and organization tables, and `docs/schema_rdte_entities.md` describes the entity master list (`data/rdte_entities.csv`) that feeds the link table. Validating the inputs with `jsonschema` or header inspections before a run keeps the pipelines stable.
+Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; add CLI options or parameter overrides that point to the real CSVs when you move beyond the `data/stubs/` placeholders. The new `docs/data_schema.md` shows how `entity_id`/`program_id` serve as the canonical keys across GAO, vendor, shock, collaboration, and organization tables, and `docs/schema_rdte_entities.md` describes the entity master list (`data/rdte_entities.csv`) that feeds `data/program_entity_roles.csv`. Validating the inputs with `jsonschema` or header inspections before a run keeps the pipelines stable.
+
+### Entity integration pattern
+
+1. **Load the entity tables during model init**  
+   ```python
+   entities = pd.read_csv("data/rdte_entities.csv")
+   prog_roles = pd.read_csv("data/program_entity_roles.csv")
+   entities_by_id = {row["entity_id"]: row for _, row in entities.iterrows()}
+   program_to_entities = defaultdict(list)
+   for _, link in prog_roles.iterrows():
+       program_to_entities[link["program_id"]].append(link.to_dict())
+   model.entities_by_id = entities_by_id
+   model.program_to_entities = program_to_entities
+   ```
+2. **Attach org links to each program agent**  
+   When a program row maps to researchers, derive `sponsor_entities`, `executing_entities`, `test_entities`, `ops_entities`, and a `primary_entity_id` (largest `effort_share`) so every program knows which org owns which role. Those entity IDs already feed GAO, vendor, collaboration, and shock tables.
+3. **Gate logic can consume entity metadata**  
+   Look up `primary_entity_id` in `entities_by_id` during `funding_gate`/`test_gate`, use its `base_budget_type`/`base_budget_ba`/`service`/`authority_flags` to select CR or BA-specific modifiers, apply the ecosystem bonus for well-connected nodes, and cap probabilities if an entity’s `estimated_rdte_capacity_musd` or `estimated_rdte_staff` is shared among many programs.
+4. **Plain-language summaries for non-ABM readers**  
+   - `rdte_entities.csv` = “Who actually does the work?” (org roster for services, program offices, labs, agencies with budget/domains).  
+   - `program_entity_roles.csv` = “Who owns which program?” (mapping of programs to sponsoring/executing/test/ops roles plus effort shares).
 
 ---
 
