@@ -25,7 +25,7 @@ agents:
 data:
   # Relative paths so the repo is self-contained (commit these CSVs under data/)
   labs_locations_csv: data/dod_labs_collaboration_hubs_locations.csv
-  rdte_fy26_csv: data/FY2026_SEC4201_RDTandE_All_Line_Items.csv
+  rdte_fy26_csv: data/templates/rdte_funding_row_simulated.csv
 
 penalties:
   # Per-failure penalty applied multiplicatively across selected axes

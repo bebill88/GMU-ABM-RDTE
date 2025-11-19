@@ -130,8 +130,9 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 - FY26 RDT&E line items CSV (recommended to commit under `data/`)
   - parameters.yaml:
-    - `data.rdte_fy26_csv: data/FY2026_SEC4201_RDTandE_All_Line_Items.csv`
+    - `data.rdte_fy26_csv: data/templates/rdte_funding_row_simulated.csv`
   - Effect: parsed into `model.rdte_fy26` for analysis; no behavioral change yet.
+  - The richer `dod_rdte_funding_blocks_master.csv` file is now archived under `data/legacy/dod_rdte_funding_blocks_master.csv` for reference; the model no longer consumes it unless you explicitly point `--rdte_csv` at it after preprocessing.
 
 - Overrides via CLI
   - `--labs_csv` and `--rdte_csv` override parameters.yaml.
@@ -365,5 +366,4 @@ Sensitivity testing tips
 - Start with `runs=30-50`, `steps=200-300`, and adjust one group of weights at a time.
 - Track median and percentiles of cycle time (add to metrics if needed) to see distributional effects, not just means.
 - Use event CSVs to confirm which gate changes drive outcome shifts.
-
 
