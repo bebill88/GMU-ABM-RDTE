@@ -249,6 +249,10 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Digital Engineering Integration
   - Leverage MBSE/digital-twin metrics across the pipeline to reduce legal/contracting friction and shorten test cycles when maturity is high.
 
+- Live Browser UI clarity
+  - Rename the Mesa UI sliders/inputs so they describe their function (agent cohorts, funding levels, governance regime, shock timing, random seed) and are easy to scan for broader audiences.
+  - Consider adding inline helper text or hover tips describing what each control adjusts so visitors can explore without diving into the code first.
+
 - Validation and CI
   - Add unit tests for gate math, penalties, stage/test failure handling, and CLI `--events`/`--no-events` toggles; add CSV schema validation for labs/RDT&E.
   - Wire a GitHub Actions workflow to run those tests plus a quick smoke run (e.g., `python -m src.run_experiment --scenario adaptive --runs 1 --steps 50`) so regressions surface before pushing.
@@ -342,8 +346,6 @@ Sensitivity testing tips
 - Start with `runs=30-50`, `steps=200-300`, and adjust one group of weights at a time.
 - Track median and percentiles of cycle time (add to metrics if needed) to see distributional effects, not just means.
 - Use event CSVs to confirm which gate changes drive outcome shifts.
-
-
 
 
 
