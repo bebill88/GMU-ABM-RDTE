@@ -54,8 +54,16 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
      - `python -m src.run_experiment --scenario adaptive --runs 10 --steps 200 --seed 42`
    - Shock with explicit duration:
      - `python -m src.run_experiment --scenario shock --runs 10 --steps 200 --seed 42 --shock_at 80 --shock_duration 20`
-   - Use a custom config file (overrides parameters.yaml):
-     - `python -m src.run_experiment --scenario adaptive --config my_params.yaml`
+- Use a custom config file (overrides parameters.yaml):
+  - `python -m src.run_experiment --scenario adaptive --config my_params.yaml`
+
+**Smoke test (Mesa)** – run a short linear scenario to validate the new data stack before larger experiments:
+
+```
+python -m src.run_experiment --scenario linear --runs 1 --steps 20 --seed 45
+```
+
+Mesa’s server (`python -m src.server --scenario adaptive`) still works with these inputs; just point `--config` or `parameters.yaml` at your entity/role CSVs plus the GAO/shock/vendor/collaboration sources before launching the GUI.
 
 4. Inspect outputs
    - Results: `outputs/<scenario>_<timestamp>/results.csv`
