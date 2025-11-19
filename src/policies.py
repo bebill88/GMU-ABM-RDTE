@@ -218,9 +218,19 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
         effective_shock = base_shock * shock_sens
         shock_factor = max(0.2, 1.0 - effective_shock)
 
+    # Mild stall relief: if stuck in a stage for many ticks, slowly raise odds.
+    stage_age = 0
+    try:
+        if getattr(researcher, "stage_enter_tick", None) is not None:
+            stage_age = model.schedule.time - researcher.stage_enter_tick
+    except Exception:
+        stage_age = 0
+    # Stronger stall relief to avoid deadlocks; cap keeps probabilities sane.
+    latency_boost = 1.0 + min(max(stage_age, 0), 200) * 0.02  # up to +400%
+
     p = max(
         0.02,
-        min(0.98, base_prob * factor * support_mult * status_mult * portfolio_mult * shock_factor),
+        min(0.98, base_prob * factor * support_mult * status_mult * portfolio_mult * shock_factor * latency_boost),
     )
     # Record gate context for logging
     model._last_gate_context = {
@@ -230,6 +240,8 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
         "gate_status_mult": round(status_mult, 6),
         "gate_portfolio_mult": round(portfolio_mult, 6),
         "gate_shock_factor": round(shock_factor, 6),
+        "gate_latency_boost": round(latency_boost, 6),
+        "gate_stage_age": stage_age,
         "gate_prob_final": round(p, 6),
         "funding_source": source,
         "funding_color_weight": round(color_weight, 6),
@@ -323,12 +335,22 @@ def contracting_gate(model, researcher) -> bool:
     # Apply penalty factor and program status
     factor = model.penalty_factor("contracting", researcher)
     status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
+    # Mild stall relief if stuck in the stage a long time
+    stage_age = 0
+    try:
+        if getattr(researcher, "stage_enter_tick", None) is not None:
+            stage_age = model.schedule.time - researcher.stage_enter_tick
+    except Exception:
+        stage_age = 0
+    latency_boost = 1.0 + min(max(stage_age, 0), 200) * 0.02
     base_prob = max(0.05, min(0.95, float(base)))
-    p = max(0.05, min(0.95, base_prob * factor * status_mult))
+    p = max(0.05, min(0.95, base_prob * factor * status_mult * latency_boost))
     model._last_gate_context = {
         "gate_prob_base": round(base_prob, 6),
         "gate_penalty_factor": round(factor, 6),
         "gate_status_mult": round(status_mult, 6),
+        "gate_latency_boost": round(latency_boost, 6),
+        "gate_stage_age": stage_age,
         "gate_prob_final": round(p, 6),
         "contract_org_type": org,
     }
@@ -393,14 +415,31 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
 
     digital = max(0.0, min(1.0, float(getattr(researcher, "digital_maturity_score", 0.5))))
     mbse_cov = max(0.0, min(1.0, float(getattr(researcher, "mbse_coverage", 0.5))))
-    evidence_mult = digital * 0.5 + mbse_cov * 0.5
+    # Blend evidence so weak signals do not zero-out progression.
+    evidence_mult = 0.5 + 0.5 * (digital * 0.5 + mbse_cov * 0.5)
+
+    # Mild stall relief: if stuck in stage, slowly increase probability.
+    stage_age = 0
+    try:
+        if getattr(researcher, "stage_enter_tick", None) is not None:
+            stage_age = model.schedule.time - researcher.stage_enter_tick
+    except Exception:
+        stage_age = 0
+    latency_boost = 1.0 + min(max(stage_age, 0), 200) * 0.02
 
     base_prob = max(0.05, min(0.95, (base + trl_bonus)))
     p = max(
         0.05,
         min(
             0.95,
-            base_prob * factor * status_mult * portfolio_mult * evidence_mult * shock_factor * dependency_mult,
+            base_prob
+            * factor
+            * status_mult
+            * portfolio_mult
+            * evidence_mult
+            * shock_factor
+            * dependency_mult
+            * latency_boost,
         ),
     )
     model._last_gate_context = {
@@ -411,6 +450,8 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
         "gate_evidence_mult": round(evidence_mult, 6),
         "gate_shock_factor": round(shock_factor, 6),
         "gate_dependency_mult": round(dependency_mult, 6),
+        "gate_latency_boost": round(latency_boost, 6),
+        "gate_stage_age": stage_age,
         "gate_prob_final": round(p, 6),
         "legal_status_at_test": legal_status,
     }

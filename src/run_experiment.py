@@ -74,6 +74,7 @@ def run_once(args) -> dict:
     params = _load_parameters(args.config)
     penalty_config = (params.get("penalties", {}) or {})
     gates_config = (params.get("gates", {}) or {})
+    agent_config = (params.get("agents", {}) or {})
     # Per-run event file path
     events_path = None
     if getattr(args, "events", True):
@@ -96,6 +97,7 @@ def run_once(args) -> dict:
         gate_config=gates_config,
         events_path=getattr(args, "events_path", None),
         data_config=params.get("data", {}) or {},
+        agent_config=agent_config,
     )
     summary = model.run(steps=args.steps)
     summary.update({

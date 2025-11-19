@@ -65,7 +65,8 @@ class RdteModel(Model):
                  org_mix: str = "Balanced",
                  funding_pattern: str = "ProgramBase",
                  focus_researcher_id: int = -1,
-                 data_config: Optional[Dict[str, Any]] = None):
+                 data_config: Optional[Dict[str, Any]] = None,
+                 agent_config: Optional[Dict[str, Any]] = None):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
@@ -109,6 +110,12 @@ class RdteModel(Model):
                                                    if m.metrics.adoptions_per_tick else 0),
                 "cum_adoptions": lambda m: (sum(m.metrics.adoptions_per_tick)
                                              if m.metrics.adoptions_per_tick else 0),
+                "stage_idle": lambda m: m._stage_counts().get("idle", 0),
+                "stage_feasibility": lambda m: m._stage_counts().get("feasibility", 0),
+                "stage_prototype_demo": lambda m: m._stage_counts().get("prototype_demo", 0),
+                "stage_functional_test": lambda m: m._stage_counts().get("functional_test", 0),
+                "stage_vulnerability_test": lambda m: m._stage_counts().get("vulnerability_test", 0),
+                "stage_operational_test": lambda m: m._stage_counts().get("operational_test", 0),
             }
         )
         # Penalties setup
@@ -146,13 +153,21 @@ class RdteModel(Model):
             current_year,
         )
 
+        # Agent configuration overrides (from parameters.yaml -> agents.*)
+        ag_cfg = agent_config or {}
+        rcfg = (ag_cfg.get("researcher") or ag_cfg.get("researchers") or {})
+        pcfg = (ag_cfg.get("policymaker") or ag_cfg.get("policymakers") or {})
+        ecfg = (ag_cfg.get("enduser") or ag_cfg.get("endusers") or {})
+
         # --- Create agents and register with scheduler ---
         # Optionally map researchers onto RDT&E programs (if any rows loaded)
         rdte_programs: List[Dict[str, Any]] = list(self.rdte_fy26) if self.rdte_fy26 else []
         self.researchers: List[ResearcherAgent] = []
         for i in range(n_researchers):
             rdte_row = rdte_programs[i % len(rdte_programs)] if rdte_programs else None
-            a = ResearcherAgent(i, self, prototype_rate=0.05, learning_rate=0.1, rdte_program=rdte_row)
+            proto_rate = float(rcfg.get("prototype_rate", 0.05))
+            learn_rate = float(rcfg.get("learning_rate", 0.1))
+            a = ResearcherAgent(i, self, prototype_rate=proto_rate, learning_rate=learn_rate, rdte_program=rdte_row)
             self.schedule.add(a)
             self.researchers.append(a)
             entity_id = getattr(a, "entity_id", getattr(a, "program_id", ""))
@@ -171,14 +186,18 @@ class RdteModel(Model):
         offset = n_researchers
         self.policymakers: List[PolicymakerAgent] = []
         for i in range(n_policymakers):
-            a = PolicymakerAgent(offset + i, self, allocation_agility=0.1, oversight_rigidity=0.8)
+            agility = float(pcfg.get("allocation_agility", 0.1))
+            rigidity = float(pcfg.get("oversight_rigidity", 0.8))
+            a = PolicymakerAgent(offset + i, self, allocation_agility=agility, oversight_rigidity=rigidity)
             self.schedule.add(a)
             self.policymakers.append(a)
 
         offset += n_policymakers
         self.endusers: List[EndUserAgent] = []
         for i in range(n_endusers):
-            a = EndUserAgent(offset + i, self, adoption_threshold=0.6, feedback_strength=0.4)
+            adoption_threshold = float(ecfg.get("adoption_threshold", 0.6))
+            feedback_strength = float(ecfg.get("feedback_strength", 0.4))
+            a = EndUserAgent(offset + i, self, adoption_threshold=adoption_threshold, feedback_strength=feedback_strength)
             self.schedule.add(a)
             self.endusers.append(a)
 
@@ -264,6 +283,17 @@ class RdteModel(Model):
             except Exception:
                 pass
         return base
+
+    def _stage_counts(self) -> Dict[str, int]:
+        """Return counts of researchers by current stage (or idle if no candidate)."""
+        counts = {k: 0 for k in ["idle"] + ResearcherAgent.STAGES}
+        for r in self.researchers:
+            idx = getattr(r, "current_stage_index", None)
+            if idx is None:
+                counts["idle"] += 1
+            elif 0 <= idx < len(ResearcherAgent.STAGES):
+                counts[ResearcherAgent.STAGES[idx]] += 1
+        return counts
 
     # ---- Data loading helpers ----
     def _load_labs(self, labs_csv: Optional[str]) -> List[Dict[str, Any]]:

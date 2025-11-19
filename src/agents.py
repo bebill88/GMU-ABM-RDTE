@@ -435,6 +435,9 @@ class ResearcherAgent(Agent):
                         # Negative feedback from ops test; learn modestly
                         self.model.penalty_record_failure("adoption", self)
                         self.quality = min(1.0, self.quality + self.learning_rate * self.random.random())
+                        # Keep the program at the final stage for another try
+                        self.current_stage_index = len(self.STAGES) - 1
+                        self.stage_enter_tick = self.model.schedule.time
                         if hasattr(self.model, "log_event"):
                             self.model.log_event(self, gate="adoption", stage=None, outcome="reject")
                 return

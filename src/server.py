@@ -87,10 +87,45 @@ class ProjectStatusElement(TextElement):
         )
 
 
+class StageFunnelElement(TextElement):
+    def render(self, model: RdteModel) -> str:  # type: ignore[override]
+        counts = model._stage_counts()
+        stages = ["idle"]
+        try:
+            if model.researchers:
+                stages += list(model.researchers[0].STAGES)
+        except Exception:
+            stages = ["idle"]
+        parts = [f"{stage}: {counts.get(stage, 0)}" for stage in stages]
+        return "<b>Stage distribution</b><br/>" + " | ".join(parts)
+
+
+class GateContextElement(TextElement):
+    def render(self, model: RdteModel) -> str:  # type: ignore[override]
+        ctx = getattr(model, "_last_gate_context", {}) or {}
+        if not ctx:
+            return "<b>Last gate context</b>: (no gate evaluated yet)"
+        items = []
+        for k in sorted(ctx.keys()):
+            items.append(f"{k}={ctx[k]}")
+        return "<b>Last gate context</b><br/>" + " | ".join(items)
+
+
 adoptions_chart = ChartModule(
     [
         {"Label": "adoptions_this_tick", "Color": "#1f77b4"},
         {"Label": "cum_adoptions", "Color": "#2ca02c"},
+    ],
+    data_collector_name="datacollector",
+)
+
+stage_chart = ChartModule(
+    [
+        {"Label": "stage_feasibility", "Color": "#4c78a8"},
+        {"Label": "stage_prototype_demo", "Color": "#9ecae9"},
+        {"Label": "stage_functional_test", "Color": "#f58518"},
+        {"Label": "stage_vulnerability_test", "Color": "#e45756"},
+        {"Label": "stage_operational_test", "Color": "#54a24b"},
     ],
     data_collector_name="datacollector",
 )
@@ -153,7 +188,16 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
 
     server = ModularServer(
         RdteModel,
-        [HelpElement(), MetricsElement(), TransitionProbabilityElement(), ProjectStatusElement(), adoptions_chart],
+        [
+            HelpElement(),
+            MetricsElement(),
+            TransitionProbabilityElement(),
+            ProjectStatusElement(),
+            StageFunnelElement(),
+            GateContextElement(),
+            adoptions_chart,
+            stage_chart,
+        ],
         "RDT&E ABM",
         params,
     )

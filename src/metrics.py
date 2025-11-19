@@ -77,13 +77,15 @@ class PenaltyBook:
         """
         Combine penalties multiplicatively across keys.
         factor = Π (1 - min(max_penalty, per_failure * count))
+        We also enforce a soft floor so a few bad runs do not freeze the pipeline.
         """
         f = 1.0
         for k in keys:
             c = self.counts.get(k, 0)
             pen = min(self.max_penalty, self.per_failure * c)
             f *= max(0.0, 1.0 - pen)
-        return max(0.0, min(1.0, f))
+        # Soft floor keeps probabilities from collapsing to ~0 after repeated failures.
+        return max(0.4, min(1.0, f))
 
     def decay_all(self) -> None:
         if self.decay <= 0:
