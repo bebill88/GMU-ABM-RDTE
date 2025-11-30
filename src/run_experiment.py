@@ -116,6 +116,9 @@ def run_once(args) -> dict:
         "labs_csv": _resolve_labs_csv(args),
         "rdte_csv": _resolve_rdte_csv(args),
         "penalties": penalty_config,
+        "testing_profile": getattr(model, "testing_profile", getattr(args, "testing_profile", None)),
+        "priors_enabled": getattr(model, "enable_priors", True),
+        "prior_weights_by_gate": getattr(model, "prior_weights_by_gate", {}),
     })
     return summary
 

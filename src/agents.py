@@ -330,6 +330,21 @@ class ResearcherAgent(Agent):
             + (1.0 if self.align_agency else 0.0)
         ) / 4.0
 
+        # Snapshot baseline values for override highlighting in the UI
+        try:
+            self._raw_baseline = {
+                "quality": float(self.quality),
+                "stage": self.stage_gate_start,
+                "gao_penalty": float(getattr(self, "gao_penalty", 0.0)),
+                "perf_penalty": float(getattr(self, "perf_penalty", 0.0)),
+                "executing_capacity": float(getattr(self, "executing_capacity", 0.0)),
+                "test_capacity": float(getattr(self, "test_capacity", 0.0)),
+                "domain_alignment": float(getattr(self, "domain_alignment", 0.0)),
+                "classification_penalty": float(getattr(self, "classification_penalty", 0.0)),
+            }
+        except Exception:
+            self._raw_baseline = {}
+
     def step(self) -> None:
         """
         One simulation step of behavior for the researcher:

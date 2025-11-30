@@ -145,6 +145,8 @@ class HelpElement(TextElement):
             "<span class='pill'>Shock window: {shock}</span>"
             "<span class='pill'>UI: {ui_mode}</span>"
             "<span class='pill'>Focus: {focus_mode}</span>"
+            "<span class='pill'>Profile: {profile}</span>"
+            "<span class='pill'>Priors: {priors}</span>"
             "</div>"
             "<div class='section-title'>Quick tips</div>"
             "<ul style='margin: 6px 0 0 16px; padding-left: 12px;'>"
@@ -160,6 +162,8 @@ class HelpElement(TextElement):
             shock="on" if model.is_in_shock() else "off",
             ui_mode=getattr(model, "ui_mode", "Standard"),
             focus_mode=getattr(model, "focus_selection_mode", "Manual"),
+            profile=getattr(model, "testing_profile", "production"),
+            priors=("on" if getattr(model, "enable_priors", True) else "off"),
         )
 
 
@@ -221,20 +225,33 @@ class ProjectStatusElement(TextElement):
         advanced = str(getattr(model, "ui_mode", "Standard")).lower().startswith("adv")
         detail_html = ""
         if advanced:
-            # Detect overrides vs. loaded data for highlighting
-            def override_cls(val_name: str, current_val) -> str:
-                # If what-if quality delta is applied, highlight quality and derived penalties
-                if val_name in {"gao_penalty", "perf_penalty", "quality"} and getattr(model, "what_if_quality_delta", 0.0) != 0:
+            raw = getattr(r, "_raw_baseline", {}) or {}
+            def override_cls(field: str, current_val) -> str:
+                raw_val = raw.get(field, current_val)
+                try:
+                    if isinstance(current_val, (int, float)) and abs(float(current_val) - float(raw_val)) > 1e-6:
+                        return "pill override"
+                except Exception:
+                    if current_val != raw_val:
+                        return "pill override"
+                # what-if quality delta -> highlight quality/penalties
+                if field in {"quality", "gao_penalty", "perf_penalty"} and getattr(model, "what_if_quality_delta", 0.0) != 0:
                     return "pill override"
-                # Could be extended with raw source comparison if source stored; for now only what-if
                 return "pill"
             q_class = override_cls("quality", getattr(r, "quality", 0.0))
             gao_class = override_cls("gao_penalty", getattr(r, "gao_penalty", 0.0))
             perf_class = override_cls("perf_penalty", getattr(r, "perf_penalty", 0.0))
-            exec_class = "pill"
-            test_class = "pill"
-            domain_class = "pill"
-            class_class = "pill"
+            exec_class = override_cls("executing_capacity", getattr(r, "executing_capacity", 0.0))
+            test_class = override_cls("test_capacity", getattr(r, "test_capacity", 0.0))
+            domain_class = override_cls("domain_alignment", getattr(r, "domain_alignment", 0.0))
+            class_class = override_cls("classification_penalty", getattr(r, "classification_penalty", 0.0))
+            stage_class = "pill"
+            try:
+                base_stage = raw.get("stage")
+                if base_stage and base_stage != stage:
+                    stage_class = "pill override"
+            except Exception:
+                pass
             detail_html = (
                 "<div class='section-title'>Project details</div>"
                 "<div class='pill-row'>"
@@ -254,8 +271,12 @@ class ProjectStatusElement(TextElement):
                 "<div class='pill-row'>"
                 f"<span class='{domain_class}'>Domain alignment: {getattr(r, 'domain_alignment', 0.0):.2f}</span>"
                 f"<span class='{class_class}'>Class band: {getattr(r, 'classification_penalty', 0.0):.2f}</span>"
+                f"<span class='{q_class}'>Quality: {getattr(r, 'quality', 0.0):.2f}</span>"
                 f"<span class='{q_class}'>Digital maturity: {getattr(r, 'digital_maturity_score', 0.0):.2f}</span>"
                 f"<span class='{q_class}'>MBSE: {getattr(r, 'mbse_coverage', 0.0):.2f}</span>"
+                "</div>"
+                "<div class='pill-row'>"
+                f"<span class='{stage_class}'>Baseline stage: {raw.get('stage', 'NA')} | Current: {stage}</span>"
                 "</div>"
             )
         return (

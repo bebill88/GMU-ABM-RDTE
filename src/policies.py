@@ -296,7 +296,12 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
     modulate probability as simple multipliers.
     """
     p = funding_gate_probability(model, researcher, stage, record_context=True)
-    return model.random.random() < p
+    passed = model.random.random() < p
+    try:
+        model.metrics.record_gate("funding", stage, passed)
+    except Exception:
+        pass
+    return passed
 
 
 def legal_review_gate(model, researcher) -> str:
@@ -431,7 +436,17 @@ def contracting_gate_probability(model, researcher, record_context: bool = True)
             "contract_org_type": org,
         }
     p = _apply_external_modifiers(model, researcher, "contracting", p)
-    return p
+    passed = model.random.random() < p
+    try:
+        stage_val = None
+        if getattr(researcher, "current_stage_index", None) is not None and hasattr(researcher, "STAGES"):
+            idx = researcher.current_stage_index
+            if isinstance(idx, int) and 0 <= idx < len(researcher.STAGES):
+                stage_val = researcher.STAGES[idx]
+        model.metrics.record_gate("contracting", stage_val, passed)
+    except Exception:
+        pass
+    return passed
 
 
 def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
@@ -440,7 +455,12 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
     Factors: stage difficulty, TRL, domain, kinetic, legal caveats, regime, shocks.
     """
     p = test_gate_probability(model, researcher, stage, legal_status, record_context=True)
-    return model.random.random() < p
+    passed = model.random.random() < p
+    try:
+        model.metrics.record_gate("test", stage, passed)
+    except Exception:
+        pass
+    return passed
 
 
 def test_gate_probability(model, researcher, stage: str, legal_status: str, record_context: bool = True) -> float:
@@ -561,7 +581,12 @@ def adoption_gate(model, researcher) -> bool:
     rich priority alignment factors before sampling end-users.
     """
     p = adoption_gate_probability(model, researcher, record_context=True)
-    return model.random.random() < p
+    passed = model.random.random() < p
+    try:
+        model.metrics.record_gate("adoption", None, passed)
+    except Exception:
+        pass
+    return passed
 
 
 def adoption_gate_probability(model, researcher, record_context: bool = True, quality_delta: float = 0.0) -> float:

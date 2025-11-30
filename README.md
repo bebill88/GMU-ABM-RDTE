@@ -212,6 +212,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Historical priors: `closed_projects.csv` feeds empirical transition-rate priors by domain, authority mix, vendor risk bucket, GAO severity bucket, and program; gates blend these as a mild multiplier (0.5–1.0) so past outcomes nudge but don’t dominate current probabilities.
 - Prior weights: defaults set to 0.2 per gate in `penalties.prior_weights_by_gate`; adjust up/down to change historical influence or set to 0 to disable.
 - Smoke/demo: `python -m src.smoke_demo` runs a short demo-profile check and asserts transitions > 0 (good for CI); set `model.testing_profile: demo` for GUI smoke tests.
+- Profiles: use `parameters.yaml` for production realism, `parameters.demo.yaml` for fast/demo runs, and `parameters.stressed.yaml` for conservative/shock-style scenarios. Override via `--config` or `--testing_profile`.
 - Scenario levers: tune `gao_weight`, `vendor_weight`, and the authority/capacity values in the entity/roles CSVs to run sensitivity experiments.
 
 ---

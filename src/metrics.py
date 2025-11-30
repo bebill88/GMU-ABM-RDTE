@@ -1,6 +1,6 @@
 """
 Metrics tracking.
-We compute a few simple, decision‑relevant KPIs after each run:
+We compute a few simple, decision-relevant KPIs after each run:
 - transition_rate  : % of attempts that successfully transition to field
 - avg_cycle_time   : average steps from prototype start to adoption
 - diffusion_speed  : average adoptions per tick (rough adoption velocity)
@@ -28,8 +28,10 @@ class MetricTracker:
     shocks: int = 0
     recoveries: int = 0
 
-    # Per‑tick measurements (e.g., adoption counts each step)
+    # Per-tick measurements (e.g., adoption counts each step)
     adoptions_per_tick: list[int] = field(default_factory=list)
+    gate_counts: dict = field(default_factory=dict)          # gate -> {'pass': int, 'fail': int}
+    gate_stage_counts: dict = field(default_factory=dict)    # (gate, stage) -> {'pass': int, 'fail': int}
 
     def on_attempt(self) -> None:
         """Register a prototype attempt (future hook; not used in basic flow)."""
@@ -44,6 +46,16 @@ class MetricTracker:
         """Record number of new adoptions for this tick (for diffusion speed)."""
         self.adoptions_per_tick.append(int(adopted_count))
 
+    def record_gate(self, gate: str, stage: str | None, passed: bool) -> None:
+        """Record gate pass/fail counts (aggregate and by stage)."""
+        outcome = "pass" if passed else "fail"
+        g = self.gate_counts.setdefault(gate, {"pass": 0, "fail": 0})
+        g[outcome] += 1
+        if stage is not None:
+            key = (gate, stage)
+            gs = self.gate_stage_counts.setdefault(key, {"pass": 0, "fail": 0})
+            gs[outcome] += 1
+
     def summary(self) -> Dict[str, Any]:
         """Compute simple summary stats for the run."""
         transition_rate = (self.transitions / self.attempts) if self.attempts else 0.0
@@ -55,6 +67,8 @@ class MetricTracker:
             "diffusion_speed": diffusion_speed,
             "attempts": self.attempts,
             "transitions": self.transitions,
+            "gate_counts": self.gate_counts,
+            "gate_stage_counts": self.gate_stage_counts,
         }
 
 
