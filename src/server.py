@@ -137,20 +137,22 @@ class HelpElement(TextElement):
             "<span class='pill'>Regime: {regime}</span>"
             "<span class='pill'>Shock window: {shock}</span>"
             "<span class='pill'>UI: {ui_mode}</span>"
+            "<span class='pill'>Focus: {focus_mode}</span>"
             "</div>"
             "<div class='section-title'>Quick tips</div>"
             "<ul style='margin: 6px 0 0 16px; padding-left: 12px;'>"
             "<li>Adjust population and funding sliders to change throughput.</li>"
             "<li>Use portfolio/service/org/funding pattern dropdowns to shape the mix.</li>"
             "<li>Set trend start/end ticks to view adoption trends for a custom window.</li>"
-            "<li>Focus a project and open Advanced mode to inspect full fields and probability previews.</li>"
-            "<li>Set <code>focus_researcher_id</code> to track a single project (-1 = none).</li>"
+            "<li>Focus a project (prefer <code>focus_program_id</code>) and open Advanced mode to inspect full fields and probability previews.</li>"
+            "<li>Use selection mode (Random/Best/Worst/Manual) or set <code>focus_researcher_id</code> (-1 = none).</li>"
             "</ul>"
         ).format(
             step=getattr(model.schedule, "time", 0),
             regime=getattr(model, "regime", "adaptive"),
             shock="on" if model.is_in_shock() else "off",
             ui_mode=getattr(model, "ui_mode", "Standard"),
+            focus_mode=getattr(model, "focus_selection_mode", "Manual"),
         )
 
 
@@ -403,6 +405,7 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
         "seed": NumberInput("Random seed", 42),
         "focus_researcher_id": NumberInput("Focused researcher index (-1 = none)", -1),
         "focus_program_id": Choice("Focused program id (optional)", "", choices=_program_choices()),
+        "focus_selection_mode": Choice("Focus selection mode", "Random", choices=["Random", "Best", "Worst", "Manual"]),
         "trend_start_tick": NumberInput("Trend window start tick", 0),
         "trend_end_tick": NumberInput("Trend window end tick", 200),
         "what_if_quality_delta": Slider("What-if quality delta (preview only)", 0.0, -0.3, 0.3, 0.01),

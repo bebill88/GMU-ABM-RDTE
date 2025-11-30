@@ -120,6 +120,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
   - Set `trend_start_tick` / `trend_end_tick` to view adoption counts and averages over a custom window (user-defined date/tick range).
   - Use `focus_program_id` (preferred) or `focus_researcher_index` + `UI mode = Advanced` to see full project fields (authority, funding, GAO penalty, vendor risk, capacities, classification).
   - Probability preview panel shows current vs. what-if transition probability (funding/contracting/test/adoption + overall) for the focused project. Adjust `what_if_quality_delta` to simulate improvements or degradations without mutating the live run.
+  - Focus selection mode lets you pick `Random` (default), `Best`, `Worst`, or `Manual` to auto-select a project when the server starts.
 - Data: UI reads live from the running model; event CSVs still land under `outputs/<scenario>_<timestamp>/events_run_<i>.csv` when using the CLI runner.
 
 ---

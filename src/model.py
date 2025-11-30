@@ -69,6 +69,7 @@ class RdteModel(Model):
                  funding_pattern: str = "ProgramBase",
                  focus_researcher_id: int = -1,
                  focus_program_id: str = "",
+                 focus_selection_mode: str = "Random",
                  data_config: Optional[Dict[str, Any]] = None,
                  agent_config: Optional[Dict[str, Any]] = None,
                  trend_start_tick: int = 0,
@@ -103,6 +104,7 @@ class RdteModel(Model):
         self.funding_pattern = str(funding_pattern)
         self.focus_researcher_id = int(focus_researcher_id)
         self.focus_program_id = str(focus_program_id or "")
+        self.focus_selection_mode = str(focus_selection_mode or "Random")
         self.trend_start_tick = int(trend_start_tick)
         self.trend_end_tick = int(trend_end_tick)
         self.ui_mode = str(ui_mode)
@@ -233,6 +235,12 @@ class RdteModel(Model):
             self.schedule.add(a)
             self.endusers.append(a)
 
+        # Apply initial focus selection (random/best/worst/manual)
+        try:
+            self._apply_focus_selection()
+        except Exception:
+            pass
+
     # ---- Policy gates (delegation to policies.py) ----
     def policy_gate_allocation(self, researcher: ResearcherAgent) -> bool:
         """Return True if funding passes this step for the given researcher."""
@@ -308,6 +316,43 @@ class RdteModel(Model):
             return policies.estimate_transition_probability(self, researcher, quality_delta=delta)
         except Exception:
             return {"stage": "NA", "funding": 0.0, "contracting": 0.0, "test": 0.0, "adoption": 0.0, "overall": 0.0}
+
+    def _apply_focus_selection(self) -> None:
+        """Set the focused program/agent based on selection mode (random/best/worst/manual)."""
+        if not self.researchers:
+            return
+        mode = str(getattr(self, "focus_selection_mode", "Manual") or "Manual").lower()
+        selected = None
+        if mode == "random":
+            selected = self.random.choice(self.researchers)
+        elif mode in {"best", "worst"}:
+            scored = []
+            for r in self.researchers:
+                try:
+                    p = self.preview_transition_probability(r).get("overall", 0.0)
+                except Exception:
+                    p = 0.0
+                scored.append((p, r))
+            if scored:
+                scored.sort(key=lambda x: x[0])
+                selected = scored[-1][1] if mode == "best" else scored[0][1]
+        else:  # manual: keep explicit selections if valid
+            pid = (self.focus_program_id or "").strip()
+            if pid and pid in self.program_index:
+                selected = self.program_index[pid]
+            elif 0 <= self.focus_researcher_id < len(self.researchers):
+                selected = self.researchers[self.focus_researcher_id]
+
+        if selected is None:
+            selected = self.random.choice(self.researchers)
+        try:
+            self.focus_program_id = str(getattr(selected, "program_id", "") or "")
+        except Exception:
+            self.focus_program_id = ""
+        try:
+            self.focus_researcher_id = int(getattr(selected, "unique_id", -1))
+        except Exception:
+            self.focus_researcher_id = -1
 
     # ---- Environment helpers ----
     def environmental_signal(self, researcher: ResearcherAgent | None = None) -> float:
