@@ -536,6 +536,113 @@ Sensitivity testing tips
 - **BA (Budget Activity)** - High-level categories (BA2, BA3, BA4, etc.) that shape the starting gate (`feasibility`, `prototype_demo`, ) and funding priorities.
 - **NDAA / Appropriations / R-1/R-2** - The legislative and comptroller documents that provide authoritative funding, mission, and maturity context for each PE; the ingestion workflow extracts these into schema fields.
 - **Schema/Template Files** - JSON Schema files under `schemas/` and CSV templates under `data/templates/` capture the required columns so both synthetic and real data stay aligned with the loader expectations.
+### Fields by Dataset (Glossary)
 
-- <img width="1112" height="902" alt="image" src="https://github.com/user-attachments/assets/b3dd07f2-2f37-45f1-b860-cf2b1f85a51a" />
+**RDT&E Entities (data/rdte_entities.csv)**
+- `entity_id`: Unique ID for lab, agency, office, IC element, vendor, FFRDC, or UARC.
+- `name`: Full entity name.
+- `short_name`: Abbreviated display name.
+- `entity_category`: Type: Lab, Agency, ProgramOffice, OperationalUnit, Vendor.
+- `service`: Army, Navy, USAF, USSF, CIA, NSA, NGA, DIA, DOE, etc.
+- `parent_entity_id`: Hierarchical owner, if applicable.
+- `has_organic_rdte`: 1 if the entity performs its own RDT&E.
+- `rdte_roles`: Roles such as sponsor, executing, test, ops.
+- `base_budget_type`: RDT&E, MIP, NIP, TOA, etc.
+- `base_budget_pe`: Program Element (PE) number.
+- `base_budget_ba`: Budget Activity (BA2–BA7).
+- `estimated_rdte_capacity_musd`: Estimated annual research capacity.
+- `estimated_rdte_staff`: Approximate personnel supporting RDT&E.
+- `primary_domains`: Mission areas: ISR, AI, GEOINT, CBRN, Space, EW, UAS.
+- `authority_flags`: Statutory authority: 10USC, 50USC, ALLIED.
+- `location_region`: CONUS-East, CONUS-West, NCR, INDOPACOM, EUCOM.
+- `classification_band`: Unclassified, Secret, TS/SCI.
+- `notes`: Additional context.
+
+**Program–Entity Roles (data/program_entity_roles.csv)**
+- `program_id`: ID of the RDT&E program.
+- `entity_id`: Entity participating in the program.
+- `role`: Sponsor, executing, test, ops, transition_partner.
+- `effort_share`: Relative magnitude of involvement (0–1).
+- `note`: Context or explanation.
+
+**Vendor Evaluations (data/vendor_evaluations.csv)**
+- `evaluation_id`: Unique evaluation record.
+- `program_id`: Program evaluated.
+- `vendor_id`: Unique vendor identifier.
+- `vendor_name`: Vendor name.
+- `fiscal_year`: FY of scoring.
+- `cost_variance_pct`: + if cost overran, – if underrun.
+- `schedule_variance_pct`: Schedule overrun or underrun.
+- `technical_rating`: Technical score (1–5).
+- `management_rating`: Management score (1–5).
+- `cyber_findings_count`: Security issues found.
+- `major_breach_flag`: 1 if a major breach occurred.
+- `recompete_award_flag`: Vendor competitive for follow-on work.
+
+**GAO Findings (data/gao_findings.csv)**
+- `finding_id`: Unique GAO finding ID.
+- `report_id`: GAO report number (GAO-XX-XXXXX).
+- `report_year`: Publication year.
+- `program_id`: Program affected.
+- `program_name`: Human-readable program name.
+- `finding_type`: Cost, schedule, performance, management, governance, security, etc.
+- `severity`: Impact scale (1–5).
+- `repeat_issue_flag`: 1 if problem also occurred in earlier years.
+- `recommendation_count`: Total GAO recommendations.
+- `implemented_recs`: Closed recommendations.
+- `open_recs`: Remaining open.
+- `summary`: Description of issue.
+- `authority`: 10USC, 50USC, MIP, NIP.
+- `funding_source`: RDT&E, TOA, MIP, NIP, etc.
+- `domain`: ISR, GEOINT, EW, AI, CBRN, Space.
+- `org_type`: Lab, vendor, agency, program office.
+
+**Labs (data/labs.csv)**
+- `lab_id`: Unique ID (aligned to entity_id or vendor_id).
+- `name`: Facility or organization name.
+- `country`: Country.
+- `state`: U.S. state or foreign province.
+- `city`: City / installation.
+- `service_agency`: Army DEVCOM, NRO, NSA, NGA, DOE, etc.
+- `specialization`: Technical areas (AI, EW, autonomy, SIGINT, etc.).
+- `region`: NCR, CONUS-East, CONUS-West, Pacific, EUCOM, etc.
+- `funding_source`: DoD RDT&E, DOE NNSA, NIP, MIP, private capital.
+- `cross_service_agreements`: Joint, interagency, allied, or consortia partnerships.
+- `sector`: Federal, FFRDC, UARC, Private.
+
+**Historical Outcomes (data/closed_projects.csv)**
+- `project_id`: Unique historical instance.
+- `program_id`: Program linked to historical variant.
+- `program_name`: Name of the program.
+- `close_year`: Year project closed.
+- `close_status`: Transitioned, Canceled, OnHold.
+- `close_reason`: Short rationale for outcome.
+- `primary_domain`: Mission area.
+- `authority_flags`: 10USC, 50USC, ALLIED.
+- `sponsor_entity_id`: Sponsor org.
+- `executing_entity_id`: Primary executor.
+- `transition_partner_entity_id`: Intended receiving org.
+- `primary_vendor_id`: Vendor responsible.
+- `primary_vendor_name`: Human-readable vendor name.
+- `peak_rdte_funding_musd`: Maximum annual funding.
+- `total_duration_months`: Duration of the variant.
+- `funding_gate_successes`: Passed funding milestones.
+- `contracting_gate_successes`: Passed contracting gates.
+- `test_gate_successes`: Passed DT/OT gates.
+- `ops_eval_score`: Operational evaluation (0–100).
+- `gao_findings_count`: Count of related GAO findings.
+- `gao_avg_severity`: Severity average.
+- `vendor_avg_technical_rating`: Mean vendor technical score.
+- `vendor_avg_management_rating`: Mean vendor management score.
+- `max_cyber_findings`: Maximum cyber issues.
+- `notes`: Freeform notes.
+
+**FY26 RDT&E Template (data/templates/rdte_funding_row_simulated.csv)**
+- `pe_number`: Program Element ID.
+- `program_name`: PE name.
+- `service`: Service or agency.
+- `ba`: Budget Activity.
+- `fy26_request`: FY26 funding amount.
+- `fy25_enacted`: Prior year amount.
+- `_notes`: Mapping or metadata notes.
 
