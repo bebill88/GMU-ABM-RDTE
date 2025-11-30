@@ -75,7 +75,16 @@ class RdteModel(Model):
                  trend_start_tick: int = 0,
                  trend_end_tick: int = 200,
                  ui_mode: str = "Standard",
-                 what_if_quality_delta: float = 0.0):
+                 what_if_quality_delta: float = 0.0,
+                 custom_project_enabled: str | bool = False,
+                 custom_project_stage: str = "feasibility",
+                 custom_project_quality: float = 0.6,
+                 custom_project_gao_penalty: float = 0.0,
+                 custom_project_perf_penalty: float = 0.0,
+                 custom_project_domain_alignment: float = 0.5,
+                 custom_project_exec_capacity: float = 0.5,
+                 custom_project_test_capacity: float = 0.5,
+                 custom_project_class_penalty: float = 0.0):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
@@ -109,6 +118,15 @@ class RdteModel(Model):
         self.trend_end_tick = int(trend_end_tick)
         self.ui_mode = str(ui_mode)
         self.what_if_quality_delta = float(what_if_quality_delta)
+        self.custom_project_enabled = str(custom_project_enabled).lower() in {"true", "1", "yes", "on"}
+        self.custom_project_stage = str(custom_project_stage or "feasibility")
+        self.custom_project_quality = float(custom_project_quality)
+        self.custom_project_gao_penalty = float(custom_project_gao_penalty)
+        self.custom_project_perf_penalty = float(custom_project_perf_penalty)
+        self.custom_project_domain_alignment = float(custom_project_domain_alignment)
+        self.custom_project_exec_capacity = float(custom_project_exec_capacity)
+        self.custom_project_test_capacity = float(custom_project_test_capacity)
+        self.custom_project_class_penalty = float(custom_project_class_penalty)
         self.labs: List[Dict[str, Any]] = self._load_labs(labs_csv)
         self.rdte_fy26: List[Dict[str, Any]] = self._load_rdte(rdte_csv)
         # Map of program_id -> researcher will be populated after agent creation
@@ -316,6 +334,56 @@ class RdteModel(Model):
             return policies.estimate_transition_probability(self, researcher, quality_delta=delta)
         except Exception:
             return {"stage": "NA", "funding": 0.0, "contracting": 0.0, "test": 0.0, "adoption": 0.0, "overall": 0.0}
+
+    def custom_project_probability(self) -> Dict[str, float]:
+        """Simulate a custom project probability without altering the live agents."""
+        if not self.custom_project_enabled:
+            return {}
+        # Minimal stub with required attributes for policy helpers
+        class _Stub:
+            STAGES = ResearcherAgent.STAGES
+            def __init__(self, model: "RdteModel"):
+                self.model = model
+                self.program_id = "CUSTOM"
+                self.entity_id = "CUSTOM"
+                self.vendor_id = ""
+                self.domain = "Custom"
+                self.portfolio = "Custom"
+                self.org_type = "Custom"
+                self.budget_activity = "BA3"
+                self.funding_source = "ProgramBase"
+                self.lab_support_factor = 1.0
+                self.industry_support_factor = 1.0
+                self.authority_alignment_score = 0.5
+                self.priority_alignment_service = 0.5
+                self.shock_sensitivity = 0.5
+                self.program_status = "Active"
+                self.stage_enter_tick = getattr(model.schedule, "time", 0)
+                self.roles = {}
+                self.stage_gate_start = model.custom_project_stage
+                self.current_stage_index = self.STAGES.index(model.custom_project_stage) if model.custom_project_stage in self.STAGES else 0
+                self.trl = 4
+                self.gao_penalty = model.custom_project_gao_penalty
+                self.perf_penalty = model.custom_project_perf_penalty
+                self.domain_alignment = model.custom_project_domain_alignment
+                self.sponsor_authority = 0.8
+                self.executing_capacity = model.custom_project_exec_capacity
+                self.test_capacity = model.custom_project_test_capacity
+                self.classification_penalty = model.custom_project_class_penalty
+                self.digital_maturity_score = 0.5
+                self.mbse_coverage = 0.5
+                self.priority_alignment_nds = 0.5
+                self.priority_alignment_ccmd = 0.5
+                self.priority_alignment_service = 0.5
+                self.authority = "Title10"
+                self.kinetic_category = "NonKinetic"
+                self.intel_discipline = ""
+                self.quality = model.custom_project_quality
+                self.stage = self.STAGES[self.current_stage_index]
+                self.legal_status = "not_conducted"
+        stub = _Stub(self)
+        probs = policies.estimate_transition_probability(self, stub, quality_delta=0.0)
+        return probs
 
     def _apply_focus_selection(self) -> None:
         """Set the focused program/agent based on selection mode (random/best/worst/manual)."""

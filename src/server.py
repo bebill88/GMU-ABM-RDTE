@@ -92,6 +92,11 @@ class StyleElement(TextElement):
                 border: 1px solid #d9e6e1;
                 font-size: 13px;
             }
+            .pill.override {
+                background: #fee2e2;
+                border: 1px solid #fca5a5;
+                color: #7f1d1d;
+            }
             .headline { font-size: 18px; font-weight: 700; margin: 0 0 6px 0; }
             .subhead { color: var(--muted); margin: 0; }
             .section-title { font-weight: 700; margin: 6px 0 4px 0; }
@@ -197,6 +202,7 @@ class ProjectStatusElement(TextElement):
         if target is None:
             return "Focused project: none (set focus_program_id or focus_researcher_id to a valid value)"
         r = target
+        focus_id = getattr(r, "unique_id", -1)
         stage = (
             r.STAGES[r.current_stage_index]
             if getattr(r, "current_stage_index", None) is not None
@@ -213,6 +219,7 @@ class ProjectStatusElement(TextElement):
         advanced = str(getattr(model, "ui_mode", "Standard")).lower().startswith("adv")
         detail_html = ""
         if advanced:
+            override_class = "pill override" if getattr(model, "what_if_quality_delta", 0.0) != 0 else "pill"
             detail_html = (
                 "<div class='section-title'>Project details</div>"
                 "<div class='pill-row'>"
@@ -223,8 +230,8 @@ class ProjectStatusElement(TextElement):
                 f"<span class='pill'>Vendor: {getattr(r, 'vendor_id', 'NA')}</span>"
                 "</div>"
                 "<div class='pill-row'>"
-                f"<span class='pill'>GAO penalty: {getattr(r, 'gao_penalty', 0.0):.2f}</span>"
-                f"<span class='pill'>Vendor risk: {getattr(r, 'perf_penalty', 0.0):.2f}</span>"
+                f"<span class='{override_class}'>GAO penalty: {getattr(r, 'gao_penalty', 0.0):.2f}</span>"
+                f"<span class='{override_class}'>Vendor risk: {getattr(r, 'perf_penalty', 0.0):.2f}</span>"
                 f"<span class='pill'>Sponsor strength: {getattr(r, 'sponsor_authority', 0.0):.2f}</span>"
                 f"<span class='pill'>Exec capacity: {getattr(r, 'executing_capacity', 0.0):.2f}</span>"
                 f"<span class='pill'>Test capacity: {getattr(r, 'test_capacity', 0.0):.2f}</span>"
@@ -327,6 +334,9 @@ class ProbabilityElement(TextElement):
         def fmt(prob: float) -> str:
             return f"{max(0.0, min(1.0, prob)):.1%}"
 
+        custom = getattr(model, "custom_project_enabled", False)
+        custom_probs = model.custom_project_probability() if custom else {}
+
         return (
             "<div class='section-title'>Probability preview</div>"
             f"<div class='subhead'>Program: {getattr(r, 'program_id', 'NA')} | Stage: {base_probs.get('stage', 'NA')} | What-if quality delta: {delta:+.2f}</div>"
@@ -339,6 +349,19 @@ class ProbabilityElement(TextElement):
             "<div class='pill-row'>"
             f"<span class='pill'>Overall: {fmt(base_probs.get('overall', 0.0))} → {fmt(what_if_probs.get('overall', 0.0))}</span>"
             "</div>"
+            + (
+                "<div class='section-title'>Custom project (simulation only)</div>"
+                f"<div class='subhead'>Stage: {custom_probs.get('stage', 'n/a')} | Quality: {getattr(model, 'custom_project_quality', 0.0):.2f} (overrides highlighted)</div>"
+                "<div class='pill-row'>"
+                f"<span class='pill override'>Funding: {fmt(custom_probs.get('funding', 0.0))}</span>"
+                f"<span class='pill override'>Contracting: {fmt(custom_probs.get('contracting', 0.0))}</span>"
+                f"<span class='pill override'>Test: {fmt(custom_probs.get('test', 0.0))}</span>"
+                f"<span class='pill override'>Adoption: {fmt(custom_probs.get('adoption', 0.0))}</span>"
+                "</div>"
+                "<div class='pill-row'>"
+                f"<span class='pill override'>Overall: {fmt(custom_probs.get('overall', 0.0))}</span>"
+                "</div>"
+            ) if custom_probs else ""
         )
 
 
@@ -410,6 +433,16 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
         "trend_end_tick": NumberInput("Trend window end tick", 200),
         "what_if_quality_delta": Slider("What-if quality delta (preview only)", 0.0, -0.3, 0.3, 0.01),
         "ui_mode": Choice("UI mode", "Standard", choices=["Standard", "Advanced"]),
+        # Custom project simulation (preview only; does not alter agents)
+        "custom_project_enabled": Choice("Custom project simulation", "Off", choices=["Off", "On"]),
+        "custom_project_stage": Choice("Custom stage", "feasibility", choices=["feasibility", "prototype_demo", "functional_test", "vulnerability_test", "operational_test"]),
+        "custom_project_quality": Slider("Custom quality (0-1)", 0.6, 0.0, 1.0, 0.01),
+        "custom_project_gao_penalty": Slider("Custom GAO penalty (0-1)", 0.0, 0.0, 1.0, 0.01),
+        "custom_project_perf_penalty": Slider("Custom vendor/perf penalty (0-1)", 0.0, 0.0, 1.0, 0.01),
+        "custom_project_domain_alignment": Slider("Custom domain alignment (0-1)", 0.5, 0.0, 1.0, 0.01),
+        "custom_project_exec_capacity": Slider("Custom exec capacity (0-1.2)", 0.5, 0.0, 1.2, 0.01),
+        "custom_project_test_capacity": Slider("Custom test capacity (0-1.2)", 0.5, 0.0, 1.2, 0.01),
+        "custom_project_class_penalty": Slider("Custom classification penalty (0-0.3)", 0.0, 0.0, 0.3, 0.01),
         # Scenario/category controls derived from data
         "portfolio_focus": Choice(
             "Portfolio focus",
