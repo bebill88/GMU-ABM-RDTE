@@ -149,8 +149,8 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 - Labs/hubs locations CSV (recommended to commit under `data/`)
   - parameters.yaml:
-    - `data.labs_locations_csv: data/dod_labs_collaboration_hubs_locations.csv`
-  - Effect: adds a small +0.01 "ecosystem support" bonus to environmental signal.
+    - `data.labs_locations_csv: data/templates/labs_template.csv`
+  - Effect: adds a small +0.01 "ecosystem support" bonus to environmental signal. The template now carries a richer lab list (service/region/specialization) even if lat/lon are omitted.
 
 - FY26 RDT&E line items CSV (recommended to commit under `data/`)
   - parameters.yaml:
