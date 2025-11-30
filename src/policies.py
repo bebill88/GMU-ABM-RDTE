@@ -83,13 +83,17 @@ def _dependency_multiplier(model, researcher, stage: str) -> float:
         pass
     return mult
 
-def _penalty_multiplier(model, researcher) -> float:
-    gao = getattr(researcher, "gao_penalty", 0.0)
-    perf = getattr(researcher, "perf_penalty", 0.0)
-    penalty_scale = getattr(model, "gao_penalty_scale", 0.02)
-    perf_scale = getattr(model, "perf_penalty_scale", 0.02)
-    factor = 1.0 - (penalty_scale * gao + perf_scale * perf)
-    return max(0.0, factor)
+def _risk_multiplier(model, researcher, gate: str) -> float:
+    """
+    Vendor/performance risk factor. Strongest effect on contracting gate.
+    """
+    perf = max(0.0, float(getattr(researcher, "perf_penalty", 0.0)))
+    weight = float(getattr(model, "vendor_weight", 0.3))
+    if gate == "contracting":
+        effective = min(1.0, weight * perf)
+    else:
+        effective = min(1.0, 0.3 * weight * perf)
+    return max(0.0, 1.0 - effective)
 
 
 def _ecosystem_multiplier(model, researcher) -> float:
@@ -99,14 +103,15 @@ def _ecosystem_multiplier(model, researcher) -> float:
 
 
 def _apply_external_modifiers(model, researcher, gate: str, base_prob: float) -> float:
-    penalty = _penalty_multiplier(model, researcher)
+    prob = model.apply_gao_modifier(base_prob, researcher)
+    risk = _risk_multiplier(model, researcher, gate)
     ecosystem = _ecosystem_multiplier(model, researcher)
     shock = 1.0
     try:
         shock = model.get_shock_modifier(gate, researcher)
     except Exception:
         pass
-    return max(0.0, min(1.0, base_prob * penalty * ecosystem * shock))
+    return max(0.0, min(1.0, prob * risk * ecosystem * shock))
 
 
 def funding_gate(model, researcher) -> bool:
@@ -207,6 +212,11 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
     svc_align = max(0.0, min(1.0, float(getattr(researcher, "priority_alignment_service", 0.5))))
 
     support_mult = 0.2 + 0.2 * lab_support + 0.2 * industry_support + 0.2 * authority_align + 0.2 * svc_align
+    sponsor_strength = max(0.0, min(1.2, float(getattr(researcher, "sponsor_authority", 0.8))))
+    sponsor_mult = 0.7 + 0.6 * sponsor_strength  # mild boost for strong sponsors
+    class_pen = max(0.0, min(0.3, float(getattr(researcher, "classification_penalty", 0.0))))
+    domain_align = max(0.0, min(1.0, float(getattr(researcher, "domain_alignment", 0.5))))
+    domain_mult = 0.8 + 0.4 * domain_align
 
     status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
     portfolio_mult = _portfolio_multiplier(model, researcher, gate="funding")
@@ -230,21 +240,36 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
 
     p = max(
         0.02,
-        min(0.98, base_prob * factor * support_mult * status_mult * portfolio_mult * shock_factor * latency_boost),
+        min(
+            0.98,
+            base_prob
+            * factor
+            * support_mult
+            * sponsor_mult
+            * status_mult
+            * portfolio_mult
+            * domain_mult
+            * shock_factor
+            * latency_boost
+            * (1.0 - class_pen),
+        ),
     )
     # Record gate context for logging
     model._last_gate_context = {
         "gate_prob_base": round(base_prob, 6),
         "gate_penalty_factor": round(factor, 6),
         "gate_support_mult": round(support_mult, 6),
+        "gate_sponsor_mult": round(sponsor_mult, 6),
         "gate_status_mult": round(status_mult, 6),
         "gate_portfolio_mult": round(portfolio_mult, 6),
+        "gate_domain_mult": round(domain_mult, 6),
         "gate_shock_factor": round(shock_factor, 6),
         "gate_latency_boost": round(latency_boost, 6),
         "gate_stage_age": stage_age,
         "gate_prob_final": round(p, 6),
         "funding_source": source,
         "funding_color_weight": round(color_weight, 6),
+        "funding_class_penalty": round(class_pen, 6),
     }
     p = _apply_external_modifiers(model, researcher, "funding", p)
     return model.random.random() < p
@@ -335,6 +360,11 @@ def contracting_gate(model, researcher) -> bool:
     # Apply penalty factor and program status
     factor = model.penalty_factor("contracting", researcher)
     status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
+    exec_capacity = max(0.0, min(1.2, float(getattr(researcher, "executing_capacity", 0.5))))
+    exec_mult = 0.7 + 0.6 * exec_capacity
+    domain_align = max(0.0, min(1.0, float(getattr(researcher, "domain_alignment", 0.5))))
+    domain_mult = 0.85 + 0.3 * domain_align
+    class_pen = max(0.0, min(0.3, float(getattr(researcher, "classification_penalty", 0.0))))
     # Mild stall relief if stuck in the stage a long time
     stage_age = 0
     try:
@@ -344,11 +374,26 @@ def contracting_gate(model, researcher) -> bool:
         stage_age = 0
     latency_boost = 1.0 + min(max(stage_age, 0), 200) * 0.02
     base_prob = max(0.05, min(0.95, float(base)))
-    p = max(0.05, min(0.95, base_prob * factor * status_mult * latency_boost))
+    p = max(
+        0.05,
+        min(
+            0.95,
+            base_prob
+            * factor
+            * status_mult
+            * exec_mult
+            * domain_mult
+            * (1.0 - class_pen)
+            * latency_boost,
+        ),
+    )
     model._last_gate_context = {
         "gate_prob_base": round(base_prob, 6),
         "gate_penalty_factor": round(factor, 6),
         "gate_status_mult": round(status_mult, 6),
+        "gate_exec_mult": round(exec_mult, 6),
+        "gate_domain_mult": round(domain_mult, 6),
+        "gate_class_penalty": round(class_pen, 6),
         "gate_latency_boost": round(latency_boost, 6),
         "gate_stage_age": stage_age,
         "gate_prob_final": round(p, 6),
@@ -412,6 +457,11 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
     status_mult = _status_multiplier(getattr(researcher, "program_status", "Active"))
     portfolio_mult = _portfolio_multiplier(model, researcher, gate="test")
     dependency_mult = _dependency_multiplier(model, researcher, stage)
+    test_capacity = max(0.0, min(1.2, float(getattr(researcher, "test_capacity", 0.5))))
+    test_mult = 0.7 + 0.6 * test_capacity
+    domain_align = max(0.0, min(1.0, float(getattr(researcher, "domain_alignment", 0.5))))
+    domain_mult = 0.85 + 0.3 * domain_align
+    class_pen = max(0.0, min(0.3, float(getattr(researcher, "classification_penalty", 0.0))))
 
     digital = max(0.0, min(1.0, float(getattr(researcher, "digital_maturity_score", 0.5))))
     mbse_cov = max(0.0, min(1.0, float(getattr(researcher, "mbse_coverage", 0.5))))
@@ -439,7 +489,10 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
             * evidence_mult
             * shock_factor
             * dependency_mult
-            * latency_boost,
+            * latency_boost
+            * test_mult
+            * domain_mult
+            * (1.0 - class_pen),
         ),
     )
     model._last_gate_context = {
@@ -454,6 +507,9 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
         "gate_stage_age": stage_age,
         "gate_prob_final": round(p, 6),
         "legal_status_at_test": legal_status,
+        "gate_test_mult": round(test_mult, 6),
+        "gate_domain_mult": round(domain_mult, 6),
+        "gate_class_penalty": round(class_pen, 6),
     }
     p = _apply_external_modifiers(model, researcher, "test", p)
     return model.random.random() < p

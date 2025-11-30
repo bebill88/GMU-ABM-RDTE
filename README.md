@@ -163,7 +163,46 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
     - `data.shock_events_csv` (CRs, conflicts, policy shocks)
     - `data.program_vendor_evals_csv` (CPARS-lite vendor/performance records)
     - `data.collaboration_network_csv` (lab/MOU graph edges feeding ecosystem bonuses)
+    - `data.rdte_entities_csv` (expanded master list of RDT&E/IC entities)
+    - `data.program_entity_roles_csv` (program→entity mappings with effort shares)
   - Use the stub files under `data/stubs/` until your actual exports are ready; each schema doc under `docs/` explains the expected headers.
+
+---
+
+## Data Schema Overview
+
+- `data/stubs/gao_findings.csv` – GAO findings per program (severity, repeat flags, recommendations).
+- `data/rdte_entities.csv` – master list of RDT&E/IC entities keyed by `parent_entity_id`.
+- `data/program_entity_roles.csv` – program→entity mappings with roles and effort shares.
+- `data/stubs/vendor_evaluations.csv` – multi-year vendor evaluations per program/vendor.
+
+### GAO Findings Data
+- Path: `data/stubs/gao_findings.csv` (replace with real exports when ready).
+- Columns: `finding_id,report_id,report_year,program_id,program_name,finding_type,severity,repeat_issue_flag,recommendation_count,implemented_recs,open_recs,summary,authority,funding_source,domain,org_type`.
+- Aggregation: per-row risk = `severity * (1 + repeat_issue_flag) * (0.5 + 0.5 * open_recs/recommendation_count)`; program scores are summed then normalized to [0,1].
+- Model hook: stored on each program as `gao_penalty`; gates call `apply_gao_modifier(base_prob)` and scale by `gao_weight` (see `parameters.yaml:penalties.gao_weight`).
+
+### RDTE Entities Schema
+- Path: `data/rdte_entities.csv` keyed by `parent_entity_id` (treated as `entity_id` in the model).
+- Columns: `parent_entity_id,has_organic_rdte,rdte_roles,base_budget_type,base_budget_pe,base_budget_ba,estimated_rdte_capacity_musd,estimated_rdte_staff,primary_domains,authority_flags,location_region,classification_band,notes`.
+- Use: loader attaches entity attributes (capacity, domains, authorities, classification) to program-role mappings to modulate gate odds.
+
+### Program–Entity Roles
+- Path: `data/program_entity_roles.csv` with header `program_id,entity_id,role,effort_share,note`.
+- Roles are grouped per program into `sponsor`, `executing`, `test`, `ops`, `transition_partner` (plus any extra role labels).
+- Worked example (PRG-ISR-001): `sponsor`=SRV-ARMY-AFC-ISR, `executing`=LAB-NAVY-NRL-ISR & LAB-AFRL-RIO-ISR, `test`=UNIT-AF-ISRGRP-01, `ops`=UNIT-USMC-INTBN-01, `transition_partner`=AGY-DIA-TECH.
+- Model hook: sponsor authority boosts funding odds; executing/test capacity and domain alignment lift contracting/test gates; classification bands add mild penalties when high-side coordination is required.
+
+### Vendor Evaluations
+- Path: `data/stubs/vendor_evaluations.csv` (header `evaluation_id,program_id,vendor_id,vendor_name,fiscal_year,cost_variance_pct,schedule_variance_pct,technical_rating,management_rating,cyber_findings_count,major_breach_flag,recompete_award_flag`).
+- Aggregation: per-evaluation risk blends cost/schedule variance, technical/management ratings, cyber findings, and breach flags; averaged per `(program_id, vendor_id)` then normalized to [0,1].
+- Model hook: stored as `perf_penalty` and applied most strongly to contracting gates; `vendor_weight` in `parameters.yaml` tunes sensitivity.
+
+### How the ABM Uses These Data
+- Pipeline: CSVs → loaders → per-program GAO penalty + per-program/vendor risk + role metrics → gate probabilities (`funding`, `contracting`, `test`, `adoption`).
+- Role metrics: sponsor authority, executing/test capacity, domain alignment, and classification band feed multipliers inside the gates.
+- GAO severity/repeat issues lower gate odds via `apply_gao_modifier`; vendor risk primarily reduces contracting success; entity capacity/authority mix nudges funding/test performance.
+- Scenario levers: tune `gao_weight`, `vendor_weight`, and the authority/capacity values in the entity/roles CSVs to run sensitivity experiments.
 
 ---
 

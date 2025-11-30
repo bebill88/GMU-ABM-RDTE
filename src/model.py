@@ -20,8 +20,11 @@ from .metrics import MetricTracker, PenaltyBook, EventLogger
 from .data_loader import (
     load_gao_penalties,
     load_shock_events,
-    load_performance_penalties,
+    load_vendor_evaluations,
     load_collaboration_bonus,
+    load_rdte_entities,
+    load_program_entity_roles,
+    derive_role_metrics,
 )
 
 
@@ -135,6 +138,8 @@ class RdteModel(Model):
         self.gao_penalty_scale = float(pc.get("gao_penalty_scale", 0.02))
         self.perf_penalty_scale = float(pc.get("perf_penalty_scale", 0.02))
         self.ecosystem_scale = float(pc.get("ecosystem_scale", 0.05))
+        self.gao_weight = float(pc.get("gao_weight", 0.5))
+        self.vendor_weight = float(pc.get("vendor_weight", 0.4))
 
         self.data_config = data_config or {}
         try:
@@ -145,12 +150,21 @@ class RdteModel(Model):
         self.shocks: List[Dict[str, object]] = load_shock_events(self.data_config.get("shock_events_csv"))
         self.vendor_penalty: Dict[str, float]
         self.program_perf_penalty: Dict[str, float]
-        self.program_perf_penalty, self.vendor_penalty = load_performance_penalties(
+        self.program_perf_penalty, self.vendor_penalty = load_vendor_evaluations(
             self.data_config.get("program_vendor_evals_csv")
         )
         self.ecosystem_bonus: Dict[str, float] = load_collaboration_bonus(
             self.data_config.get("collaboration_network_csv"),
             current_year,
+        )
+        self.entity_master: Dict[str, Dict[str, Any]] = load_rdte_entities(self.data_config.get("rdte_entities_csv"))
+        self.program_roles: Dict[str, Dict[str, Any]] = load_program_entity_roles(
+            self.data_config.get("program_entity_roles_csv"),
+            self.entity_master,
+        )
+        self.role_metrics: Dict[str, Dict[str, float]] = derive_role_metrics(
+            self.program_roles,
+            self._program_domains(),
         )
 
         # Agent configuration overrides (from parameters.yaml -> agents.*)
@@ -172,13 +186,21 @@ class RdteModel(Model):
             self.researchers.append(a)
             entity_id = getattr(a, "entity_id", getattr(a, "program_id", ""))
             vendor_id = getattr(a, "vendor_id", "")
-            a.gao_penalty = self.gaop.get(getattr(a, "program_id", ""), 0.0)
-            perf_base = self.program_perf_penalty.get(getattr(a, "program_id", ""), 0.0)
+            program_id = getattr(a, "program_id", "")
+            a.gao_penalty = self.gaop.get(program_id, 0.0)
+            perf_base = self.program_perf_penalty.get(program_id, 0.0)
             vendor_bonus = self.vendor_penalty.get(vendor_id, 0.0)
-            a.perf_penalty = perf_base + vendor_bonus
+            a.perf_penalty = min(1.0, perf_base + vendor_bonus)
             a.ecosystem_bonus = self.ecosystem_bonus.get(entity_id, 0.0)
+            a.roles = self.program_roles.get(program_id, {})
+            rm = self.role_metrics.get(program_id, {}) if isinstance(self.role_metrics, dict) else {}
+            a.sponsor_authority = rm.get("sponsor_authority", 0.8)
+            a.executing_capacity = rm.get("executing_capacity", 0.5)
+            a.test_capacity = rm.get("test_capacity", 0.5)
+            a.domain_alignment = rm.get("domain_alignment", 0.5)
+            a.classification_penalty = rm.get("classification_penalty", 0.0)
+            a.transition_partners = rm.get("transition_partners", 0.0)
             # Index by program_id if present
-            program_id = getattr(a, "program_id", None)
             if isinstance(program_id, str) and program_id:
                 # Last writer wins if duplicates; this is acceptable for a coarse dependency model
                 self.program_index[program_id] = a
@@ -253,6 +275,18 @@ class RdteModel(Model):
 
     def penalty_record_failure(self, gate: str, researcher: ResearcherAgent, stage: Optional[str] = None) -> None:
         self.penalties.bump(self._penalty_keys(gate, researcher, stage))
+
+    def apply_gao_modifier(self, base_prob: float, program: ResearcherAgent) -> float:
+        """
+        Down-weight a base probability using the program's GAO penalty.
+        penalty is normalized [0,1]; gao_weight controls sensitivity.
+        """
+        try:
+            penalty = float(getattr(program, "gao_penalty", 0.0))
+        except Exception:
+            penalty = 0.0
+        effective = max(0.0, self.gao_weight * penalty)
+        return max(0.0, min(1.0, base_prob * (1.0 - effective)))
 
     # ---- Environment helpers ----
     def environmental_signal(self, researcher: ResearcherAgent | None = None) -> float:
@@ -546,6 +580,21 @@ class RdteModel(Model):
         except Exception:
             logging.getLogger(__name__).warning("Failed to load RDT&E CSV; proceeding without rdte data.")
             return []
+
+    def _program_domains(self) -> Dict[str, str]:
+        """
+        Map program_id -> domain for role alignment scoring.
+        """
+        domains: Dict[str, str] = {}
+        try:
+            for row in self.rdte_fy26 or []:
+                pid = row.get("program_id") or row.get("project_id")
+                domain = row.get("domain") or row.get("mission_focus") or row.get("portfolio") or ""
+                if pid:
+                    domains[str(pid)] = str(domain)
+        except Exception:
+            pass
+        return domains
 
     def get_shock_modifier(self, gate: str, researcher: ResearcherAgent) -> float:
         """

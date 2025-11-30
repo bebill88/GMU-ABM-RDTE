@@ -30,6 +30,8 @@ data:
   shock_events_csv: data/stubs/shock_events.csv
   program_vendor_evals_csv: data/stubs/vendor_evaluations.csv
   collaboration_network_csv: data/stubs/collaboration_network.csv
+  rdte_entities_csv: data/rdte_entities.csv
+  program_entity_roles_csv: data/program_entity_roles.csv
 
 penalties:
   # Per-failure penalty applied multiplicatively across selected axes
@@ -41,6 +43,8 @@ penalties:
   gao_penalty_scale: 0.02
   perf_penalty_scale: 0.02
   ecosystem_scale: 0.05
+  gao_weight: 0.5         # weight applied when down-weighting gates via GAO findings
+  vendor_weight: 0.4      # weight applied to vendor risk when evaluating contracting gates
   # Optional override of axes used per gate; omit to use defaults
   # axes_by_gate:
   #   funding: [researcher, funding_source, org_type]

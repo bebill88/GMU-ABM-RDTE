@@ -8,6 +8,8 @@ import csv
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
+from . import gao_utils
+
 
 def _read_csv(path: Optional[str]) -> List[Dict[str, str]]:
     if not path:
@@ -21,20 +23,9 @@ def _read_csv(path: Optional[str]) -> List[Dict[str, str]]:
 
 
 def load_gao_penalties(path: Optional[str]) -> Dict[str, float]:
-    rows = _read_csv(path)
-    program_totals: Dict[str, float] = {}
-    for row in rows:
-        program_id = (row.get("program_id") or "").strip()
-        try:
-            severity = float(row.get("severity") or 0.0)
-        except ValueError:
-            severity = 0.0
-        repeat = 1.0 if str(row.get("repeat_issue_flag", "")).strip() in {"1", "true", "True"} else 0.0
-        weight = severity * (1.0 + 0.5 * repeat)
-        if not program_id:
-            continue
-        program_totals[program_id] = program_totals.get(program_id, 0.0) + weight
-    return program_totals
+    """Wrapper that returns program-level GAO penalties normalized to [0,1]."""
+    penalties, _ = gao_utils.load_program_penalties(path)
+    return penalties
 
 
 def load_shock_events(path: Optional[str]) -> List[Dict[str, object]]:
@@ -68,33 +59,214 @@ def load_shock_events(path: Optional[str]) -> List[Dict[str, object]]:
     return events
 
 
-def load_performance_penalties(path: Optional[str]) -> Tuple[Dict[str, float], Dict[str, float]]:
+def _capacity_score(entity: Dict[str, str]) -> float:
+    """Estimate a normalized 0..1 capacity score using capacity ($M) and staff."""
+    try:
+        cap = float(entity.get("estimated_rdte_capacity_musd") or 0.0)
+    except ValueError:
+        cap = 0.0
+    try:
+        staff = float(entity.get("estimated_rdte_staff") or 0.0)
+    except ValueError:
+        staff = 0.0
+    cap_score = min(1.0, cap / 200.0)
+    staff_score = min(1.0, staff / 150.0)
+    return max(0.0, min(1.0, 0.6 * cap_score + 0.4 * staff_score))
+
+
+def _authority_score(flags: str) -> float:
+    f = (flags or "").lower()
+    if "10/50" in f or "both" in f:
+        return 0.9
+    if "10" in f:
+        return 1.0
+    if "50" in f:
+        return 0.7
+    return 0.6 if f else 0.5
+
+
+def _classification_penalty(band: str) -> float:
+    b = (band or "").lower()
+    if "ts" in b:
+        return 0.1
+    if "c-s" in b or "c/" in b:
+        return 0.05
+    return 0.0
+
+
+def _domain_match(program_domain: str, entity_domains: str) -> float:
+    if not program_domain:
+        return 0.5
+    pd = program_domain.strip().lower()
+    domains = [d.strip().lower() for d in (entity_domains or "").split(";") if d.strip()]
+    return 1.0 if pd in domains else 0.3 if domains else 0.5
+
+
+def load_rdte_entities(path: Optional[str]) -> Dict[str, Dict[str, str]]:
+    """Load the expanded RDT&E entity master list keyed by parent_entity_id."""
     rows = _read_csv(path)
-    program_scores: Dict[str, List[float]] = {}
-    vendor_scores: Dict[str, List[float]] = {}
+    entities: Dict[str, Dict[str, str]] = {}
+    for row in rows:
+        eid = (row.get("parent_entity_id") or row.get("entity_id") or "").strip()
+        if not eid:
+            continue
+        entities[eid] = dict(row)
+        entities[eid]["entity_id"] = eid
+    return entities
+
+
+def load_program_entity_roles(path: Optional[str], entities: Optional[Dict[str, Dict[str, str]]] = None) -> Dict[str, Dict[str, List[Dict[str, object]]]]:
+    """
+    Load program->entity role mappings and optionally attach entity attributes.
+    Returns: {program_id: {role: [entries...]}}
+    """
+    rows = _read_csv(path)
+    roles: Dict[str, Dict[str, List[Dict[str, object]]]] = {}
+    for row in rows:
+        program_id = (row.get("program_id") or "").strip()
+        entity_id = (row.get("entity_id") or "").strip()
+        role = (row.get("role") or "").strip().lower()
+        if not program_id or not entity_id or not role:
+            continue
+        try:
+            effort = float(row.get("effort_share") or 0.0)
+        except ValueError:
+            effort = 0.0
+        entry: Dict[str, object] = {
+            "entity_id": entity_id,
+            "effort_share": effort,
+            "note": row.get("note", "").strip(),
+        }
+        if entities is not None:
+            ent = entities.get(entity_id)
+            if ent:
+                entry["entity"] = ent
+        roles.setdefault(program_id, {}).setdefault(role, []).append(entry)
+    return roles
+
+
+def derive_role_metrics(roles_by_program: Dict[str, Dict[str, List[Dict[str, object]]]], program_domains: Dict[str, str]) -> Dict[str, Dict[str, float]]:
+    """
+    Compute coarse metrics (authority strength, capacity, domain alignment, classification penalty)
+    from the loaded program-entity roles.
+    """
+    metrics: Dict[str, Dict[str, float]] = {}
+    for program_id, role_map in roles_by_program.items():
+        pdomain = program_domains.get(program_id, "")
+        sponsor_score = 0.0
+        sponsor_weight = 0.0
+        exec_score = 0.0
+        exec_weight = 0.0
+        test_score = 0.0
+        test_weight = 0.0
+        domain_score = 0.0
+        domain_weight = 0.0
+        class_penalty = 0.0
+        class_weight = 0.0
+        transition_count = len(role_map.get("transition_partner", []))
+
+        for role_name, entries in role_map.items():
+            for entry in entries:
+                ent = entry.get("entity") if isinstance(entry, dict) else None
+                effort = float(entry.get("effort_share", 0.0)) if isinstance(entry, dict) else 0.0
+                if effort <= 0:
+                    effort = 0.1
+                if not isinstance(ent, dict):
+                    continue
+                cap_score = _capacity_score(ent)
+                auth_score = _authority_score(ent.get("authority_flags", ""))
+                domain_match = _domain_match(pdomain, ent.get("primary_domains", ""))
+                c_pen = _classification_penalty(ent.get("classification_band", ""))
+                if role_name == "sponsor":
+                    sponsor_score += auth_score * effort
+                    sponsor_weight += effort
+                if role_name in {"executing", "exec"}:
+                    exec_score += cap_score * effort
+                    exec_weight += effort
+                    domain_score += domain_match * effort
+                    domain_weight += effort
+                if role_name == "test":
+                    test_score += cap_score * effort
+                    test_weight += effort
+                    domain_score += domain_match * effort
+                    domain_weight += effort
+                class_penalty += c_pen * effort
+                class_weight += effort
+
+        def avg(total: float, w: float, default: float = 0.0) -> float:
+            return total / w if w > 0 else default
+
+        metrics[program_id] = {
+            "sponsor_authority": round(avg(sponsor_score, sponsor_weight, 0.8), 4),
+            "executing_capacity": round(avg(exec_score, exec_weight, 0.5), 4),
+            "test_capacity": round(avg(test_score, test_weight, 0.5), 4),
+            "domain_alignment": round(avg(domain_score, domain_weight, 0.5), 4),
+            "classification_penalty": round(avg(class_penalty, class_weight, 0.0), 4),
+            "transition_partners": float(transition_count),
+        }
+    return metrics
+
+
+def load_vendor_evaluations(path: Optional[str]) -> Tuple[Dict[str, float], Dict[str, float]]:
+    """
+    Aggregate vendor evaluations into normalized risk scores.
+    Returns (program_risk, vendor_risk) each in [0,1].
+    """
+    rows = _read_csv(path)
+    per_eval: List[Tuple[str, str, float]] = []
     for row in rows:
         program = (row.get("program_id") or "").strip()
         vendor = (row.get("vendor_id") or "").strip()
-        def _float(k: str, default: float = 0.0) -> float:
-            try:
-                return float(row.get(k) or default)
-            except ValueError:
-                return default
-        cost = max(0.0, _float("cost_variance_pct"))
-        schedule = max(0.0, _float("schedule_variance_pct"))
-        tech = max(0.0, 3.0 - _float("technical_rating"))
-        mgmt = max(0.0, 3.0 - _float("management_rating"))
-        breach = 2.0 if str(row.get("major_breach_flag", "")).strip() in {"1", "true", "True"} else 0.0
-        perf_penalty = 0.01 * cost + 0.01 * schedule + tech + mgmt + breach
+        if not program and not vendor:
+            continue
+        try:
+            cost = max(0.0, float(row.get("cost_variance_pct") or 0.0))
+        except ValueError:
+            cost = 0.0
+        try:
+            sched = max(0.0, float(row.get("schedule_variance_pct") or 0.0))
+        except ValueError:
+            sched = 0.0
+        try:
+            tech_rating = float(row.get("technical_rating") or 3.0)
+        except ValueError:
+            tech_rating = 3.0
+        try:
+            mgmt_rating = float(row.get("management_rating") or 3.0)
+        except ValueError:
+            mgmt_rating = 3.0
+        try:
+            cyber_findings = float(row.get("cyber_findings_count") or 0.0)
+        except ValueError:
+            cyber_findings = 0.0
+        breach = str(row.get("major_breach_flag", "")).strip().lower() in {"1", "true", "yes", "y"}
+
+        cost_score = min(1.0, cost / 30.0)
+        sched_score = min(1.0, sched / 30.0)
+        tech_pen = min(1.0, (5.0 - tech_rating) / 4.0)
+        mgmt_pen = min(1.0, (5.0 - mgmt_rating) / 4.0)
+        cyber_pen = min(1.0, cyber_findings / 5.0)
+        breach_pen = 0.5 if breach else 0.0
+        risk = min(1.0, cost_score * 0.25 + sched_score * 0.25 + tech_pen * 0.2 + mgmt_pen * 0.15 + cyber_pen * 0.1 + breach_pen)
+        per_eval.append((program, vendor, risk))
+
+    if not per_eval:
+        return {}, {}
+
+    program_scores: Dict[str, List[float]] = {}
+    vendor_scores: Dict[str, List[float]] = {}
+    for program, vendor, risk in per_eval:
         if program:
-            program_scores.setdefault(program, []).append(perf_penalty)
+            program_scores.setdefault(program, []).append(risk)
         if vendor:
-            vendor_scores.setdefault(vendor, []).append(perf_penalty)
-    avg = lambda l: sum(l) / len(l) if l else 0.0
-    return (
-        {k: avg(v) for k, v in program_scores.items()},
-        {k: avg(v) for k, v in vendor_scores.items()},
-    )
+            vendor_scores.setdefault(vendor, []).append(risk)
+
+    def avg(vals: List[float]) -> float:
+        return sum(vals) / len(vals) if vals else 0.0
+
+    program_risk = {k: round(avg(v), 6) for k, v in program_scores.items()}
+    vendor_risk = {k: round(avg(v), 6) for k, v in vendor_scores.items()}
+    return program_risk, vendor_risk
 
 
 def load_collaboration_bonus(path: Optional[str], current_year: int = 2025) -> Dict[str, float]:
