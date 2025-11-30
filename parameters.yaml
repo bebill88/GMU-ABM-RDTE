@@ -8,8 +8,8 @@ model:
   funding_om: 0.5           # normalized budget share for O&M/Procurement
   shock_at: 80              # tick when shock is injected (if scenario=shock)
   seed: 42
-  # Switch to "demo" for smoke tests so transition_rate moves off zero in short runs
-  testing_profile: demo
+  # Production realism; use parameters.demo.yaml for fast/demo runs
+  testing_profile: production
 
 agents:
   researcher:
@@ -50,10 +50,11 @@ penalties:
   vendor_weight: 0.4      # weight applied to vendor risk when evaluating contracting gates
   closed_priors_weight: 0.2  # modest default so historical priors nudge but don't dominate
   prior_weights_by_gate:
-    funding: 0.2
-    contracting: 0.2
-    test: 0.2
-    adoption: 0.2
+    funding: 0.05
+    contracting: 0.05
+    test: 0.05
+    adoption: 0.05
+  enable_priors: true
   # Optional override of axes used per gate; omit to use defaults
   # axes_by_gate:
   #   funding: [researcher, funding_source, org_type]
@@ -64,22 +65,22 @@ penalties:
 
 gates:
   # Base probabilities and adjustments; tweak to calibrate behavior
-  funding_base_linear_early: 0.35
-  funding_base_linear_late: 0.28
-  funding_base_adaptive_early: 0.50
-  funding_base_adaptive_late: 0.45
-  funding_base_shock_early: 0.22
-  funding_base_shock_late: 0.16
-  funding_base_postshock_early: 0.42
-  funding_base_postshock_late: 0.36
+  funding_base_linear_early: 0.25
+  funding_base_linear_late: 0.20
+  funding_base_adaptive_early: 0.40
+  funding_base_adaptive_late: 0.35
+  funding_base_shock_early: 0.15
+  funding_base_shock_late: 0.10
+  funding_base_postshock_early: 0.35
+  funding_base_postshock_late: 0.30
   color_weight_late_mix: 0.5   # mix of rdte and om for late stages
 
   test_base:
-    feasibility: 0.78
-    prototype_demo: 0.72
-    functional_test: 0.68
-    vulnerability_test: 0.62
-    operational_test: 0.58
+    feasibility: 0.70
+    prototype_demo: 0.65
+    functional_test: 0.60
+    vulnerability_test: 0.55
+    operational_test: 0.50
   test_trl_bonus_per_level: 0.03  # up to ~0.2 cap
   test_trl_bonus_cap: 0.20
   test_kinetic_penalty: 0.05

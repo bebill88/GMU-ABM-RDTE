@@ -454,7 +454,7 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
         "regime": Choice("Governance regime", "adaptive", choices=["linear", "adaptive", "shock"]),
         "shock_at": Slider("Shock start tick", 80, 0, 500, 5),
         "shock_duration": Slider("Shock duration (ticks)", 20, 0, 200, 5),
-        "seed": NumberInput("Random seed", 42),
+        "seed": NumberInput("Random seed", int(model_config.get("seed", 42))),
         "testing_profile": Choice("Testing profile", model_config.get("testing_profile", "demo"), choices=["demo", "production"]),
         "focus_researcher_id": NumberInput("Focused researcher index (-1 = none)", -1),
         "focus_program_id": Choice("Focused program id (optional)", "", choices=_program_choices()),
@@ -538,6 +538,11 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
             "data_config": data_config,
             "agent_config": agent_config,
         },
+    )
+    print(
+        f"[server] config={config_path or 'parameters.yaml'} | testing_profile={model_config.get('testing_profile', 'production')} "
+        f"| priors_enabled={penalty_config.get('enable_priors', True)} "
+        f"| prior_weights={penalty_config.get('prior_weights_by_gate', {})}"
     )
     server.port = int(port)
     # Mesa binds to 127.0.0.1 by default; host override is supported on newer Mesa

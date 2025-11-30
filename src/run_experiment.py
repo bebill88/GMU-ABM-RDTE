@@ -92,7 +92,7 @@ def run_once(args) -> dict:
         shock_at=args.shock_at,
         seed=args.seed,
         shock_duration=args.shock_duration,
-        testing_profile=model_config.get("testing_profile", "production"),
+        testing_profile=(getattr(args, "testing_profile", None) or model_config.get("testing_profile", "production")),
         labs_csv=_resolve_labs_csv(args),
         rdte_csv=_resolve_rdte_csv(args),
         penalty_config=penalty_config,
@@ -134,6 +134,7 @@ def main() -> None:
     p.add_argument("--funding_om", type=float, default=0.5)
     p.add_argument("--shock_at", type=int, default=80)
     p.add_argument("--shock_duration", type=int, default=20)
+    p.add_argument("--testing_profile", type=str, default=None, help="Override testing profile (production|demo)")
     p.add_argument("--labs_csv", type=str, default=None, help="Path to labs/hubs locations CSV (overrides parameters.yaml)")
     p.add_argument("--rdte_csv", type=str, default=None, help="Path to FY26 RDT&E line items CSV (overrides parameters.yaml)")
     p.add_argument("--config", type=str, default=None, help="Path to a YAML config file (defaults to parameters.yaml)")
@@ -158,6 +159,8 @@ def main() -> None:
         # inject run-specific seed and events path for this iteration
         args_copy = argparse.Namespace(**vars(args))
         args_copy.seed = run_seed
+        if getattr(args, "testing_profile", None):
+            args_copy.testing_profile = args.testing_profile
         # set events path
         outdir = os.path.join("outputs", f"{args.scenario}_{tstamp}")
         if args.events:

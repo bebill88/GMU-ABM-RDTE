@@ -183,6 +183,7 @@ class RdteModel(Model):
             "test": float(pc.get("prior_weights_by_gate", {}).get("test", self.prior_weight)),
             "adoption": float(pc.get("prior_weights_by_gate", {}).get("adoption", self.prior_weight)),
         }
+        self.enable_priors = bool(pc.get("enable_priors", True))
 
         self.data_config = data_config or {}
         try:
@@ -212,6 +213,15 @@ class RdteModel(Model):
         self.closed_projects: List[Dict[str, Any]]
         self.closed_priors: Dict[str, Dict[str, float]]
         self.closed_projects, self.closed_priors = load_closed_projects(self.data_config.get("closed_projects_csv"))
+        if not self.enable_priors:
+            self.closed_priors = {}
+        if not self.closed_projects:
+            self._logger.info("Historical priors disabled or unavailable (closed_projects empty or missing).")
+        else:
+            self._logger.info(
+                f"Historical priors loaded: overall_rate={self.closed_priors.get('overall_rate', 0):.3f} | "
+                f"weights_by_gate={self.prior_weights_by_gate}"
+            )
 
         # Agent configuration overrides (from parameters.yaml -> agents.*)
         ag_cfg = agent_config or {}
@@ -458,7 +468,7 @@ class RdteModel(Model):
         Retrieve an empirical transition prior based on closed_projects.csv.
         Uses domain, authority, vendor risk bucket, GAO severity bucket, and program id.
         """
-        if not getattr(self, "closed_priors", None):
+        if not self.enable_priors or not getattr(self, "closed_priors", None):
             return 0.5
         pri = self.closed_priors
         scores: List[float] = []

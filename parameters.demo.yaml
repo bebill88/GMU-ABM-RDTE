@@ -1,0 +1,81 @@
+# Demo profile for smoke/CI and fast UI exploration (higher transition odds)
+model:
+  steps: 200
+  n_researchers: 40
+  n_policymakers: 10
+  n_endusers: 30
+  funding_rdte: 1.0
+  funding_om: 0.5
+  shock_at: 80
+  seed: 42
+  testing_profile: demo
+
+agents:
+  researcher:
+    prototype_rate: 0.08   # boost starts in demo
+    learning_rate: 0.12
+
+data:
+  labs_locations_csv: data/templates/labs_template.csv
+  rdte_fy26_csv: data/templates/rdte_funding_row_simulated.csv
+  gao_findings_csv: data/stubs/gao_findings.csv
+  shock_events_csv: data/stubs/shock_events.csv
+  program_vendor_evals_csv: data/stubs/vendor_evaluations.csv
+  collaboration_network_csv: data/stubs/collaboration_network.csv
+  rdte_entities_csv: data/rdte_entities.csv
+  program_entity_roles_csv: data/program_entity_roles.csv
+  closed_projects_csv: data/closed_projects.csv
+
+penalties:
+  per_failure: 0.05
+  max_penalty: 0.3
+  decay: 0.0
+  gao_penalty_scale: 0.02
+  perf_penalty_scale: 0.02
+  ecosystem_scale: 0.05
+  gao_weight: 0.5
+  vendor_weight: 0.4
+  closed_priors_weight: 0.2
+  prior_weights_by_gate:
+    funding: 0.2
+    contracting: 0.2
+    test: 0.2
+    adoption: 0.2
+  enable_priors: true
+
+gates:
+  funding_base_linear_early: 0.35
+  funding_base_linear_late: 0.28
+  funding_base_adaptive_early: 0.50
+  funding_base_adaptive_late: 0.45
+  funding_base_shock_early: 0.22
+  funding_base_shock_late: 0.16
+  funding_base_postshock_early: 0.42
+  funding_base_postshock_late: 0.36
+  color_weight_late_mix: 0.5
+  test_base:
+    feasibility: 0.78
+    prototype_demo: 0.72
+    functional_test: 0.68
+    vulnerability_test: 0.62
+    operational_test: 0.58
+  test_trl_bonus_per_level: 0.03
+  test_trl_bonus_cap: 0.20
+  test_kinetic_penalty: 0.05
+  test_cyber_vuln_ops_penalty: 0.05
+  test_adaptive_bonus: 0.03
+  test_shock_penalty: 0.05
+  legal_dist:
+    favorable: 0.60
+    favorable_with_caveats: 0.25
+    unfavorable: 0.10
+    not_conducted: 0.05
+  legal_title50_shift: 0.10
+  legal_kinetic_shift: 0.05
+  legal_penalty_shift_cap: 0.50
+  contracting_base:
+    GovLab: 0.60
+    GovContractor: 0.55
+    Commercial: 0.50
+  contracting_adaptive_bonus: 0.10
+  contracting_linear_commercial_penalty: 0.05

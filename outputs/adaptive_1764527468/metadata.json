@@ -1,0 +1,18 @@
+{
+  "scenario": "adaptive",
+  "runs": 5,
+  "steps": 300,
+  "seed": 2025,
+  "n_researchers": 40,
+  "n_policymakers": 10,
+  "n_endusers": 30,
+  "funding_rdte": 1.0,
+  "funding_om": 0.5,
+  "shock_at": 80,
+  "shock_duration": 20,
+  "labs_csv": null,
+  "rdte_csv": null,
+  "config": "parameters.yaml",
+  "events": true,
+  "base_seed": 2025
+}
