@@ -10,6 +10,7 @@ from mesa import Model
 from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
 from typing import List, Dict, Any, Optional
+from random import Random
 import csv
 from pathlib import Path
 import logging
@@ -95,8 +96,7 @@ class RdteModel(Model):
         self.schedule = RandomActivation(self)
 
         # Keep a local RNG (Mesa also seeds its own); using both is fine for a toy model
-        
-        
+        self.local_random = Random(seed + 1 if seed is not None else None)
 
         # Model‑level state
         self.regime = regime
@@ -975,16 +975,9 @@ class RdteModel(Model):
     # ---- Evaluation and adoption ----
     def evaluate_and_adopt(self, researcher: ResearcherAgent) -> bool:
         """
-        Ask a random sample of end‑users to evaluate the prototype.
-        We use a simple majority vote to decide adoption.
+        Delegate adoption decision to the policy layer (adoption_gate).
         """
-        # Delegate behavior to adoption_gate, keeping legacy logic for reference.
         return policies.adoption_gate(self, researcher)
-        k = max(1, len(self.endusers) // 5)  # sample 20% (rounded down), at least 1
-        sample = self.random.sample(self.endusers, k=k)
-        votes = [eu.evaluate(researcher) for eu in sample]
-        adopted = sum(votes) >= max(1, len(sample) // 2)  # simple majority
-        return adopted
 
     # ---- Simulation loop ----
     def step(self) -> None:

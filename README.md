@@ -10,23 +10,22 @@ Core idea: Compare a linear governance pipeline vs. an adaptive feedback governa
 
 - [Overview](#overview)
 - [Build & Run](#build--run)
+- [Capabilities](#capabilities)
+- [Current Limits](#current-limits)
+- [Live Browser UI](#live-browser-ui)
+- [VS Code Setup](#vs-code-setup)
 - [Data Inputs](#data-inputs)
-- [Data Collection Strategy](#data-collection-strategy)
-- [Technical Data Ingestion Workflow (RDT&E to ABM)](#technical-data-ingestion-workflow-rdte-to-abm)
+- [Data Schema Overview](#data-schema-overview)
+- [Profiles & Modes](#profiles--modes)
+- [Priors & Validation](#priors--validation)
+- [Smoke Tests & Quick Runs](#smoke-tests--quick-runs)
+- [Metrics & Logging](#metrics--logging)
 - [Configuration](#configuration)
 - [Schemas](#schemas)
 - [Outputs](#outputs)
 - [Repository Structure](#repository-structure)
 - [Documentation Links](#documentation-links)
-- [Capabilities](#capabilities)
-- [Current Limits](#current-limits)
-- [Assumptions](#assumptions)
-- [Weights & Sensitivities](#weights--sensitivities)
-- [Glossary](#glossary)
-- [Next Steps](#next-steps)
 - [Changelog](#changelog)
-- [Live Browser UI](#live-browser-ui)
-- [VS Code Setup](#vs-code-setup)
 
 ---
 
@@ -215,39 +214,6 @@ All other datasets enhance fidelity but are optional.
 
 ---
 
-## Data Collection Strategy
-
-- We build a comprehensive picture of the Defense and Intelligence RDT&E ecosystem by normalizing NDAA language, Defense Appropriations Act tables, and R-1/R-2 justification documents into a canonical schema. The initial phase relies on synthetic, structurally accurate entries so we can calibrate the agent-based model before real programs are introduced.
-- The second phase stitches in targeted R-1-lite records, substituting synthetic placeholders with sampled programs across Services and Agencies (ISR, cyber, hypersonics, EW, CBRNE, etc.) for higher-fidelity coverage. Real entries are mapped with funding history, stage, and maturity context directly from those documents.
-- Metadata flags keep provenance visible (synthetic placeholder, R-1 pending, fully ingested), so analysts can surface sensitivity and hygiene for each row.
-- The ingestion pipeline converts R-1 exhibits, R-2 Justification Books, NDAA line tables, and Defense Appropriations Act summaries into structured rows that define program identifiers, PE numbers, appropriations, BAs, mission domains, authority alignments, execution organizations, maturity indicators, and dependencies.
-
----
-
-## Technical Data Ingestion Workflow (RDT&E to ABM)
-
-The data ingestion pipeline converts raw RDT&E program documentation-primarily R-1 budget exhibits, R-2 Justification Books, NDAA line-item tables, and Defense Appropriations Act summaries-into structured, simulation-ready entities for the ABM. The workflow begins by establishing a canonical schema that normalizes attributes across DoD, Defense Agencies, Intelligence Community elements, and dual-use programs, defining unique program identifiers, PE numbers, appropriations, Budget Activity codes, mission domains, authority alignments, execution organizations, technical maturity indicators, and dependency relationships.
-
-1. **Source Acquisition & Parsing**  
-   R-1/R-2 PDFs are pulled from official `.mil`, comptroller, or congressional sites, converted to machine-readable text (with OCR where necessary), and segmented into document fragments that isolate PE titles, BA classification blocks, funding tables, program descriptions, milestone schedules, and contractor/lab references. Every fragment is stored with timestamped version control for traceability.
-
-2. **Field Extraction & Mapping**  
-   Regex-based extractors and domain-specific NLP classifiers map raw text into schema fields: PE number -> `Mapped_PE_Number`, title -> `Program_Name`, appropriation/BA/service -> `Agency`, `Service_Component`, `Budget_Activity`, fiscal tables -> `FYXX_Actual/Enacted/Request`, and R-2 narrative -> inferred mission focus, intel discipline, technical maturity, and dependency counts tied to JADC2, ISR, EW, CBRNE, and autonomy ontologies. Extractors tag each attribute with a confidence score and flag low-confidence values for analyst review.
-
-3. **Entity Consolidation & Deduplication**  
-   Programs spanning multiple volumes or subprojects are consolidated into unified entries. Duplication checks rely on PE IDs, title similarity, and mission-aligned clustering. Entries are labeled as `R1_INGESTED`, `R1_R2_INGESTED`, or `ESTIMATE_ONLY_R1_PENDING` depending on how much real data replaces synthetic placeholders.
-
-4. **Enrichment & Derivation**  
-   Additional ABM-relevant scores are derived dynamically: `Transition_Risk_Index` (from BA, maturity, and integration complexity), `Mission_Criticality_Score` (from DoD priority tags and NDAA language), `Network_Centrality_Score` (from shared contractors/labs and funding co-occurrence), `Supply_Chain_Risk_Level` (from sector and vendor concentration), and `Innovation_Leverage_Factor` (from historical spillover patterns). These latent factors augment the ABM beyond the explicit R-1/R-2 fields.
-
-5. **Validation, Hygiene, and Error Checking**  
-   Entries undergo structural validation (BA matches PE, authority alignment obeys Title 10/50 rules, funding series show monotonicity), with missing/null fields flagged for remediation. Cross-dataset checks ensure consistency between Services, Defense Agencies, and Intelligence Community portfolios, and conflicts are logged for analysts.
-
-6. **Export to Simulation-Ready Format**  
-   Finalized rows export to a consolidated CSV or table where each entry = one RDT&E program agent, columns include static and dynamic attributes used by the ABM, and provenance flags keep the synthetic -> semi-validated -> fully ingested lineage. This dataset becomes the ABM's initial conditions for modeling transition success, budget shocks, cross-domain dependency propagation, and RDT&E-to-O&M flow dynamics.
-
----
-
 ## Configuration
 
 - CLI flags
@@ -276,40 +242,6 @@ JSON Schema definitions live under `schemas/` so you can keep the CSV inputs and
 - `schemas/mbse.schema.json` defines the digital engineering supplement (`project_id`, `digital_maturity`, `model_coverage`, `simulation_runs`, `defect_escape_rate`, `twin_sync_level`) used by the optional MBSE template.
 
 Copy the templates from `data/templates/` before running experiments to guarantee a known-good shape, and use whichever validator you prefer (for example, convert the CSV to JSON and run `jsonschema`, or simply inspect the headers) to confirm your data satisfies the documented properties.
-
----
-
-## Supplementary Data Integration
-
-External inputs such as GAO findings, shock events, vendor evaluations, and collaboration ecosystem records should be documented via `docs/schema_*.md` and seeded with stub CSVs under `data/stubs/`. Wire them into the Mesa model as follows:
-
-1. **GAO findings (`docs/schema_gao_findings.md`)** - Preload the CSV each run, map `program_id` into `RdteModel.program_index`, and use `severity`/`repeat_offender` to bump `PenaltyBook.counts` so the per-gate penalties degrade `funding`/`test` probabilities for flagged programs.
-2. **Shock events (`docs/schema_shock_events.md`)** - Treat each row as a scheduled perturbation: when the current tick falls between `start_tick` and `start_tick + duration`, scale `funding_rdte`/`funding_om` by `budget_impact` and emit metadata through `EventLogger` to tie gate outcomes to the shock type.
-3. **Vendor/program evaluations (`docs/schema_vendor_evaluations.md`)** - Fold `performance_score`/`reliability_score` into `ResearcherAgent.quality` adjustments or gate multipliers, and trigger `PenaltyBook.bump` if `flag_followup` is `true` so low-performing contractors become repeat-offender cases.
-4. **Collaboration network (`docs/schema_collaboration_network.md`)** - Ingest the edge rows that connect labs, services, vendors, and agencies. Build node-centrality scores from `intensity`-weighted edges, feed the resulting `ecosystem_support`/`innovation_leverage_factor`, and use the linkage to bias `network_centrality_score` when matching researchers to labs/vendors.
-
-Run-time loaders should live near `_load_labs`/`_load_rdte` in `src/model.py`; add CLI options or parameter overrides that point to the real CSVs when you move beyond the `data/stubs/` placeholders. The new `docs/data_schema.md` shows how `entity_id`/`program_id` serve as the canonical keys across GAO, vendor, shock, collaboration, and organization tables, and `docs/schema_rdte_entities.md` describes the entity master list (`data/rdte_entities.csv`) that feeds `data/program_entity_roles.csv`. Validating the inputs with `jsonschema` or header inspections before a run keeps the pipelines stable.
-
-### Entity integration pattern
-
-1. **Load the entity tables during model init**  
-   ```python
-   entities = pd.read_csv("data/rdte_entities.csv")
-   prog_roles = pd.read_csv("data/program_entity_roles.csv")
-   entities_by_id = {row["entity_id"]: row for _, row in entities.iterrows()}
-   program_to_entities = defaultdict(list)
-   for _, link in prog_roles.iterrows():
-       program_to_entities[link["program_id"]].append(link.to_dict())
-   model.entities_by_id = entities_by_id
-   model.program_to_entities = program_to_entities
-   ```
-2. **Attach org links to each program agent**  
-   When a program row maps to researchers, derive `sponsor_entities`, `executing_entities`, `test_entities`, `ops_entities`, and a `primary_entity_id` (largest `effort_share`) so every program knows which org owns which role. Those entity IDs already feed GAO, vendor, collaboration, and shock tables.
-3. **Gate logic can consume entity metadata**  
-   Look up `primary_entity_id` in `entities_by_id` during `funding_gate`/`test_gate`, use its `base_budget_type`/`base_budget_ba`/`service`/`authority_flags` to select CR or BA-specific modifiers, apply the ecosystem bonus for well-connected nodes, and cap probabilities if an entity's `estimated_rdte_capacity_musd` or `estimated_rdte_staff` is shared among many programs.
-4. **Plain-language summaries for non-ABM readers**  
-   - `rdte_entities.csv` = "Who actually does the work" (org roster for services, program offices, labs, agencies with budget/domains).  
-   - `program_entity_roles.csv` = "Who owns which program" (mapping of programs to sponsoring/executing/test/ops roles plus effort shares).
 
 ---
 
