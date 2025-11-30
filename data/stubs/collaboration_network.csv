@@ -1,1 +1,12 @@
 edge_id,from_entity_id,to_entity_id,from_entity_type,to_entity_type,instrument_type,domain,start_year,end_year,intensity,note
+edge_id,from_entity_id,to_entity_id,from_entity_type,to_entity_type,instrument_type,domain,start_year,end_year,intensity,note
+AG-7600-001,SRV-ARMY-AFC-ISR,LAB-NAVY-NRL-ISR,ProgramOffice,Lab,7600A,ISR,2021,2025,0.80,Army–Navy ISR work
+AG-MOU-002,AGY-DIA-TECH,AGY-NGA-GEOINT,Agency,Agency,MOU,ISR,2019,9999,0.90,DIA–NGA GEOINT fusion
+CRADA-003,VND-ALPHA,LAB-NAVY-NRL-ISR,Vendor,Lab,CRADA,AI,2020,2026,0.60,AI CRADA
+OTA-004,SRV-USSF-RCO,VND-ORBIT,ProgramOffice,Vendor,OTA,Space,2022,2027,0.70,Responsive space partnership
+MOU-005,AGY-DIA-TECH,UNIT-USMC-INTBN-01,Agency,OperationalUnit,MOU,ISR,2023,2026,0.65,Joint intel experimentation
+MOU-006,SRV-ARMY-AFC-ISR,UNIT-USMC-INTBN-01,ProgramOffice,OperationalUnit,MOU,ISR,2021,2026,0.50,ISR experimentation
+AG-7600-007,AGY-NGA-GEOINT,VND-GEODATA,Agency,Vendor,7600B,ISR,2022,2028,0.75,NGA analytic contract
+OTA-008,SRV-USSF-RCO,VND-AIRCO,ProgramOffice,Vendor,OTA,UAS,2023,2027,0.60,UAS prototyping
+CRADA-009,LAB-NAVY-NRL-ISR,VND-EWLAB,Lab,Vendor,CRADA,EW,2021,2025,0.55,EW waveforms collaboration
+MOU-010,AGY-DIA-TECH,SRV-USSF-RCO,Agency,ProgramOffice,MOU,ISR,2020,9999,0.85,ISR–Space coordination

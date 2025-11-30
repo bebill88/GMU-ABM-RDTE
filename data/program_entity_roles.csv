@@ -1,5 +1,50 @@
 program_id,entity_id,role,effort_share,note
-PRG-ISR-001,SRV-ARMY-AFC-ISR,sponsor,0.6,"Army Futures ISR office is primary program sponsor"
-PRG-ISR-001,LAB-NAVY-NRL-ISR,executing,0.7,"NRL ISR division executes majority of lab development work"
-PRG-ISR-001,AGY-DIA-TECH,transition_partner,0.3,"DIA tech office expected transition partner for IC use"
-PRG-ISR-001,UNIT-USMC-INTBN-01,ops,0.2,"USMC intel unit serves as early operational adopter and experimenter"
+PRG-ISR-001,SRV-ARMY-AFC-ISR,sponsor,0.60,Army Futures ISR office is primary program sponsor
+PRG-ISR-001,LAB-NAVY-NRL-ISR,executing,0.40,NRL executes ISR fusion lab work
+PRG-ISR-001,AGY-DIA-TECH,transition_partner,0.30,DIA uses outputs for IC technical collection
+PRG-ISR-001,UNIT-USMC-INTBN-01,ops,0.20,USMC intel battalion serves as early adopter
+PRG-ISR-001,UNIT-AF-ISRGRP-01,test,0.25,AF ISR group flight tests airborne ISR nodes
+PRG-ISR-001,LAB-AFRL-RIO-ISR,executing,0.35,AFRL supports cross-domain ISR integration
+PRG-CYB-002,AGY-NSA-RESEARCH,sponsor,0.55,NSA research leads mesh cyber defense concept
+PRG-CYB-002,LAB-ARMY-ARL-AI,executing,0.30,ARL AI division develops decision algorithms
+PRG-CYB-002,LAB-MITRE-FFRDC,executing,0.25,MITRE supports architecture and integration
+PRG-CYB-002,UNIT-SOF-J3-EXP,ops,0.20,SOF experiments with mesh concepts in exercises
+PRG-CYB-002,UNIT-USMC-INTBN-01,test,0.15,USMC intel BN evaluates cyber mesh in INDOPACOM
+PRG-AI-003,LAB-ARMY-ARL-AI,executing,0.60,ARL executes AI model development
+PRG-AI-003,AGY-NGA-GEOINT,transition_partner,0.30,NGA adopts models for GEOINT exploitation
+PRG-AI-003,AGY-CIA-DST,sponsor,0.40,CIA DS&T co-sponsors AI targeting research
+PRG-AI-003,LAB-MITRE-FFRDC,executing,0.20,MITRE supports evaluation and V&V
+PRG-SAT-004,SRV-USSF-RCO,sponsor,0.75,USSF RCO directs responsive ISR CubeSat development
+PRG-SAT-004,LAB-AEROSPACE-FFRDC,executing,0.40,Aerospace Corp provides space systems engineering
+PRG-SAT-004,LAB-NRO-ASAT,executing,0.30,NRO lab integrates advanced ISR payloads
+PRG-SAT-004,UNIT-NAVY-FLTEXP,ops,0.20,Fleet experimentation unit uses data in maritime ops
+PRG-SAT-004,UNIT-AF-ISRGRP-01,ops,0.20,AF ISR group uses space ISR feeds for air missions
+PRG-EW-005,LAB-NAVY-NRL-ISR,executing,0.50,NRL develops adaptive EW waveforms
+PRG-EW-005,AGY-DIA-TECH,sponsor,0.55,DIA sponsors EW modernization for intelligence missions
+PRG-EW-005,UNIT-NAVY-FLTEXP,test,0.30,Fleet experiments with EW modes at sea
+PRG-EW-005,LAB-MITRE-FFRDC,executing,0.20,MITRE supports EW architecture and test planning
+PRG-MAR-006,UNIT-NAVY-FLTEXP,sponsor,0.40,Fleet experimentation is primary autonomy customer
+PRG-MAR-006,LAB-ARMY-ARL-AI,executing,0.30,ARL contributes autonomy core algorithms
+PRG-MAR-006,VND-MARITEK,executing,0.45,MariTek implements maritime autonomy stack
+PRG-MAR-006,UNIT-SOF-J3-EXP,ops,0.20,SOF J3 uses maritime autonomy in special operations
+PRG-MAR-006,UNIT-JIATF-SOUTH,ops,0.25,JIATF-SOUTH employs autonomy in counter-trafficking
+PRG-GEO-007,AGY-NGA-GEOINT,sponsor,0.80,NGA GEOINT directorate leads modernization
+PRG-GEO-007,LAB-MITRE-FFRDC,executing,0.25,MITRE supports architecture and data models
+PRG-GEO-007,AGY-ODNI-AR,oversight,0.20,ODNI monitors integration across IC
+PRG-GEO-007,AGY-CIA-DST,transition_partner,0.30,CIA DS&T integrates GEOINT tools into tradecraft
+PRG-CBRN-008,AGY-DIA-TECH,sponsor,0.40,DIA sponsors CBRN sensor integration
+PRG-CBRN-008,LAB-ARMY-ARL-AI,executing,0.25,ARL supports sensor fusion algorithms
+PRG-CBRN-008,UNIT-ARMY-TRADOC,requirements,0.20,TRADOC refines CBRN operational requirements
+PRG-CBRN-008,UNIT-USMC-INTBN-01,ops,0.15,USMC units exercise with integrated CBRN sensors
+PRG-CBRN-008,UNIT-JIATF-SOUTH,ops,0.10,JIATF-SOUTH uses CBRN sensors in maritime interdiction
+PRG-UAV-009,UNIT-AF-ISRGRP-01,test,0.50,AF ISR group leads swarm flight testing
+PRG-UAV-009,SRV-ARMY-AFC-ISR,sponsor,0.35,Army ISR office co-sponsors low-cost swarm tech
+PRG-UAV-009,UNIT-SOF-J3-EXP,ops,0.25,SOF employs swarms in high-risk missions
+PRG-UAV-009,LAB-AFRL-RIO-ISR,executing,0.30,AFRL integrates autonomy with ISR sensors
+PRG-UAV-009,LAB-MITRE-FFRDC,executing,0.20,MITRE supports swarm control algorithms
+PRG-SIG-010,AGY-NSA-RESEARCH,sponsor,0.60,NSA research leads signals collection modernization
+PRG-SIG-010,AGY-DIA-TECH,transition_partner,0.30,DIA adopts improved SIGINT capabilities
+PRG-SIG-010,LAB-NRO-ASAT,executing,0.35,NRO integrates collection with space assets
+PRG-SIG-010,UNIT-USMC-INTBN-01,ops,0.15,USMC intel BN employs new SIGINT tools
+PRG-SIG-010,UNIT-ARMY-TRADOC,requirements,0.15,TRADOC refines SIGINT concepts for ground forces
+

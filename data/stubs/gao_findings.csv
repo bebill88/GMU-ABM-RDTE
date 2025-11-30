@@ -1,1 +1,72 @@
-finding_id,report_id,report_year,program_id,program_name,authority,funding_source,domain,org_type,finding_type,severity,repeat_issue_flag,recommendation_count,implemented_recs,open_recs,summary
+finding_id,report_id,report_year,program_id,program_name,finding_type,severity,repeat_issue_flag,recommendation_count,implemented_recs,open_recs,summary,authority,funding_source,domain,org_type
+GAO22-F1,GAO-22-104550,2022,PRG-ISR-001,Joint ISR Fusion System,cost,4,1,3,1,2,Cost overruns in multi-sensor fusion module,10/50USC,RDT&E-BA4,ISR,ProgramOffice
+GAO21-F2,GAO-21-335120,2021,PRG-ISR-001,Joint ISR Fusion System,performance,3,0,2,1,1,Lag under heavy multi-INT fusion loads,10USC,RDT&E-BA3,ISR,Lab
+GAO23-F3,GAO-23-105900,2023,PRG-ISR-001,Joint ISR Fusion System,governance,5,1,4,1,3,Opaque cross-service ISR governance structure,10/50USC,RDT&E-BA4,ISR,ProgramOffice
+GAO20-F4,GAO-20-597330,2020,PRG-ISR-001,Joint ISR Fusion System,integration,4,1,3,1,2,Difficult integration with legacy ISR ground stations,10USC,RDT&E-BA4,ISR,Lab
+GAO19-F5,GAO-19-597331,2019,PRG-ISR-001,Joint ISR Fusion System,security,5,1,4,1,3,Unsegmented networks for ISR fusion environment,50USC,MIP-BA3,ISR,Agency
+GAO21-F6,GAO-21-410100,2021,PRG-CYB-002,Cyber Defense Mesh,performance,3,0,2,1,1,Latency spikes during large-scale cyber exercises,10USC,RDT&E-BA3,Cyber,Lab
+GAO22-F7,GAO-22-410101,2022,PRG-CYB-002,Cyber Defense Mesh,management,3,1,3,1,2,Unclear responsibility across cyber ops centers,DoDDir,O&M,Cyber,ProgramOffice
+GAO23-F8,GAO-23-410102,2023,PRG-CYB-002,Cyber Defense Mesh,compliance,4,0,3,1,2,Slow implementation of zero trust baselines,DoDDir,O&M,Cyber,ProgramOffice
+GAO20-F9,GAO-20-410103,2020,PRG-CYB-002,Cyber Defense Mesh,security,5,1,4,1,3,Unaddressed vulnerabilities in mesh control plane,10USC,RDT&E-BA3,Cyber,Lab
+GAO19-F10,GAO-19-410104,2019,PRG-CYB-002,Cyber Defense Mesh,test,2,0,1,0,1,Limited red teaming of deployed mesh segments,10/50USC,MIP-BA3,Cyber,Lab
+GAO23-F11,GAO-23-410105,2023,PRG-AI-003,AI Target Recognition,governance,5,1,4,1,3,Opaque AI model approval and validation process,10/50USC,MIP-BA3,AI,ProgramOffice
+GAO22-F12,GAO-22-410106,2022,PRG-AI-003,AI Target Recognition,test,4,0,3,1,2,Lack of operationally realistic AI test scenarios,10USC,RDT&E-BA3,AI,Lab
+GAO21-F13,GAO-21-410107,2021,PRG-AI-003,AI Target Recognition,cost,3,0,2,1,1,Escalating cloud compute costs for model training,10USC,RDT&E-BA3,AI,ProgramOffice
+GAO20-F14,GAO-20-410108,2020,PRG-AI-003,AI Target Recognition,performance,3,0,2,1,1,Degraded classification accuracy in cluttered scenes,10USC,RDT&E-BA3,AI,Lab
+GAO19-F15,GAO-19-410109,2019,PRG-AI-003,AI Target Recognition,security,5,1,4,1,3,Insufficient mitigation for adversarial AI attacks,50USC,NIP-BA5,AI,Agency
+GAO22-F16,GAO-22-410110,2022,PRG-SAT-004,Responsive ISR CubeSat,schedule,2,0,1,1,0,Vendor launch delays against planned window,10USC,Procurement,Space,Vendor
+GAO23-F17,GAO-23-410111,2023,PRG-SAT-004,Responsive ISR CubeSat,cost,3,0,2,0,2,Launch services cost growth above baseline,10USC,Procurement,Space,ProgramOffice
+GAO21-F18,GAO-21-410112,2021,PRG-SAT-004,Responsive ISR CubeSat,test,3,0,2,1,1,Limited end-to-end mission rehearsal tests,10USC,RDT&E-BA4,Space,Lab
+GAO20-F19,GAO-20-410113,2020,PRG-SAT-004,Responsive ISR CubeSat,integration,4,0,3,1,2,Integration challenges with commercial ground segment,10USC,RDT&E-BA4,Space,Vendor
+GAO19-F20,GAO-19-410114,2019,PRG-SAT-004,Responsive ISR CubeSat,requirements,3,0,2,1,1,Ambiguous responsiveness requirements for launch-on-need,10USC,RDT&E-BA3,Space,ProgramOffice
+GAO24-F21,GAO-24-410115,2024,PRG-EW-005,Adaptive EW Sensor,compliance,3,0,2,0,2,Incomplete EW certification and compliance documentation,DoDDir,RDT&E-BA3,EW,Lab
+GAO23-F22,GAO-23-410116,2023,PRG-EW-005,Adaptive EW Sensor,performance,4,0,3,1,2,EW sensor not meeting detection thresholds,10USC,RDT&E-BA3,EW,Lab
+GAO22-F23,GAO-22-410117,2022,PRG-EW-005,Adaptive EW Sensor,governance,4,1,3,1,2,No formal configuration control for EW modes,DoDDir,RDT&E-BA3,EW,ProgramOffice
+GAO21-F24,GAO-21-410118,2021,PRG-EW-005,Adaptive EW Sensor,security,4,0,3,1,2,Insufficient protection for EW mission data files,10USC,RDT&E-BA3,EW,Lab
+GAO20-F25,GAO-20-410119,2020,PRG-EW-005,Adaptive EW Sensor,requirements,3,0,2,1,1,Unstable EW threat models for design baselines,10USC,RDT&E-BA3,EW,ProgramOffice
+GAO23-F26,GAO-23-410120,2023,PRG-MAR-006,Maritime Autonomy Kernel,performance,4,0,3,1,2,Autonomy instability in high sea states,10USC,RDT&E-BA3,Maritime,Lab
+GAO22-F27,GAO-22-410121,2022,PRG-MAR-006,Maritime Autonomy Kernel,requirements,3,0,2,1,1,Ambiguous autonomy behavior requirements,DoDDir,RDT&E-BA2,Maritime,ProgramOffice
+GAO21-F28,GAO-21-410122,2021,PRG-MAR-006,Maritime Autonomy Kernel,security,4,0,3,1,2,Insufficient hardening against spoofed navigation data,10USC,MIP-BA3,Maritime,Lab
+GAO20-F29,GAO-20-410123,2020,PRG-MAR-006,Maritime Autonomy Kernel,test,3,0,2,1,1,Limited contested maritime test events,10USC,RDT&E-BA4,Maritime,OperationalUnit
+GAO19-F30,GAO-19-410124,2019,PRG-MAR-006,Maritime Autonomy Kernel,management,3,1,3,1,2,Unclear ownership between lab and fleet operators,DoDDir,O&M,Maritime,ProgramOffice
+GAO24-F31,GAO-24-410125,2024,PRG-GEO-007,NextGen GEOINT Exploitation,cost,3,0,2,1,1,Cloud compute overruns for imagery analytics,10USC,RDT&E-BA2,GEOINT,ProgramOffice
+GAO23-F32,GAO-23-410126,2023,PRG-GEO-007,NextGen GEOINT Exploitation,security,4,1,3,1,2,Weak access controls for analytic workspaces,50USC,NIP-BA5,GEOINT,Agency
+GAO22-F33,GAO-22-410127,2022,PRG-GEO-007,NextGen GEOINT Exploitation,performance,3,0,2,1,1,Throughput shortfalls on large area imagery,10USC,RDT&E-BA2,GEOINT,Lab
+GAO21-F34,GAO-21-410128,2021,PRG-GEO-007,NextGen GEOINT Exploitation,integration,4,0,3,1,2,Difficult ingestion of nontraditional data sources,10/50USC,MIP-BA3,GEOINT,Agency
+GAO20-F35,GAO-20-410129,2020,PRG-GEO-007,NextGen GEOINT Exploitation,governance,4,1,3,1,2,Fragmented data ownership across GEOINT stakeholders,DoDDir,RDT&E-BA2,GEOINT,ProgramOffice
+GAO24-F36,GAO-24-410130,2024,PRG-CBRN-008,CBRN Sensor Integration,compliance,3,0,2,0,2,Incomplete environmental testing documentation,DoDDir,RDT&E-BA4,CBRN,Lab
+GAO23-F37,GAO-23-410131,2023,PRG-CBRN-008,CBRN Sensor Integration,management,3,0,2,1,1,Contract oversight gaps in sensor integration,10USC,Procurement,CBRN,ProgramOffice
+GAO22-F38,GAO-22-410132,2022,PRG-CBRN-008,CBRN Sensor Integration,requirements,3,0,2,0,2,Unclear environmental thresholds for detection,10USC,RDT&E-BA4,CBRN,ProgramOffice
+GAO21-F39,GAO-21-410133,2021,PRG-CBRN-008,CBRN Sensor Integration,test,2,0,1,0,1,Insufficient live-agent or rep test conditions,10USC,RDT&E-BA4,CBRN,Lab
+GAO20-F40,GAO-20-410134,2020,PRG-CBRN-008,CBRN Sensor Integration,integration,4,0,3,1,2,Integration challenges with legacy warning networks,10USC,RDT&E-BA4,CBRN,Lab
+GAO24-F41,GAO-24-410135,2024,PRG-UAV-009,Low-Cost Swarm UAV,performance,4,1,3,1,2,Swarm stability failures in field trials,10USC,RDT&E-BA3,UAS,Lab
+GAO23-F42,GAO-23-410136,2023,PRG-UAV-009,Low-Cost Swarm UAV,management,3,1,3,1,2,Weak coordination across swarm software vendors,DoDDir,RDT&E-BA3,UAS,ProgramOffice
+GAO22-F43,GAO-22-410137,2022,PRG-UAV-009,Low-Cost Swarm UAV,test,3,0,2,1,1,Limited contested environment flight tests,10USC,RDT&E-BA3,UAS,OperationalUnit
+GAO21-F44,GAO-21-410138,2021,PRG-UAV-009,Low-Cost Swarm UAV,security,4,0,3,1,2,Insufficient protections for UAV C2 links,10USC,MIP-BA3,UAS,Lab
+GAO20-F45,GAO-20-410139,2020,PRG-UAV-009,Low-Cost Swarm UAV,requirements,3,0,2,1,1,Unprioritized capability requests from field units,DoDDir,O&M,UAS,OperationalUnit
+GAO24-F46,GAO-24-410140,2024,PRG-SIG-010,Signals Collection Modernization,security,5,1,4,1,3,Unpatched SIGINT processing servers,50USC,MIP-BA3,SIGINT,Agency
+GAO23-F47,GAO-23-410141,2023,PRG-SIG-010,Signals Collection Modernization,management,3,0,2,1,1,Inadequate coordination with field collection units,10USC,Procurement,SIGINT,ProgramOffice
+GAO22-F48,GAO-22-410142,2022,PRG-SIG-010,Signals Collection Modernization,integration,4,0,3,1,2,Integration challenges with legacy ground stations,10/50USC,MIP-BA3,SIGINT,Agency
+GAO21-F49,GAO-21-410143,2021,PRG-SIG-010,Signals Collection Modernization,test,2,0,1,0,1,Limited system-of-systems test events,10USC,RDT&E-BA4,SIGINT,Lab
+GAO20-F50,GAO-20-410144,2020,PRG-SIG-010,Signals Collection Modernization,governance,4,1,3,1,2,Weak configuration control over collection chain,DoDDir,RDT&E-BA3,SIGINT,ProgramOffice
+finding_id,report_id,report_year,program_id,program_name,finding_type,severity,repeat_issue_flag,recommendation_count,implemented_recs,open_recs,summary,authority,funding_source,domain,org_type
+GAO21-F51,GAO-21-510001,2021,PRG-ISR-001,Joint ISR Fusion System,requirements,3,0,2,1,1,ISR user communities not fully represented in requirements boards,10USC,RDT&E-BA3,ISR,ProgramOffice
+GAO22-F52,GAO-22-510002,2022,PRG-CYB-002,Cyber Defense Mesh,cost,3,1,3,1,2,Underestimated lifecycle sustainment costs for mesh nodes,10USC,O&M,Cyber,ProgramOffice
+GAO23-F53,GAO-23-510003,2023,PRG-AI-003,AI Target Recognition,management,3,1,3,1,2,Frequent reorganization of AI teams causing delivery disruption,DoDDir,RDT&E-BA3,AI,ProgramOffice
+GAO20-F54,GAO-20-510004,2020,PRG-SAT-004,Responsive ISR CubeSat,governance,4,0,3,1,2,Unclear split of authority between service and USSF RCO,10USC,RDT&E-BA4,Space,ProgramOffice
+GAO19-F55,GAO-19-510005,2019,PRG-EW-005,Adaptive EW Sensor,security,4,1,3,1,2,Insufficient review of EW software supply chain risks,10USC,RDT&E-BA3,EW,Lab
+GAO21-F56,GAO-21-510006,2021,PRG-MAR-006,Maritime Autonomy Kernel,cost,3,0,2,1,1,Autonomy software sustainment costs exceed projection,10USC,O&M,Maritime,ProgramOffice
+GAO22-F57,GAO-22-510007,2022,PRG-GEO-007,NextGen GEOINT Exploitation,analysis,3,0,2,1,1,Gaps in analytic tradecraft documentation for new GEOINT tools,50USC,NIP-BA5,GEOINT,Agency
+GAO23-F58,GAO-23-510008,2023,PRG-CBRN-008,CBRN Sensor Integration,security,4,0,3,1,2,Unencrypted telemetry channels in deployed CBRN nodes,10USC,RDT&E-BA4,CBRN,OperationalUnit
+GAO20-F59,GAO-20-510009,2020,PRG-UAV-009,Low-Cost Swarm UAV,cost,3,1,3,1,2,Repeated cost growth in airframe redesign cycles,10USC,RDT&E-BA3,UAS,Vendor
+GAO19-F60,GAO-19-510010,2019,PRG-SIG-010,Signals Collection Modernization,performance,3,0,2,1,1,Collection throughput shortfalls during surge operations,10/50USC,MIP-BA3,SIGINT,Agency
+GAO24-F61,GAO-24-510011,2024,PRG-ISR-001,Joint ISR Fusion System,test,3,0,2,1,1,Insufficient multi-domain ISR exercises for system validation,10USC,RDT&E-BA4,ISR,OperationalUnit
+GAO24-F62,GAO-24-510012,2024,PRG-CYB-002,Cyber Defense Mesh,security,5,1,4,1,3,High-risk cyber findings not tracked to closure,DoDDir,O&M,Cyber,ProgramOffice
+GAO23-F63,GAO-23-510013,2023,PRG-AI-003,AI Target Recognition,ethics,4,0,3,1,2,Unclear guidance on acceptable AI targeting use cases,10/50USC,MIP-BA3,AI,ProgramOffice
+GAO22-F64,GAO-22-510014,2022,PRG-SAT-004,Responsive ISR CubeSat,performance,3,0,2,1,1,Insufficient image quality for requested mission sets,10USC,RDT&E-BA4,Space,Lab
+GAO21-F65,GAO-21-510015,2021,PRG-EW-005,Adaptive EW Sensor,training,2,0,1,0,1,Limited operator training on new EW modes,10USC,O&M,EW,OperationalUnit
+GAO20-F66,GAO-20-510016,2020,PRG-MAR-006,Maritime Autonomy Kernel,interface,3,0,2,1,1,Poor HMI design for fleet operators overseeing autonomy,10USC,RDT&E-BA3,Maritime,Lab
+GAO19-F67,GAO-19-510017,2019,PRG-GEO-007,NextGen GEOINT Exploitation,interoperability,3,0,2,1,1,Lack of standards-based APIs for partner integration,50USC,NIP-BA5,GEOINT,Agency
+GAO21-F68,GAO-21-510018,2021,PRG-CBRN-008,CBRN Sensor Integration,logistics,3,0,2,1,1,Spare parts pipeline for CBRN nodes not fully planned,10USC,O&M,CBRN,ProgramOffice
+GAO22-F69,GAO-22-510019,2022,PRG-UAV-009,Low-Cost Swarm UAV,governance,4,1,3,1,2,Overlapping configuration baselines across swarm variants,DoDDir,RDT&E-BA3,UAS,ProgramOffice
+GAO23-F70,GAO-23-510020,2023,PRG-SIG-010,Signals Collection Modernization,requirements,3,0,2,1,1,User requirements not fully harmonized across CCMDs,10/50USC,MIP-BA3,SIGINT,ProgramOffice

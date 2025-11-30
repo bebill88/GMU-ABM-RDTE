@@ -1,5 +1,81 @@
-entity_id,name,short_name,entity_category,service,parent_entity_id,has_organic_rdte,rdte_roles,base_budget_type,base_budget_pe,base_budget_ba,estimated_rdte_capacity_musd,estimated_rdte_staff,primary_domains,authority_flags,location_region,classification_band,notes
-SRV-ARMY-AFC-ISR,Army Futures Command ISR Team,AFC ISR,ProgramOffice,Army,SRV-ARMY-AFC,1,sponsor;executing;requirements,RDT&E,060XXX,BA4,50,75,ISR;AI,10USC,CONUS-Central,C-S,"ISR modernization program office with organic dev and experimentation capacity"
-UNIT-USMC-INTBN-01,1st Intel Battalion RDT&E Cell,1st INTBn RDT&E,OperationalUnit,USMC,UNIT-USMC-1MEF,1,ops;requirements,TOA,,BA3,5,10,ISR;Cyber,10USC,INDOPACOM,C-S,"Operational unit with small RDT&E cell; base funding folded into larger battalion budget"
-AGY-DIA-TECH,DIA Technical Collection Office,DIA TECH,Agency,DIA,AGY-DIA-HQ,1,sponsor;executing;requirements;test,MIP,060YYY,BA3,80,90,ISR;Space,50USC,NCR,TS-SCI,"MIP-funded intelligence tech office with authority to sponsor and execute RDT&E"
-LAB-NAVY-NRL-ISR,Navy Research Lab ISR Division,NRL ISR,Lab,Navy,LAB-NAVY-NRL,1,executing;test,RDT&E,060ZZZ,BA4,120,150,ISR;EW,10USC,CONUS-East,C-S,"Core ISR lab; often executes work for multiple services and agencies"
+parent_entity_id,has_organic_rdte,rdte_roles,base_budget_type,base_budget_pe,base_budget_ba,estimated_rdte_capacity_musd,estimated_rdte_staff,primary_domains,authority_flags,location_region,classification_band,notes
+SRV-ARMY-AFC-ISR,1,sponsor;executing;requirements,RDT&E,0604321,BA4,50,75,ISR;AI,10USC,CONUS-Central,C-S,Army ISR modernization office with organic experimentation
+UNIT-USMC-INTBN-01,1,ops;requirements,TOA,,BA3,5,10,ISR;Cyber,10USC,INDOPACOM,C-S,USMC intel battalion RDT&E cell
+AGY-DIA-TECH,1,sponsor;executing;test,MIP,0607433,BA3,80,90,ISR;Space,50USC,NCR,TS-SCI,DIA technical collection RDT&E office
+LAB-NAVY-NRL-ISR,1,executing;test,RDT&E,0605122,BA4,120,150,ISR;EW,10USC,CONUS-East,C-S,Navy ISR and EW lab division
+SRV-USSF-RCO,1,sponsor;executing,RDT&E,0304150,BA3,60,65,Space;ISR,10USC,CONUS-West,C-S,USSF rapid capabilities office for space systems
+AGY-NGA-GEOINT,1,sponsor;executing;analysis,NIP,0608201,BA5,90,120,GEOINT;AI,50USC,NCR,TS-SCI,NGA GEOINT modernization directorate
+UNIT-AF-ISRGRP-01,1,ops;test,TOA,,BA3,15,20,ISR;UAS,10USC,CONUS-Central,C-S,Air Force ISR group experimental flight cell
+LAB-ARMY-ARL-AI,1,executing;test,RDT&E,0606220,BA3,110,130,AI;Robotics,10USC,CONUS-East,C-S,Army AI and autonomy lab division
+LAB-AFRL-RIO-ISR,1,executing;test,RDT&E,0602100,BA3,95,110,ISR;Cyber,10USC,CONUS-Central,C-S,AFRL ISR and cyber integration office
+UNIT-SOF-J3-EXP,1,ops;requirements,TOA,,BA3,10,15,SOF;ISR,10USC,EUCOM,C-S,SOF J3 experimentation element
+AGY-NSA-RESEARCH,1,executing;analysis,MIP,0607300,BA3,130,160,Cyber;SIGINT,50USC,NCR,TS-SCI,NSA research and engineering directorate
+AGY-CIA-DST,1,sponsor;executing,NIP,0607500,BA5,140,170,ISR;AI,50USC,NCR,TS-SCI,CIA DS and T technical programs office
+LAB-NRO-ASAT,1,executing;test,MIP,0607600,BA4,150,180,Space;ISR,50USC,CONUS-West,TS-SCI,NRO advanced systems and technology lab
+AGY-ODNI-AR,1,sponsor;oversight,NIP,0607700,BA6,40,50,ISR;Governance,50USC,NCR,TS-SCI,ODNI analytic and research oversight office
+LAB-MITRE-FFRDC,1,executing;analysis,RDT&E,0607800,BA6,100,140,ISR;Cyber,FFRDC,NCR,C-S,MITRE FFRDC support to DoD and IC programs
+LAB-AEROSPACE-FFRDC,1,executing;analysis,RDT&E,0607900,BA6,90,110,Space;ISR,FFRDC,CONUS-West,C-S,Aerospace Corporation national security space work
+UNIT-ARMY-TRADOC,1,ops;requirements,TOA,,BA3,20,30,ISR;GroundManeuver,10USC,CONUS-East,C-S,Army TRADOC concept development and requirements cell
+UNIT-NAVY-FLTEXP,1,ops;test,TOA,,BA3,12,18,Maritime;EW,10USC,INDOPACOM,C-S,Fleet experimentation squadron for new ISR and EW payloads
+UNIT-JIATF-SOUTH,1,ops;analysis,TOA,,BA3,8,14,ISR;Maritime,10/50USC,SOUTHCOM,S,JIATF SOUTH operational experimentation cell
+SRV-ARMY-PEO-IEW-S,1,sponsor;executing,RDT&E,0204803,BA3,70,80,ISR;EW,10USC,CONUS-East,C-S,Army PEO Intelligence Electronic Warfare and Sensors
+SRV-NAVY-PEO-C4I,1,sponsor;executing,RDT&E,0303139,BA4,85,95,ISR;C4I,10USC,CONUS-East,C-S,Navy PEO C4I and Space
+SRV-AF-LCMC-ISR,1,sponsor;executing,RDT&E,0207410,BA4,75,85,ISR;UAS,10USC,CONUS-Central,C-S,Air Force Life Cycle Management Center ISR portfolio
+SRV-USMC-CDI-EXP,1,sponsor;ops,TOA,,BA3,15,18,ISR;GroundManeuver,10USC,CONUS-West,C-S,USMC Capabilities Development Directorate experimentation branch
+SRV-USSF-SPO-ISR,1,sponsor;executing,RDT&E,0304162,BA3,55,60,Space;ISR,10USC,CONUS-West,C-S,US Space Force space ISR program office
+OSD-RAND-R&E,1,sponsor;oversight,RDT&E,0601000,BA6,60,40,ISR;AI;Space,10USC,NCR,C-S,OSD Research and Engineering central oversight office
+OSD-JPEO-CBRN,1,sponsor;executing,RDT&E,0602384,BA4,65,70,CBRN;ISR,10USC,CONUS-East,C-S,Joint PEO for Chemical Biological Radiological and Nuclear defense
+OSD-DOT-E,1,test;oversight,RDT&E,0605804,BA6,30,45,Test;Evaluation,10USC,NCR,C-S,Director Operational Test and Evaluation office
+AGY-FBI-TERR,1,ops;analysis,TOA,,BA3,20,35,CT;ISR,28USC,CONUS-East,S,FBI counterterrorism technical operations and analysis
+AGY-TREAS-FIU,1,analysis,TOA,,BA3,18,30,Finance;Data,31USC,NCR,S,Financial Intelligence Unit focused on illicit finance analytics
+LAB-NAVY-NRL-CYBER,1,executing;test,RDT&E,0605130,BA3,80,100,Cyber;EW,10USC,CONUS-East,C-S,NRL cyber operations and EW lab division
+LAB-AFRL-SPACE,1,executing;test,RDT&E,0603400,BA4,115,135,Space;ISR,10USC,CONUS-West,C-S,AFRL space vehicles and sensing directorate
+LAB-ARL-CBRN,1,executing;test,RDT&E,0602787,BA3,70,90,CBRN;GroundManeuver,10USC,CONUS-East,C-S,Army CBRN and protective systems lab
+LAB-NAVWAR-C2,1,executing;analysis,RDT&E,0604771,BA4,85,105,C4I;Cyber,10USC,CONUS-West,C-S,NAVWAR command and control and cyber engineering center
+LAB-NGA-RESEARCH,1,executing;analysis,NIP,0608300,BA5,75,95,GEOINT;AI,50USC,NCR,TS-SCI,NGA basic and applied GEOINT research office
+LAB-DOE-NNSA,1,executing;analysis,RDT&E,0608800,BA6,95,115,CBRN;Space,50USC,CONUS-West,TS-SCI,NNSA national security labs support to defense programs
+FFRDC-LINCOLN-LAB,1,executing;analysis,RDT&E,0608900,BA6,105,130,AirDefense;ISR,FFRDC,CONUS-East,C-S,MIT Lincoln Laboratory national security programs
+FFRDC-SANDIA-NATLSEC,1,executing;analysis,RDT&E,0608950,BA6,115,145,CBRN;Cyber,FFRDC,CONUS-West,C-S,Sandia national security systems engineering
+UNIT-CYBERCOM-J9,1,ops;requirements,TOA,,BA3,22,40,Cyber;ISR,10USC,NCR,TS-SCI,USCYBERCOM J9 capability and experimentation division
+UNIT-SPACECOM-J7,1,ops;test,TOA,,BA3,20,32,Space;ISR,10USC,CONUS-West,TS-SCI,USSPACECOM training and experimentation directorate
+UNIT-TRANSCOM-J5,1,ops;requirements,TOA,,BA3,18,28,Logistics;ISR,10USC,CONUS-Central,C-S,USTRANSCOM plans and requirements branch
+UNIT-CENTCOM-J2,1,ops;analysis,TOA,,BA3,25,38,ISR;CT,10/50USC,ME-CENTCOM,S,USCENTCOM intelligence directorate
+UNIT-EUCOM-J5,1,ops;requirements,TOA,,BA3,17,26,ISR;Allied,10USC,EUCOM,C-S,USEUCOM plans directorate experimentation cell
+UNIT-PACFLT-INTEL,1,ops;analysis,TOA,,BA3,21,33,ISR;Maritime,10USC,INDOPACOM,S,PACFLT intelligence and targeting cell
+UNIT-AFSOC-ISR,1,ops;requirements,TOA,,BA3,16,24,SOF;ISR,10USC,CONUS-East,S,AFSOC ISR and targeting support unit
+ALLY-UK-DSTL,1,executing;analysis,RDT&E,0609001,BA6,40,60,ISR;AI,ALLIED,EUCOM,C-S,UK Defence Science and Technology Laboratory cooperative work
+ALLY-ISR-MAFAT,1,executing;analysis,RDT&E,0609002,BA6,45,65,ISR;AI;MissileDefense,ALLIED,ME-CENTCOM,C-S,Israeli DDR and D MAFAT research directorate
+ALLY-AUS-DSTG,1,executing;analysis,RDT&E,0609003,BA6,35,55,ISR;EW,ALLIED,INDOPACOM,C-S,Australian DSTG defence science group
+UNIT-NGB-J35,1,ops;requirements,TOA,,BA3,14,22,Homeland;ISR,10USC,CONUS-Central,C-S,National Guard Bureau domestic operations and planning
+AGY-HSI-OPS-RD,1,ops;executing,TOA,,BA3,12,20,Border;Data,8USC,CONUS-South,S,Homeland Security Investigations operations and tech experimentation
+CITY-EXLAB-URB-ISR,1,ops;test,TOA,,BA3,6,10,ISR;Urban,LOCAL,CONUS-East,UNCL,Urban experimentation lab partnering with DoD and DHS
+AGY-NSA-SIGDEV,1,executing;analysis,MIP,0607310,BA3,125,155,SIGINT;Cyber,50USC,NCR,TS-SCI,NSA Signals Development Directorate for new collection algorithms
+AGY-NSA-TARGET,1,executing;analysis,MIP,0607320,BA3,90,110,SIGINT;AI,50USC,NCR,TS-SCI,NSA targeting analytics and machine learning cell
+AGY-NSA-CYBEROPS,1,executing;test,MIP,0607330,BA3,105,135,Cyber;NetworkOps,50USC,NCR,TS-SCI,NSA operational cyber technology development team
+AGY-NSA-REDTEAM,1,test;executing,MIP,0607340,BA3,60,75,Cyber;SIGINT,50USC,NCR,TS-SCI,NSA red team for cyber vulnerability evaluation
+AGY-CIA-OSE,1,sponsor;executing,NIP,0607510,BA5,140,160,OSINT;AI,50USC,NCR,TS-SCI,CIA Open Source Enterprise innovation and automation projects
+AGY-CIA-SID,1,executing;analysis,NIP,0607520,BA5,110,140,ISR;AI,50USC,NCR,TS-SCI,CIA Science and Innovation Directorate advanced RDT&E
+AGY-CIA-TARGET,1,analysis;executing,NIP,0607530,BA5,95,125,Analysis;ISR,50USC,NCR,TS-SCI,CIA targeting and all-source fusion technology office
+AGY-NRO-IMINT,1,executing;analysis,MIP,0607605,BA4,130,165,IMINT;ISR,50USC,CONUS-West,TS-SCI,NRO imagery systems development division
+AGY-NRO-SIGINT,1,executing;analysis,MIP,0607606,BA4,140,175,SIGINT;Space,50USC,CONUS-West,TS-SCI,NRO SIGINT payload engineering
+AGY-NRO-GEOINT,1,executing;analysis,MIP,0607607,BA4,135,170,GEOINT;AI,50USC,CONUS-West,TS-SCI,NRO GEOINT R&D and applied data exploitation office
+AGY-NRO-C2,1,executing;test,MIP,0607608,BA4,115,145,C2;Space,50USC,CONUS-West,TS-SCI,NRO satellite command and control modernization office
+AGY-NGA-ALGORITHMS,1,executing;analysis,NIP,0608210,BA5,85,115,GEOINT;AI,50USC,NCR,TS-SCI,NGA advanced algorithm development division
+AGY-NGA-AUTOMATION,1,executing;analysis,NIP,0608220,BA5,100,135,GEOINT;AI,50USC,NCR,TS-SCI,NGA automation for analytic production modernization
+AGY-NGA-SHARPFOCUS,1,analysis;executing,NIP,0608230,BA5,70,95,IMINT;ISR,50USC,NCR,TS-SCI,NGA SHARP FOCUS advanced imagery exploitation branch
+AGY-NGA-INTELFUS,1,analysis;executing,NIP,0608240,BA5,90,115,ISR;DataFusion,50USC,NCR,TS-SCI,NGA intelligence fusion tool development
+AGY-FBI-TTAC,1,ops;analysis,TOA,,BA3,45,70,CT;Data,28USC,CONUS-East,S,FBI Terrorist Threat Analysis Center R&D
+AGY-FBI-CYBERDIV,1,executing;analysis,TOA,,BA3,55,85,Cyber;Forensics,28USC,CONUS-East,S,FBI Cyber Division technical operations
+AGY-FBI-SURVTECH,1,executing;test,TOA,,BA3,40,60,Surveillance;ISR,28USC,CONUS-East,S,FBI surveillance technology development
+AGY-DHS-I&A-RD,1,analysis;executing,TOA,,BA3,30,50,DomesticIntel;Data,6USC,NCR,S,DHS I&A advanced intelligence tools
+AGY-DHS-CBP-LABS,1,executing;test,TOA,,BA3,35,55,Border;ISR,6USC,CONUS-South,S,CBP advanced sensing and ISR technology labs
+AGY-DHS-CISA-CSD,1,test;executing,TOA,,BA3,50,75,Cyber;CriticalInfra,6USC,NCR,S,CISA cyber security division technical development
+AGY-TREAS-OIA,1,analysis,TOA,,BA3,28,45,Finance;Data,31USC,NCR,S,Treasury Office of Intelligence & Analysis advanced tools
+AGY-DOE-IN,1,analysis;executing,RDT&E,0609004,BA6,60,85,Nuclear;ISR,50USC,CONUS-West,TS-SCI,DOE Intelligence & Counterintelligence tech division
+AGY-DEA-NTC,1,ops;analysis,TOA,,BA3,25,40,CT;Data,21USC,CONUS-South,S,DEA National Targeting Center technical exploitation
+AGY-NCTC-TECH,1,analysis;executing,NIP,0609005,BA5,40,65,CT;Analytics,50USC,NCR,TS-SCI,NCTC advanced analytical systems branch
+AGY-DIA-ST,1,sponsor;executing,MIP,0607440,BA3,95,125,Science;Tech,50USC,NCR,TS-SCI,DIA Directorate for Science and Technology
+AGY-DIA-DGIF,1,analysis;executing,MIP,0607450,BA3,80,105,ISR;DataFusion,50USC,NCR,TS-SCI,DIA Global Integrated Framework R&D cell
+AGY-NSA-GEOSIG,1,executing;analysis,MIP,0607360,BA3,70,95,GEOINT;SIGINT,50USC,NCR,TS-SCI,NSA fused geospatial SIGINT applications
+AGY-NSA-QUANT,1,executing;analysis,MIP,0607370,BA3,100,130,Cyber;AI;Quantum,50USC,NCR,TS-SCI,NSA quantum computing R&D directorate
+AGY-CIA-CI-OPS,1,ops;analysis,NIP,0607540,BA5,65,85,CounterIntel;Data,50USC,NCR,TS-SCI,CIA CI and exploitation tech branch

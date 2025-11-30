@@ -1,1 +1,12 @@
 event_id,name,type,start_tick,duration,budget_impact,affected_domains,description,confidence
+event_id,name,category,start_step,duration_steps,target_dimension_type,target_dimension_value,affected_gate,effect_type,magnitude,note
+CR2024Q1,Continuing Resolution FY24Q1,CR,50,20,funding_source,MIP,funding,slowdown,-0.35,CR slows obligations
+EO-AI2026,Executive Order on AI,policy_change,120,40,domain,AI,adoption,speedup,0.15,AI priority push
+CONF-2025,Regional Conflict,conflict,180,60,domain,ISR,funding,priority_shift,0.25,ISR surge funding
+CUT-BA4-2027,BA4 Budget Compression,budget_cut,250,30,ba,BA4,funding,slowdown,-0.20,BA4 squeeze
+SPACE-EMERG-2026,Space Emergency Directive,policy_change,160,30,domain,Space,test,speedup,0.30,Rapid space test priority
+CYB-CRISIS-2026,Cyber National Incident,conflict,210,35,domain,Cyber,test,slowdown,-0.25,Cyber reallocation to defense
+ISR-REORG-2025,ISR Mission Reorg,policy_change,300,40,domain,ISR,adoption,slowdown,-0.15,ISR roles realigned
+UAS-STRATEGY-2026,UAS Department Acceleration,policy_change,140,30,domain,UAS,funding,speedup,0.20,UAS modernization push
+MIP-SHORTFALL-2027,MIP Shortfall,budget_cut,320,35,funding_source,MIP,funding,slowdown,-0.30,MIP funding freeze
+SIG-PRIORITY-2028,SIGINT Modernization EO,policy_change,360,40,domain,SIGINT,adoption,speedup,0.20,SIGINT uplift

@@ -1,1 +1,31 @@
-evaluation_id,program_id,vendor,eval_date,performance_score,reliability_score,execution_notes,flag_followup,focus_area
+evaluation_id,program_id,vendor_id,vendor_name,fiscal_year,cost_variance_pct,schedule_variance_pct,technical_rating,management_rating,cyber_findings_count,major_breach_flag,recompete_award_flag
+EV-23-A1,PRG-ISR-001,VND-ACME,Acme Defense ISR,2023,18.5,22.0,3,2,4,0,0
+EV-22-A2,PRG-ISR-001,VND-GEODATA,GeoData Analytics Inc,2022,5.0,0.0,4,4,0,0,1
+EV-21-A3,PRG-ISR-001,VND-SECURENET,SecureNet Integrators,2021,10.0,8.0,4,3,1,0,1
+EV-23-B1,PRG-CYB-002,VND-CYBERCO,CyberCo Security,2023,5.0,-3.0,4,4,1,0,1
+EV-22-B2,PRG-CYB-002,VND-SECURENET,SecureNet Integrators,2022,12.0,6.0,3,3,3,0,0
+EV-21-B3,PRG-CYB-002,VND-CLOUDNOVA,CloudNova Defense,2021,0.0,4.0,4,4,0,0,1
+EV-22-C1,PRG-AI-003,VND-ALPHA,Alpha Analytics,2022,0.0,12.0,3,3,0,0,1
+EV-23-C2,PRG-AI-003,VND-ANALYTICA,Analytica AI Labs,2023,7.5,10.0,4,3,1,0,1
+EV-21-C3,PRG-AI-003,VND-GEODATA,GeoData Analytics Inc,2021,15.0,5.0,3,3,0,0,0
+EV-23-D1,PRG-SAT-004,VND-ORBIT,OrbitTech Systems,2023,10.0,5.0,4,3,0,0,1
+EV-22-D2,PRG-SAT-004,VND-SPACEWORKS,SpaceWorks Integration,2022,20.0,15.0,3,2,0,0,0
+EV-21-D3,PRG-SAT-004,VND-ACME,Acme Defense ISR,2021,8.0,12.0,3,3,1,0,1
+EV-22-E1,PRG-EW-005,VND-EWLAB,EW Lab Solutions,2022,20.0,15.0,2,2,3,1,0
+EV-23-E2,PRG-EW-005,VND-MITREFR,MITRE FFRDC EW,2023,5.0,3.0,4,4,0,0,1
+EV-21-E3,PRG-EW-005,VND-SECURENET,SecureNet Integrators,2021,12.0,6.0,3,3,2,0,0
+EV-23-F1,PRG-MAR-006,VND-MARITEK,MariTek Marine,2023,8.0,9.0,4,3,0,0,1
+EV-22-F2,PRG-MAR-006,VND-AUTONOMIA,Autonomia Sea Systems,2022,15.0,18.0,3,2,0,0,0
+EV-21-F3,PRG-MAR-006,VND-AIRCO,AirCo Robotics,2021,5.0,0.0,3,3,0,0,1
+EV-24-G1,PRG-GEO-007,VND-GEODATA,GeoData Analytics Inc,2024,12.0,10.0,3,4,0,0,1
+EV-23-G2,PRG-GEO-007,VND-ANALYTICA,Analytica AI Labs,2023,6.0,4.0,4,4,0,0,1
+EV-22-G3,PRG-GEO-007,VND-MITREFR,MITRE FFRDC EW,2022,0.0,5.0,4,4,0,0,1
+EV-23-H1,PRG-CBRN-008,VND-BIODEF,BioDef Systems,2023,22.0,18.0,2,2,2,0,0
+EV-22-H2,PRG-CBRN-008,VND-LOGITECH,LogiTech CBRN Solutions,2022,10.0,7.0,3,3,1,0,1
+EV-21-H3,PRG-CBRN-008,VND-MITREFR,MITRE FFRDC EW,2021,0.0,3.0,4,4,0,0,1
+EV-24-I1,PRG-UAV-009,VND-AIRCO,AirCo Robotics,2024,3.0,0.0,4,4,0,0,1
+EV-23-I2,PRG-UAV-009,VND-ACME,Acme Defense ISR,2023,15.0,10.0,3,3,1,0,0
+EV-22-I3,PRG-UAV-009,VND-AUTONOMIA,Autonomia Sea Systems,2022,8.0,5.0,3,3,0,0,1
+EV-22-J1,PRG-SIG-010,VND-SIGSYNC,SigSync Technologies,2022,15.0,8.0,3,3,1,0,1
+EV-23-J2,PRG-SIG-010,VND-SECURENET,SecureNet Integrators,2023,10.0,6.0,3,3,2,0,0
+EV-21-J3,PRG-SIG-010,VND-CYBERCO,CyberCo Security,2021,5.0,0.0,4,4,1,0,1
