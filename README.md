@@ -147,34 +147,22 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ## Data Inputs
 
-- Labs/hubs locations CSV (recommended to commit under `data/`)
-  - parameters.yaml:
-    - `data.labs_locations_csv: data/templates/labs_template.csv`
-  - Effect: adds a small +0.01 "ecosystem support" bonus to environmental signal. The template now carries a richer lab list (service/region/specialization). If lat/lon are absent but city/state are present, the model assigns deterministic pseudo-coordinates so map displays still work.
-  - Profiles: set `model.testing_profile: demo` in `parameters.yaml` to make short smoke tests transition (higher prototype rate, softened penalties). Keep `production` for normal runs.
+| CSV | Purpose |
+| --- | --- |
+| data/rdte_entities.csv | Entities (labs, agencies, primes, etc.) |
+| data/program_entity_roles.csv | Which entity plays what role on which program |
+| data/vendor_evaluations.csv | CPARS-lite performance history |
+| data/gao_findings.csv | Oversight findings, severities, repeat flags |
+| data/templates/labs_template.csv | Lab/vendor metadata (location, sector, specialization) |
+| data/closed_projects.csv | Historical outcomes (Transitioned / Canceled / OnHold) |
+| data/stubs/shock_events.csv / data/stubs/collaboration_network.csv | Example shocks and collaboration edges |
 
-- FY26 RDT&E line items CSV (recommended to commit under `data/`)
-  - parameters.yaml:
-    - `data.rdte_fy26_csv: data/templates/rdte_funding_row_simulated.csv`
-  - Effect: parsed into `model.rdte_fy26` for analysis; no behavioral change yet.
-  - The richer `dod_rdte_funding_blocks_master.csv` file is now archived under `data/legacy/dod_rdte_funding_blocks_master.csv` for reference; the model no longer consumes it unless you explicitly point `--rdte_csv` at it after preprocessing.
+- Profiles: use parameters.yaml (production realism), parameters.demo.yaml (fast/demo), or parameters.stressed.yaml (conservative/shock). Override with --config or --testing_profile.
+- Overrides via CLI: --labs_csv, --rdte_csv, --config override YAML sources.
+- These are now backed by example populated CSVs under data/; swap in real data as it becomes available.
 
-- Overrides via CLI
-  - `--labs_csv` and `--rdte_csv` override parameters.yaml.
-  - `--config` loads an alternate YAML (CLI flags still override).
-
-- Extended data sources
-  - `parameters.yaml` now exposes:
-    - `data.gao_findings_csv` (GAO oversight & repeat-offender penalties)
-    - `data.shock_events_csv` (CRs, conflicts, policy shocks)
-    - `data.program_vendor_evals_csv` (CPARS-lite vendor/performance records)
-    - `data.collaboration_network_csv` (lab/MOU graph edges feeding ecosystem bonuses)
-    - `data.rdte_entities_csv` (expanded master list of RDT&E/IC entities)
-    - `data.program_entity_roles_csv` (program→entity mappings with effort shares)
-  - Use the stub files under `data/stubs/` until your actual exports are ready; each schema doc under `docs/` explains the expected headers.
-
----
-
+### Historical outcomes baseline
+data/closed_projects.csv is used to estimate empirical priors for transition vs. cancel/on-hold by domain, authority mix (10/50/ALLIED), vendor risk profile, and GAO severity history. These priors are blended softly into gate probabilities via closed_priors_weight and prior_weights_by_gate.
 ## Data Schema Overview
 
 - `data/stubs/gao_findings.csv` – GAO findings per program (severity, repeat flags, recommendations).
@@ -213,6 +201,26 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Prior weights: defaults set to 0.2 per gate in `penalties.prior_weights_by_gate`; adjust up/down to change historical influence or set to 0 to disable.
 - Smoke/demo: `python -m src.smoke_demo` runs a short demo-profile check and asserts transitions > 0 (good for CI); set `model.testing_profile: demo` for GUI smoke tests.
 - Profiles: use `parameters.yaml` for production realism, `parameters.demo.yaml` for fast/demo runs, and `parameters.stressed.yaml` for conservative/shock-style scenarios. Override via `--config` or `--testing_profile`.
+
+## Profiles & Modes
+- Production (realism): `parameters.yaml` with conservative gate bases and lower prior weights (0.05/gate), `testing_profile: production`.
+- Demo (fast/smoke): `parameters.demo.yaml` with looser gates and `testing_profile: demo` to force transitions quickly.
+- Stressed/Shock: `parameters.stressed.yaml` for conservative/shock what-ifs.
+- Override via CLI: `--config <file>` and optionally `--testing_profile production|demo`. Mesa UI also exposes testing_profile.
+
+## Priors & Validation
+- Priors toggle: `penalties.enable_priors` plus `closed_priors_weight` and `prior_weights_by_gate` control influence.
+- Validation scripts: `python -m src.check_priors` reports coverage/overall rate; `python -m src.ci_regression` runs demo transitions>0, priors coverage, and a no-priors sanity check.
+- Model/server log active profile, priors enabled/disabled, and prior weights at startup; warning if closed_projects is missing/empty.
+
+## Smoke Tests & Quick Runs
+- Demo smoke: `python -m src.smoke_demo` (asserts transitions > 0).
+- Custom demo run: `python -m src.run_experiment --config parameters.demo.yaml --scenario adaptive --runs 1 --steps 80 --seed 123 --events`.
+- Mesa UI: `python -m src.server --host 127.0.0.1 --port 8524 --open-browser` (use `--config parameters.demo.yaml` for demo). Header shows profile/prior status; Advanced view highlights overrides vs. baseline values.
+
+## Metrics & Logging
+- Run summaries include testing_profile, priors_enabled, prior_weights_by_gate, and gate pass/fail counts (aggregate and by stage).
+- Gate pass/fail counts are also exposed in results for bottleneck analysis.
 - Scenario levers: tune `gao_weight`, `vendor_weight`, and the authority/capacity values in the entity/roles CSVs to run sensitivity experiments.
 
 ---
