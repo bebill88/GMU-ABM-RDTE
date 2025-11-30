@@ -161,13 +161,9 @@ def oversight_gate(model, researcher) -> bool:
 
 
 # ------------------ Stage-pipeline gates ------------------
-def funding_gate_stage(model, researcher, stage: str) -> bool:
+def funding_gate_probability(model, researcher, stage: str, record_context: bool = True) -> float:
     """
-    Stage-aware funding availability with coarse "color" behavior.
-    - Early stages (feasibility, prototype_demo) rely mainly on RDT&E.
-    - Later stages (functional/vulnerability/operational test) may leverage O&M/Proc-like pools.
-    Funding source types (POM, UFR, ProgramBase, External, Partner, Partner_CoDev)
-    modulate probability as simple multipliers.
+    Deterministic funding probability (no random draw). Used by both gate logic and UI previews.
     """
     stage = str(stage)
     early = stage in {"feasibility", "prototype_demo"}
@@ -254,24 +250,36 @@ def funding_gate_stage(model, researcher, stage: str) -> bool:
             * (1.0 - class_pen),
         ),
     )
-    # Record gate context for logging
-    model._last_gate_context = {
-        "gate_prob_base": round(base_prob, 6),
-        "gate_penalty_factor": round(factor, 6),
-        "gate_support_mult": round(support_mult, 6),
-        "gate_sponsor_mult": round(sponsor_mult, 6),
-        "gate_status_mult": round(status_mult, 6),
-        "gate_portfolio_mult": round(portfolio_mult, 6),
-        "gate_domain_mult": round(domain_mult, 6),
-        "gate_shock_factor": round(shock_factor, 6),
-        "gate_latency_boost": round(latency_boost, 6),
-        "gate_stage_age": stage_age,
-        "gate_prob_final": round(p, 6),
-        "funding_source": source,
-        "funding_color_weight": round(color_weight, 6),
-        "funding_class_penalty": round(class_pen, 6),
-    }
+    if record_context:
+        model._last_gate_context = {
+            "gate_prob_base": round(base_prob, 6),
+            "gate_penalty_factor": round(factor, 6),
+            "gate_support_mult": round(support_mult, 6),
+            "gate_sponsor_mult": round(sponsor_mult, 6),
+            "gate_status_mult": round(status_mult, 6),
+            "gate_portfolio_mult": round(portfolio_mult, 6),
+            "gate_domain_mult": round(domain_mult, 6),
+            "gate_shock_factor": round(shock_factor, 6),
+            "gate_latency_boost": round(latency_boost, 6),
+            "gate_stage_age": stage_age,
+            "gate_prob_final": round(p, 6),
+            "funding_source": source,
+            "funding_color_weight": round(color_weight, 6),
+            "funding_class_penalty": round(class_pen, 6),
+        }
     p = _apply_external_modifiers(model, researcher, "funding", p)
+    return p
+
+
+def funding_gate_stage(model, researcher, stage: str) -> bool:
+    """
+    Stage-aware funding availability with coarse "color" behavior.
+    - Early stages (feasibility, prototype_demo) rely mainly on RDT&E.
+    - Later stages (functional/vulnerability/operational test) may leverage O&M/Proc-like pools.
+    Funding source types (POM, UFR, ProgramBase, External, Partner, Partner_CoDev)
+    modulate probability as simple multipliers.
+    """
+    p = funding_gate_probability(model, researcher, stage, record_context=True)
     return model.random.random() < p
 
 
@@ -343,6 +351,12 @@ def legal_review_gate(model, researcher) -> str:
 
 def contracting_gate(model, researcher) -> bool:
     """Probability that contracting/vehicle path is successful this tick."""
+    p = contracting_gate_probability(model, researcher, record_context=True)
+    return model.random.random() < p
+
+
+def contracting_gate_probability(model, researcher, record_context: bool = True) -> float:
+    """Deterministic contracting probability for previews and logging."""
     org = getattr(researcher, "org_type", "GovContractor")
 
     gc = getattr(model, "gate_config", {}) or {}
@@ -387,26 +401,35 @@ def contracting_gate(model, researcher) -> bool:
             * latency_boost,
         ),
     )
-    model._last_gate_context = {
-        "gate_prob_base": round(base_prob, 6),
-        "gate_penalty_factor": round(factor, 6),
-        "gate_status_mult": round(status_mult, 6),
-        "gate_exec_mult": round(exec_mult, 6),
-        "gate_domain_mult": round(domain_mult, 6),
-        "gate_class_penalty": round(class_pen, 6),
-        "gate_latency_boost": round(latency_boost, 6),
-        "gate_stage_age": stage_age,
-        "gate_prob_final": round(p, 6),
-        "contract_org_type": org,
-    }
+    if record_context:
+        model._last_gate_context = {
+            "gate_prob_base": round(base_prob, 6),
+            "gate_penalty_factor": round(factor, 6),
+            "gate_status_mult": round(status_mult, 6),
+            "gate_exec_mult": round(exec_mult, 6),
+            "gate_domain_mult": round(domain_mult, 6),
+            "gate_class_penalty": round(class_pen, 6),
+            "gate_latency_boost": round(latency_boost, 6),
+            "gate_stage_age": stage_age,
+            "gate_prob_final": round(p, 6),
+            "contract_org_type": org,
+        }
     p = _apply_external_modifiers(model, researcher, "contracting", p)
-    return model.random.random() < p
+    return p
 
 
 def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
     """
     Stage-specific technical/test pass probability.
     Factors: stage difficulty, TRL, domain, kinetic, legal caveats, regime, shocks.
+    """
+    p = test_gate_probability(model, researcher, stage, legal_status, record_context=True)
+    return model.random.random() < p
+
+
+def test_gate_probability(model, researcher, stage: str, legal_status: str, record_context: bool = True) -> float:
+    """
+    Deterministic test probability for previews and gate evaluation.
     """
     stage = str(stage)
     trl = getattr(researcher, "trl", 3)
@@ -439,7 +462,7 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
     elif legal_status == "not_conducted":
         base -= 0.02
     elif legal_status == "unfavorable":
-        return False
+        return 0.0
 
     # Regime/shock effects
     if model.regime == "adaptive":
@@ -495,24 +518,25 @@ def test_gate(model, researcher, stage: str, legal_status: str) -> bool:
             * (1.0 - class_pen),
         ),
     )
-    model._last_gate_context = {
-        "gate_prob_base": round(base_prob, 6),
-        "gate_penalty_factor": round(factor, 6),
-        "gate_status_mult": round(status_mult, 6),
-        "gate_portfolio_mult": round(portfolio_mult, 6),
-        "gate_evidence_mult": round(evidence_mult, 6),
-        "gate_shock_factor": round(shock_factor, 6),
-        "gate_dependency_mult": round(dependency_mult, 6),
-        "gate_latency_boost": round(latency_boost, 6),
-        "gate_stage_age": stage_age,
-        "gate_prob_final": round(p, 6),
-        "legal_status_at_test": legal_status,
-        "gate_test_mult": round(test_mult, 6),
-        "gate_domain_mult": round(domain_mult, 6),
-        "gate_class_penalty": round(class_pen, 6),
-    }
+    if record_context:
+        model._last_gate_context = {
+            "gate_prob_base": round(base_prob, 6),
+            "gate_penalty_factor": round(factor, 6),
+            "gate_status_mult": round(status_mult, 6),
+            "gate_portfolio_mult": round(portfolio_mult, 6),
+            "gate_evidence_mult": round(evidence_mult, 6),
+            "gate_shock_factor": round(shock_factor, 6),
+            "gate_dependency_mult": round(dependency_mult, 6),
+            "gate_latency_boost": round(latency_boost, 6),
+            "gate_stage_age": stage_age,
+            "gate_prob_final": round(p, 6),
+            "legal_status_at_test": legal_status,
+            "gate_test_mult": round(test_mult, 6),
+            "gate_domain_mult": round(domain_mult, 6),
+            "gate_class_penalty": round(class_pen, 6),
+        }
     p = _apply_external_modifiers(model, researcher, "test", p)
-    return model.random.random() < p
+    return p
 
 
 def adoption_gate(model, researcher) -> bool:
@@ -520,11 +544,20 @@ def adoption_gate(model, researcher) -> bool:
     Adoption decision wrapper that incorporates portfolio weighting and
     rich priority alignment factors before sampling end-users.
     """
-    # Base majority vote using existing EndUser evaluation
-    k = max(1, len(model.endusers) // 5)
-    sample = model.random.sample(model.endusers, k=k)
-    votes = [eu.evaluate(researcher) for eu in sample]
-    base_accepted = sum(votes) >= max(1, len(sample) // 2)
+    p = adoption_gate_probability(model, researcher, record_context=True)
+    return model.random.random() < p
+
+
+def adoption_gate_probability(model, researcher, record_context: bool = True, quality_delta: float = 0.0) -> float:
+    """
+    Deterministic adoption probability using alignment and perceived utility.
+    quality_delta enables lightweight what-if previews without mutating state.
+    """
+    # Approximate base vote using utility vs. average adoption threshold
+    utility = float(getattr(researcher, "quality", 0.5)) + float(quality_delta) + model.environmental_signal(researcher)
+    thresholds = [float(getattr(eu, "adoption_threshold", 0.6)) for eu in getattr(model, "endusers", [])]
+    avg_threshold = sum(thresholds) / len(thresholds) if thresholds else 0.6
+    base_accepted = utility >= avg_threshold
 
     # Map alignment scores into a modest multiplier on adoption odds
     nds = max(0.0, min(1.0, float(getattr(researcher, "priority_alignment_nds", 0.5))))
@@ -548,18 +581,48 @@ def adoption_gate(model, researcher) -> bool:
     )
 
     # Record for logging
-    try:
-        model._last_gate_context = {
-            "adoption_base_vote": int(base_accepted),
-            "adoption_align_mult": round(align_mult, 6),
-            "adoption_status_mult": round(status_mult, 6),
-            "adoption_portfolio_mult": round(portfolio_mult, 6),
-            "gate_prob_final": round(p, 6),
-        }
-    except Exception:
-        pass
+    if record_context:
+        try:
+            model._last_gate_context = {
+                "adoption_base_vote": int(base_accepted),
+                "adoption_align_mult": round(align_mult, 6),
+                "adoption_status_mult": round(status_mult, 6),
+                "adoption_portfolio_mult": round(portfolio_mult, 6),
+                "gate_prob_final": round(p, 6),
+            }
+        except Exception:
+            pass
 
     p = _apply_external_modifiers(model, researcher, "adoption", p)
-    return model.random.random() < p
+    return p
+
+
+def estimate_transition_probability(model, researcher, quality_delta: float = 0.0) -> dict:
+    """
+    Rough probability preview for a single researcher/program.
+    Uses deterministic gate calculations (no random draws) and optional quality deltas.
+    """
+    stages = getattr(researcher, "STAGES", [])
+    idx = getattr(researcher, "current_stage_index", None)
+    if idx is None or not (0 <= idx < len(stages)):
+        stage = getattr(researcher, "stage_gate_start", stages[0] if stages else "feasibility")
+    else:
+        stage = stages[idx]
+
+    legal_status = getattr(researcher, "legal_status", "not_conducted")
+    p_funding = funding_gate_probability(model, researcher, stage, record_context=False)
+    p_contract = contracting_gate_probability(model, researcher, record_context=False)
+    p_test = test_gate_probability(model, researcher, stage, legal_status, record_context=False)
+    p_adopt = adoption_gate_probability(model, researcher, record_context=False, quality_delta=quality_delta)
+
+    overall = max(0.0, min(1.0, p_funding * p_contract * p_test * p_adopt))
+    return {
+        "stage": stage,
+        "funding": p_funding,
+        "contracting": p_contract,
+        "test": p_test,
+        "adoption": p_adopt,
+        "overall": overall,
+    }
 
 

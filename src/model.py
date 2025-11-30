@@ -69,7 +69,11 @@ class RdteModel(Model):
                  funding_pattern: str = "ProgramBase",
                  focus_researcher_id: int = -1,
                  data_config: Optional[Dict[str, Any]] = None,
-                 agent_config: Optional[Dict[str, Any]] = None):
+                 agent_config: Optional[Dict[str, Any]] = None,
+                 trend_start_tick: int = 0,
+                 trend_end_tick: int = 200,
+                 ui_mode: str = "Standard",
+                 what_if_quality_delta: float = 0.0):
         super().__init__(seed=seed)
 
         # Scheduler drives agent step order each tick
@@ -97,6 +101,10 @@ class RdteModel(Model):
         self.org_mix = str(org_mix)
         self.funding_pattern = str(funding_pattern)
         self.focus_researcher_id = int(focus_researcher_id)
+        self.trend_start_tick = int(trend_start_tick)
+        self.trend_end_tick = int(trend_end_tick)
+        self.ui_mode = str(ui_mode)
+        self.what_if_quality_delta = float(what_if_quality_delta)
         self.labs: List[Dict[str, Any]] = self._load_labs(labs_csv)
         self.rdte_fy26: List[Dict[str, Any]] = self._load_rdte(rdte_csv)
         # Map of program_id -> researcher will be populated after agent creation
@@ -287,6 +295,17 @@ class RdteModel(Model):
             penalty = 0.0
         effective = max(0.0, self.gao_weight * penalty)
         return max(0.0, min(1.0, base_prob * (1.0 - effective)))
+
+    def preview_transition_probability(self, researcher: ResearcherAgent, quality_delta: float | None = None) -> Dict[str, float]:
+        """
+        Estimate a one-step transition probability (no random draw).
+        quality_delta supports UI "what-if" previews without mutating the agent.
+        """
+        delta = float(self.what_if_quality_delta if quality_delta is None else quality_delta)
+        try:
+            return policies.estimate_transition_probability(self, researcher, quality_delta=delta)
+        except Exception:
+            return {"stage": "NA", "funding": 0.0, "contracting": 0.0, "test": 0.0, "adoption": 0.0, "overall": 0.0}
 
     # ---- Environment helpers ----
     def environmental_signal(self, researcher: ResearcherAgent | None = None) -> float:

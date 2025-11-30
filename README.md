@@ -116,6 +116,10 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Launch: `python -m src.server --host 127.0.0.1 --port 8521 --open-browser`
 - What's new: refreshed "RDT&E Transition Lab" styling (CSS injected), KPI cards, stage-distribution pills, gate-context pills, and dual charts (adoptions + stage progression).
 - Controls: sliders for population/funding/shock timing; dropdowns for regime/portfolio/service/org mix/funding pattern; `focus_researcher_id` to spotlight one project.
+- Trends & detail:
+  - Set `trend_start_tick` / `trend_end_tick` to view adoption counts and averages over a custom window (user-defined date/tick range).
+  - Use `focus_researcher_id` + `UI mode = Advanced` to see full project fields (authority, funding, GAO penalty, vendor risk, capacities, classification).
+  - Probability preview panel shows current vs. what-if transition probability (funding/contracting/test/adoption + overall) for the focused project. Adjust `what_if_quality_delta` to simulate improvements or degradations without mutating the live run.
 - Data: UI reads live from the running model; event CSVs still land under `outputs/<scenario>_<timestamp>/events_run_<i>.csv` when using the CLI runner.
 
 ---

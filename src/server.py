@@ -135,17 +135,21 @@ class HelpElement(TextElement):
             "<span class='pill'>Step: {step}</span>"
             "<span class='pill'>Regime: {regime}</span>"
             "<span class='pill'>Shock window: {shock}</span>"
+            "<span class='pill'>UI: {ui_mode}</span>"
             "</div>"
             "<div class='section-title'>Quick tips</div>"
             "<ul style='margin: 6px 0 0 16px; padding-left: 12px;'>"
             "<li>Adjust population and funding sliders to change throughput.</li>"
             "<li>Use portfolio/service/org/funding pattern dropdowns to shape the mix.</li>"
+            "<li>Set trend start/end ticks to view adoption trends for a custom window.</li>"
+            "<li>Focus a project and open Advanced mode to inspect full fields and probability previews.</li>"
             "<li>Set <code>focus_researcher_id</code> to track a single project (-1 = none).</li>"
             "</ul>"
         ).format(
             step=getattr(model.schedule, "time", 0),
             regime=getattr(model, "regime", "adaptive"),
             shock="on" if model.is_in_shock() else "off",
+            ui_mode=getattr(model, "ui_mode", "Standard"),
         )
 
 
@@ -192,6 +196,32 @@ class ProjectStatusElement(TextElement):
             rate_str = f"{proj_rate:.1%} ({transitions}/{attempts})"
         else:
             rate_str = "N/A (no attempts yet)"
+        advanced = str(getattr(model, "ui_mode", "Standard")).lower().startswith("adv")
+        detail_html = ""
+        if advanced:
+            detail_html = (
+                "<div class='section-title'>Project details</div>"
+                "<div class='pill-row'>"
+                f"<span class='pill'>Authority: {getattr(r, 'authority', 'NA')}</span>"
+                f"<span class='pill'>Funding source: {getattr(r, 'funding_source', 'NA')}</span>"
+                f"<span class='pill'>Budget activity: {getattr(r, 'budget_activity', 'NA')}</span>"
+                f"<span class='pill'>Entity: {getattr(r, 'entity_id', 'NA')}</span>"
+                f"<span class='pill'>Vendor: {getattr(r, 'vendor_id', 'NA')}</span>"
+                "</div>"
+                "<div class='pill-row'>"
+                f"<span class='pill'>GAO penalty: {getattr(r, 'gao_penalty', 0.0):.2f}</span>"
+                f"<span class='pill'>Vendor risk: {getattr(r, 'perf_penalty', 0.0):.2f}</span>"
+                f"<span class='pill'>Sponsor strength: {getattr(r, 'sponsor_authority', 0.0):.2f}</span>"
+                f"<span class='pill'>Exec capacity: {getattr(r, 'executing_capacity', 0.0):.2f}</span>"
+                f"<span class='pill'>Test capacity: {getattr(r, 'test_capacity', 0.0):.2f}</span>"
+                "</div>"
+                "<div class='pill-row'>"
+                f"<span class='pill'>Domain alignment: {getattr(r, 'domain_alignment', 0.0):.2f}</span>"
+                f"<span class='pill'>Class band: {getattr(r, 'classification_penalty', 0.0):.2f}</span>"
+                f"<span class='pill'>Digital maturity: {getattr(r, 'digital_maturity_score', 0.0):.2f}</span>"
+                f"<span class='pill'>MBSE: {getattr(r, 'mbse_coverage', 0.0):.2f}</span>"
+                "</div>"
+            )
         return (
             "<div class='section-title'>Focused project</div>"
             f"<div class='pill-row'>"
@@ -206,7 +236,7 @@ class ProjectStatusElement(TextElement):
             f"<span class='pill'>TRL: {getattr(r, 'trl', 'NA')}</span>"
             f"<span class='pill'>Status: {getattr(r, 'program_status', 'NA')}</span>"
             f"<span class='pill'>Project success: {rate_str}</span>"
-            f"</div>"
+            f"</div>{detail_html}"
         )
 
 
@@ -233,6 +263,59 @@ class GateContextElement(TextElement):
             return "<div class='section-title'>Last gate context</div><div class='subhead'>(no gate evaluated yet)</div>"
         pills = "".join(f"<div class='pill'>{k}: {ctx[k]}</div>" for k in sorted(ctx.keys()))
         return "<div class='section-title'>Last gate context</div><div class='pill-row'>" + pills + "</div>"
+
+
+class TrendElement(TextElement):
+    def render(self, model: RdteModel) -> str:  # type: ignore[override]
+        start = max(0, int(getattr(model, "trend_start_tick", 0)))
+        end = max(start, int(getattr(model, "trend_end_tick", start)))
+        series = getattr(model.metrics, "adoptions_per_tick", [])
+        end = min(end, len(series))
+        window = series[start:end] if end > start else []
+        total = sum(window) if window else 0
+        avg = (total / len(window)) if window else 0.0
+        return (
+            "<div class='section-title'>Trend window</div>"
+            f"<div class='pill-row'>"
+            f"<span class='pill'>Start tick: {start}</span>"
+            f"<span class='pill'>End tick: {end}</span>"
+            f"<span class='pill'>Adoptions: {total}</span>"
+            f"<span class='pill'>Avg/tick: {avg:.2f}</span>"
+            "</div>"
+        )
+
+
+class ProbabilityElement(TextElement):
+    def render(self, model: RdteModel) -> str:  # type: ignore[override]
+        focus_id = getattr(model, "focus_researcher_id", -1)
+        if not isinstance(focus_id, int):
+            try:
+                focus_id = int(focus_id)
+            except Exception:
+                focus_id = -1
+        if focus_id < 0 or focus_id >= len(model.researchers):
+            return "<div class='section-title'>Probability preview</div><div class='subhead'>Set focus_researcher_id to preview.</div>"
+        r = model.researchers[focus_id]
+        base_probs = model.preview_transition_probability(r, quality_delta=0.0)
+        delta = float(getattr(model, "what_if_quality_delta", 0.0))
+        what_if_probs = model.preview_transition_probability(r, quality_delta=delta)
+
+        def fmt(prob: float) -> str:
+            return f"{max(0.0, min(1.0, prob)):.1%}"
+
+        return (
+            "<div class='section-title'>Probability preview</div>"
+            f"<div class='subhead'>Stage: {base_probs.get('stage', 'NA')} | What-if quality delta: {delta:+.2f}</div>"
+            "<div class='pill-row'>"
+            f"<span class='pill'>Funding: {fmt(base_probs.get('funding', 0.0))} → {fmt(what_if_probs.get('funding', 0.0))}</span>"
+            f"<span class='pill'>Contracting: {fmt(base_probs.get('contracting', 0.0))} → {fmt(what_if_probs.get('contracting', 0.0))}</span>"
+            f"<span class='pill'>Test: {fmt(base_probs.get('test', 0.0))} → {fmt(what_if_probs.get('test', 0.0))}</span>"
+            f"<span class='pill'>Adoption: {fmt(base_probs.get('adoption', 0.0))} → {fmt(what_if_probs.get('adoption', 0.0))}</span>"
+            "</div>"
+            "<div class='pill-row'>"
+            f"<span class='pill'>Overall: {fmt(base_probs.get('overall', 0.0))} → {fmt(what_if_probs.get('overall', 0.0))}</span>"
+            "</div>"
+        )
 
 
 adoptions_chart = ChartModule(
@@ -267,6 +350,10 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
         "shock_duration": Slider("Shock duration (ticks)", 20, 0, 200, 5),
         "seed": NumberInput("Random seed", 42),
         "focus_researcher_id": NumberInput("Focused researcher id (-1 = none)", -1),
+        "trend_start_tick": NumberInput("Trend window start tick", 0),
+        "trend_end_tick": NumberInput("Trend window end tick", 200),
+        "what_if_quality_delta": Slider("What-if quality delta (preview only)", 0.0, -0.3, 0.3, 0.01),
+        "ui_mode": Choice("UI mode", "Standard", choices=["Standard", "Advanced"]),
         # Scenario/category controls derived from data
         "portfolio_focus": Choice(
             "Portfolio focus",
@@ -316,7 +403,9 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
             StyleElement(),
             HelpElement(),
             MetricsElement(),
+            TrendElement(),
             ProjectStatusElement(),
+            ProbabilityElement(),
             StageFunnelElement(),
             GateContextElement(),
             adoptions_chart,
