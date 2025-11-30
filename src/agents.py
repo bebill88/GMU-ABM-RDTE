@@ -330,7 +330,7 @@ class ResearcherAgent(Agent):
             + (1.0 if self.align_agency else 0.0)
         ) / 4.0
 
-        # Snapshot baseline values for override highlighting in the UI
+        # Snapshot baseline values for UI override highlighting
         try:
             self._raw_baseline = {
                 "quality": float(self.quality),
@@ -341,6 +341,8 @@ class ResearcherAgent(Agent):
                 "test_capacity": float(getattr(self, "test_capacity", 0.0)),
                 "domain_alignment": float(getattr(self, "domain_alignment", 0.0)),
                 "classification_penalty": float(getattr(self, "classification_penalty", 0.0)),
+                "digital_maturity_score": float(getattr(self, "digital_maturity_score", 0.5)),
+                "mbse_coverage": float(getattr(self, "mbse_coverage", 0.5)),
             }
         except Exception:
             self._raw_baseline = {}

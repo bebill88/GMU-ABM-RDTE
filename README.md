@@ -147,72 +147,50 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 ## Data Inputs
 
-| CSV | Purpose |
-| --- | --- |
-| `data/rdte_entities.csv` | Entities (labs, agencies, primes, etc.) |
-| `data/program_entity_roles.csv` | Which entity plays what role on which program |
-| `data/vendor_evaluations.csv` | CPARS-lite performance history |
-| `data/gao_findings.csv` | Oversight findings, severities, repeat flags |
-| `data/labs.csv` | Lab/vendor metadata (location, sector, specialization) |
-| `data/closed_projects.csv` | Historical outcomes (Transitioned / Canceled / OnHold) |
-| `data/templates/rdte_funding_row_simulated.csv` | FY26 RDT&E sample rows (analysis/reporting; no behavior by default) |
-| `data/stubs/shock_events.csv` / `data/stubs/collaboration_network.csv` | Example shocks and collaboration edges |
+### Core Data Inputs
 
-- Profiles: use parameters.yaml (production realism), parameters.demo.yaml (fast/demo), or parameters.stressed.yaml (conservative/shock). Override with --config or --testing_profile.
-- Overrides via CLI: --labs_csv overrides data.labs_locations_csv; --rdte_csv overrides data.rdte_fy26_csv; --config loads an alternate YAML (CLI flags still win).
-- These are now backed by example populated CSVs under data/; swap in real data as it becomes available.
+| Dataset | Default File | Purpose | Primary Keys |
+| --- | --- | --- | --- |
+| RDT&E Entities | `data/rdte_entities.csv` | Labs, program offices, IC orgs, service components, primes | `entity_id` |
+| Program–Entity Roles | `data/program_entity_roles.csv` | Mapping of who sponsors, executes, tests, or operates a program | `program_id`, `entity_id` |
+| Vendor Evaluations | `data/vendor_evaluations.csv` | CPARS-lite history: cost, schedule, tech, management, cyber | `vendor_id`, `program_id` |
+| GAO Findings | `data/gao_findings.csv` | Oversight findings with severity, recommendations, repeat flags | `finding_id`, `program_id` |
+| Labs Catalog | `data/labs.csv` | Physical labs, hubs, IC facilities, and vendor campuses | `lab_id` |
+| Historical Outcomes | `data/closed_projects.csv` | Transitioned, canceled, and on-hold historical project records | `project_id`, `program_id` |
+| FY26 RDT&E Template | `data/templates/rdte_funding_row_simulated.csv` | Synthetic PE-level FY26 funding data | `pe_number` |
+
+### Required Minimum Inputs
+- `data/rdte_entities.csv`
+- `data/program_entity_roles.csv`
+- `data/labs.csv`
+
+All other datasets enhance fidelity but are optional.
+
+### Behavioral Role of Each Dataset
+- **RDT&E Entities + Program Roles**: define how sponsors, executors, testers, and operators influence program quality, timeline pressure, authority mix (10 USC, 50 USC, allied), capacity constraints, and cross-service/interagency friction.
+- **Labs Catalog**: adds physical/geographic context (hubs, sector, specialization) for ecosystem bonuses and CONUS/OCONUS/allied experimentation effects.
+- **Vendor Evaluations**: shape schedule slip, cost growth, technical success, and cyber-vulnerability penalties that flow into contracting/test gates.
+- **GAO Findings**: drive oversight pressure, repeat-offender penalties, and governance mismatch risk by program/domain/authority/org type/funding source.
+- **Historical Closed Projects**: provide empirical priors (transition, cancel, on-hold) by domain, authority mix, and vendor/GAO risk interactions; blended with in-simulation factors (researcher variance, alignment, shocks).
+- **FY26 RDT&E Template**: analysis/reporting only by default; extend to seed program agents if desired.
 
 ### Historical outcomes baseline
-data/closed_projects.csv is used to estimate empirical priors for transition vs. cancel/on-hold by domain, authority mix (10/50/ALLIED), vendor risk profile, and GAO severity history. These priors are blended softly into gate probabilities via closed_priors_weight and prior_weights_by_gate.
-
-### Behavioral effects (high-level)
-- RDT&E entities + program–entity roles: determine who sponsors, executes, tests, and operates each program; used for capacity/authority/role multipliers and org-type effects.
-- Labs: location/sector/specialization; enable small ecosystem bonuses and CONUS/OCONUS/allied differentiation.
-- Vendor evaluations: CPARS-lite cost/schedule/technical/management/cyber history; adjust contracting/test risk and slippage.
-- GAO findings: severities/types/repeat flags feed configurable “repeat offender” penalties by program/domain/authority/org type/funding source.
-- FY26 RDT&E rows: currently analysis/reporting only (no direct behavior by default); can be extended to seed program agents.
+`data/closed_projects.csv` supplies priors for transition vs. cancel/on-hold by domain, authority mix (10/50/ALLIED), vendor risk, and GAO severity history. Priors are softly blended into gate probabilities via `closed_priors_weight` and `prior_weights_by_gate` so current run conditions still dominate.
 
 ### Extended data (optional but supported)
 - `data/shock_events.csv`: dated CRs/conflicts/policy changes to replay real-world shock timelines.
 - `data/collaboration_network.csv`: collaboration edges to feed ecosystem/diffusion adjustments.
+
+### CLI overrides and profiles
+- CLI overrides: `--labs_csv` overrides `data.labs_locations_csv`; `--rdte_csv` overrides `data.rdte_fy26_csv`; `--config` loads an alternate YAML (CLI flags still win).
+- Profiles: `parameters.yaml` (production realism), `parameters.demo.yaml` (fast/demo), `parameters.stressed.yaml` (conservative/shock). Override with `--config` or `--testing_profile`.
 ## Data Schema Overview
 
-- `data/stubs/gao_findings.csv` ΓÇô GAO findings per program (severity, repeat flags, recommendations).
-- `data/rdte_entities.csv` ΓÇô master list of RDT&E/IC entities keyed by `parent_entity_id`.
-- `data/program_entity_roles.csv` ΓÇô programΓåÆentity mappings with roles and effort shares.
-- `data/stubs/vendor_evaluations.csv` ΓÇô multi-year vendor evaluations per program/vendor.
-- `data/closed_projects.csv` ΓÇô historical closed/transitioned projects with outcomes, GAO/vendor stats, and gate successes.
-
-### GAO Findings Data
-- Path: `data/stubs/gao_findings.csv` (replace with real exports when ready).
-- Columns: `finding_id,report_id,report_year,program_id,program_name,finding_type,severity,repeat_issue_flag,recommendation_count,implemented_recs,open_recs,summary,authority,funding_source,domain,org_type`.
-- Aggregation: per-row risk = `severity * (1 + repeat_issue_flag) * (0.5 + 0.5 * open_recs/recommendation_count)`; program scores are summed then normalized to [0,1].
-- Model hook: stored on each program as `gao_penalty`; gates call `apply_gao_modifier(base_prob)` and scale by `gao_weight` (see `parameters.yaml:penalties.gao_weight`).
-
-### RDTE Entities Schema
-- Path: `data/rdte_entities.csv` keyed by `parent_entity_id` (treated as `entity_id` in the model).
-- Columns: `parent_entity_id,has_organic_rdte,rdte_roles,base_budget_type,base_budget_pe,base_budget_ba,estimated_rdte_capacity_musd,estimated_rdte_staff,primary_domains,authority_flags,location_region,classification_band,notes`.
-- Use: loader attaches entity attributes (capacity, domains, authorities, classification) to program-role mappings to modulate gate odds.
-
-### ProgramΓÇôEntity Roles
-- Path: `data/program_entity_roles.csv` with header `program_id,entity_id,role,effort_share,note`.
-- Roles are grouped per program into `sponsor`, `executing`, `test`, `ops`, `transition_partner` (plus any extra role labels).
-- Worked example (PRG-ISR-001): `sponsor`=SRV-ARMY-AFC-ISR, `executing`=LAB-NAVY-NRL-ISR & LAB-AFRL-RIO-ISR, `test`=UNIT-AF-ISRGRP-01, `ops`=UNIT-USMC-INTBN-01, `transition_partner`=AGY-DIA-TECH.
-- Model hook: sponsor authority boosts funding odds; executing/test capacity and domain alignment lift contracting/test gates; classification bands add mild penalties when high-side coordination is required.
-
-### Vendor Evaluations
-- Path: `data/stubs/vendor_evaluations.csv` (header `evaluation_id,program_id,vendor_id,vendor_name,fiscal_year,cost_variance_pct,schedule_variance_pct,technical_rating,management_rating,cyber_findings_count,major_breach_flag,recompete_award_flag`).
-- Aggregation: per-evaluation risk blends cost/schedule variance, technical/management ratings, cyber findings, and breach flags; averaged per `(program_id, vendor_id)` then normalized to [0,1].
-- Model hook: stored as `perf_penalty` and applied most strongly to contracting gates; `vendor_weight` in `parameters.yaml` tunes sensitivity.
-
-### How the ABM Uses These Data
-- Pipeline: CSVs ΓåÆ loaders ΓåÆ per-program GAO penalty + per-program/vendor risk + role metrics ΓåÆ gate probabilities (`funding`, `contracting`, `test`, `adoption`).
-- Role metrics: sponsor authority, executing/test capacity, domain alignment, and classification band feed multipliers inside the gates.
-- GAO severity/repeat issues lower gate odds via `apply_gao_modifier`; vendor risk primarily reduces contracting success; entity capacity/authority mix nudges funding/test performance.
-- Historical priors: `closed_projects.csv` feeds empirical transition-rate priors by domain, authority mix, vendor risk bucket, GAO severity bucket, and program; gates blend these as a mild multiplier (0.5ΓÇô1.0) so past outcomes nudge but donΓÇÖt dominate current probabilities.
-- Prior weights: defaults set to 0.2 per gate in `penalties.prior_weights_by_gate`; adjust up/down to change historical influence or set to 0 to disable.
-- Smoke/demo: `python -m src.smoke_demo` runs a short demo-profile check and asserts transitions > 0 (good for CI); set `model.testing_profile: demo` for GUI smoke tests.
-- Profiles: use `parameters.yaml` for production realism, `parameters.demo.yaml` for fast/demo runs, and `parameters.stressed.yaml` for conservative/shock-style scenarios. Override via `--config` or `--testing_profile`.
+- Core CSVs are listed in the Core Data Inputs table above; populated examples now live under data/ (no stub paths) and can be swapped for real exports when ready.
+- Field-by-field definitions are in the Glossary section; use data/templates/ for column guidance when building new sources.
+- Pipeline: CSVs -> loaders -> program/entity/vendor/GAO metrics + historical priors -> gate probabilities (funding, contracting, test, adoption).
+- Priors: closed_projects.csv feeds transition/cancel/on-hold priors by domain, authority mix, vendor risk bucket, GAO severity bucket, and program; blended via closed_priors_weight and prior_weights_by_gate (defaults 0.05 per gate; set to 0 to disable).
+- Smoke/demo: python -m src.smoke_demo checks that demo-profile transitions > 0; set model.testing_profile: demo in YAML or --testing_profile demo for GUI smoke tests.
 
 ## Profiles & Modes
 - Production (realism): `parameters.yaml` with conservative gate bases and lower prior weights (0.05/gate), `testing_profile: production`.
@@ -538,111 +516,126 @@ Sensitivity testing tips
 - **Schema/Template Files** - JSON Schema files under `schemas/` and CSV templates under `data/templates/` capture the required columns so both synthetic and real data stay aligned with the loader expectations.
 ### Fields by Dataset (Glossary)
 
-**RDT&E Entities (data/rdte_entities.csv)**
-- `entity_id`: Unique ID for lab, agency, office, IC element, vendor, FFRDC, or UARC.
-- `name`: Full entity name.
-- `short_name`: Abbreviated display name.
-- `entity_category`: Type: Lab, Agency, ProgramOffice, OperationalUnit, Vendor.
-- `service`: Army, Navy, USAF, USSF, CIA, NSA, NGA, DIA, DOE, etc.
-- `parent_entity_id`: Hierarchical owner, if applicable.
-- `has_organic_rdte`: 1 if the entity performs its own RDT&E.
-- `rdte_roles`: Roles such as sponsor, executing, test, ops.
-- `base_budget_type`: RDT&E, MIP, NIP, TOA, etc.
-- `base_budget_pe`: Program Element (PE) number.
-- `base_budget_ba`: Budget Activity (BA2–BA7).
-- `estimated_rdte_capacity_musd`: Estimated annual research capacity.
-- `estimated_rdte_staff`: Approximate personnel supporting RDT&E.
-- `primary_domains`: Mission areas: ISR, AI, GEOINT, CBRN, Space, EW, UAS.
-- `authority_flags`: Statutory authority: 10USC, 50USC, ALLIED.
-- `location_region`: CONUS-East, CONUS-West, NCR, INDOPACOM, EUCOM.
-- `classification_band`: Unclassified, Secret, TS/SCI.
-- `notes`: Additional context.
+This glossary defines every field across all CSVs.
 
-**Program–Entity Roles (data/program_entity_roles.csv)**
-- `program_id`: ID of the RDT&E program.
-- `entity_id`: Entity participating in the program.
-- `role`: Sponsor, executing, test, ops, transition_partner.
-- `effort_share`: Relative magnitude of involvement (0–1).
-- `note`: Context or explanation.
+#### RDT&E Entities (data/rdte_entities.csv)
+| Field | Definition |
+| --- | --- |
+| entity_id | Unique ID for lab, agency, office, IC element, vendor, FFRDC, or UARC. |
+| name | Full entity name. |
+| short_name | Abbreviated display name. |
+| entity_category | Type: Lab, Agency, ProgramOffice, OperationalUnit, Vendor. |
+| service | Army, Navy, USAF, USSF, CIA, NSA, NGA, DIA, DOE, etc. |
+| parent_entity_id | Hierarchical owner, if applicable. |
+| has_organic_rdte | 1 if the entity performs its own RDT&E. |
+| rdte_roles | Roles such as sponsor, executing, test, ops. |
+| base_budget_type | RDT&E, MIP, NIP, TOA, etc. |
+| base_budget_pe | Program Element (PE) number. |
+| base_budget_ba | Budget Activity (BA2-BA7). |
+| estimated_rdte_capacity_musd | Estimated annual research capacity. |
+| estimated_rdte_staff | Approximate personnel supporting RDT&E. |
+| primary_domains | Mission areas: ISR, AI, GEOINT, CBRN, Space, EW, UAS. |
+| authority_flags | Statutory authority: 10USC, 50USC, ALLIED. |
+| location_region | CONUS-East, CONUS-West, NCR, INDOPACOM, EUCOM. |
+| classification_band | Unclassified, Secret, TS/SCI. |
+| notes | Additional context. |
 
-**Vendor Evaluations (data/vendor_evaluations.csv)**
-- `evaluation_id`: Unique evaluation record.
-- `program_id`: Program evaluated.
-- `vendor_id`: Unique vendor identifier.
-- `vendor_name`: Vendor name.
-- `fiscal_year`: FY of scoring.
-- `cost_variance_pct`: + if cost overran, – if underrun.
-- `schedule_variance_pct`: Schedule overrun or underrun.
-- `technical_rating`: Technical score (1–5).
-- `management_rating`: Management score (1–5).
-- `cyber_findings_count`: Security issues found.
-- `major_breach_flag`: 1 if a major breach occurred.
-- `recompete_award_flag`: Vendor competitive for follow-on work.
+#### Program-Entity Roles (data/program_entity_roles.csv)
+| Field | Definition |
+| --- | --- |
+| program_id | ID of the RDT&E program. |
+| entity_id | Entity participating in the program. |
+| role | Sponsor, executing, test, ops, transition_partner. |
+| effort_share | Relative magnitude of involvement (0-1). |
+| note | Context or explanation. |
 
-**GAO Findings (data/gao_findings.csv)**
-- `finding_id`: Unique GAO finding ID.
-- `report_id`: GAO report number (GAO-XX-XXXXX).
-- `report_year`: Publication year.
-- `program_id`: Program affected.
-- `program_name`: Human-readable program name.
-- `finding_type`: Cost, schedule, performance, management, governance, security, etc.
-- `severity`: Impact scale (1–5).
-- `repeat_issue_flag`: 1 if problem also occurred in earlier years.
-- `recommendation_count`: Total GAO recommendations.
-- `implemented_recs`: Closed recommendations.
-- `open_recs`: Remaining open.
-- `summary`: Description of issue.
-- `authority`: 10USC, 50USC, MIP, NIP.
-- `funding_source`: RDT&E, TOA, MIP, NIP, etc.
-- `domain`: ISR, GEOINT, EW, AI, CBRN, Space.
-- `org_type`: Lab, vendor, agency, program office.
+#### Vendor Evaluations (data/vendor_evaluations.csv)
+| Field | Definition |
+| --- | --- |
+| evaluation_id | Unique evaluation record. |
+| program_id | Program evaluated. |
+| vendor_id | Unique vendor identifier. |
+| vendor_name | Vendor name. |
+| fiscal_year | FY of scoring. |
+| cost_variance_pct | + if cost overran, - if underrun. |
+| schedule_variance_pct | Schedule overrun or underrun. |
+| technical_rating | Technical score (1-5). |
+| management_rating | Management score (1-5). |
+| cyber_findings_count | Security issues found. |
+| major_breach_flag | 1 if a major breach occurred. |
+| recompete_award_flag | Vendor competitive for follow-on work. |
 
-**Labs (data/labs.csv)**
-- `lab_id`: Unique ID (aligned to entity_id or vendor_id).
-- `name`: Facility or organization name.
-- `country`: Country.
-- `state`: U.S. state or foreign province.
-- `city`: City / installation.
-- `service_agency`: Army DEVCOM, NRO, NSA, NGA, DOE, etc.
-- `specialization`: Technical areas (AI, EW, autonomy, SIGINT, etc.).
-- `region`: NCR, CONUS-East, CONUS-West, Pacific, EUCOM, etc.
-- `funding_source`: DoD RDT&E, DOE NNSA, NIP, MIP, private capital.
-- `cross_service_agreements`: Joint, interagency, allied, or consortia partnerships.
-- `sector`: Federal, FFRDC, UARC, Private.
+#### GAO Findings (data/gao_findings.csv)
+| Field | Definition |
+| --- | --- |
+| finding_id | Unique GAO finding ID. |
+| report_id | GAO report number (GAO-XX-XXXXX). |
+| report_year | Publication year. |
+| program_id | Program affected. |
+| program_name | Human-readable program name. |
+| finding_type | Cost, schedule, performance, management, governance, security, etc. |
+| severity | Impact scale (1-5). |
+| repeat_issue_flag | 1 if problem also occurred in earlier years. |
+| recommendation_count | Total GAO recommendations. |
+| implemented_recs | Closed recommendations. |
+| open_recs | Remaining open. |
+| summary | Description of issue. |
+| authority | 10USC, 50USC, MIP, NIP. |
+| funding_source | RDT&E, TOA, MIP, NIP, etc. |
+| domain | ISR, GEOINT, EW, AI, CBRN, Space. |
+| org_type | Lab, vendor, agency, program office. |
 
-**Historical Outcomes (data/closed_projects.csv)**
-- `project_id`: Unique historical instance.
-- `program_id`: Program linked to historical variant.
-- `program_name`: Name of the program.
-- `close_year`: Year project closed.
-- `close_status`: Transitioned, Canceled, OnHold.
-- `close_reason`: Short rationale for outcome.
-- `primary_domain`: Mission area.
-- `authority_flags`: 10USC, 50USC, ALLIED.
-- `sponsor_entity_id`: Sponsor org.
-- `executing_entity_id`: Primary executor.
-- `transition_partner_entity_id`: Intended receiving org.
-- `primary_vendor_id`: Vendor responsible.
-- `primary_vendor_name`: Human-readable vendor name.
-- `peak_rdte_funding_musd`: Maximum annual funding.
-- `total_duration_months`: Duration of the variant.
-- `funding_gate_successes`: Passed funding milestones.
-- `contracting_gate_successes`: Passed contracting gates.
-- `test_gate_successes`: Passed DT/OT gates.
-- `ops_eval_score`: Operational evaluation (0–100).
-- `gao_findings_count`: Count of related GAO findings.
-- `gao_avg_severity`: Severity average.
-- `vendor_avg_technical_rating`: Mean vendor technical score.
-- `vendor_avg_management_rating`: Mean vendor management score.
-- `max_cyber_findings`: Maximum cyber issues.
-- `notes`: Freeform notes.
+#### Labs (data/labs.csv)
+| Field | Definition |
+| --- | --- |
+| lab_id | Unique ID (aligned to entity_id or vendor_id). |
+| name | Facility or organization name. |
+| country | Country. |
+| state | U.S. state or foreign province. |
+| city | City / installation. |
+| service_agency | Army DEVCOM, NRO, NSA, NGA, DOE, etc. |
+| specialization | Technical areas (AI, EW, autonomy, SIGINT, etc.). |
+| region | NCR, CONUS-East, CONUS-West, Pacific, EUCOM, etc. |
+| funding_source | DoD RDT&E, DOE NNSA, NIP, MIP, private capital. |
+| cross_service_agreements | Joint, interagency, allied, or consortia partnerships. |
+| sector | Federal, FFRDC, UARC, Private. |
 
-**FY26 RDT&E Template (data/templates/rdte_funding_row_simulated.csv)**
-- `pe_number`: Program Element ID.
-- `program_name`: PE name.
-- `service`: Service or agency.
-- `ba`: Budget Activity.
-- `fy26_request`: FY26 funding amount.
-- `fy25_enacted`: Prior year amount.
-- `_notes`: Mapping or metadata notes.
+#### Historical Outcomes (data/closed_projects.csv)
+| Field | Definition |
+| --- | --- |
+| project_id | Unique historical instance. |
+| program_id | Program linked to historical variant. |
+| program_name | Name of the program. |
+| close_year | Year project closed. |
+| close_status | Transitioned, Canceled, OnHold. |
+| close_reason | Short rationale for outcome. |
+| primary_domain | Mission area. |
+| authority_flags | 10USC, 50USC, ALLIED. |
+| sponsor_entity_id | Sponsor org. |
+| executing_entity_id | Primary executor. |
+| transition_partner_entity_id | Intended receiving org. |
+| primary_vendor_id | Vendor responsible. |
+| primary_vendor_name | Human-readable vendor name. |
+| peak_rdte_funding_musd | Maximum annual funding. |
+| total_duration_months | Duration of the variant. |
+| funding_gate_successes | Passed funding milestones. |
+| contracting_gate_successes | Passed contracting gates. |
+| test_gate_successes | Passed DT/OT gates. |
+| ops_eval_score | Operational evaluation (0-100). |
+| gao_findings_count | Count of related GAO findings. |
+| gao_avg_severity | Severity average. |
+| vendor_avg_technical_rating | Mean vendor technical score. |
+| vendor_avg_management_rating | Mean vendor management score. |
+| max_cyber_findings | Maximum cyber issues. |
+| notes | Freeform notes. |
 
+#### FY26 RDT&E Template (data/templates/rdte_funding_row_simulated.csv)
+| Field | Definition |
+| --- | --- |
+| pe_number | Program Element ID. |
+| program_name | PE name. |
+| service | Service or agency. |
+| ba | Budget Activity. |
+| fy26_request | FY26 funding amount. |
+| fy25_enacted | Prior year amount. |
+| _notes | Mapping or metadata notes. |
