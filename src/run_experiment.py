@@ -75,6 +75,7 @@ def run_once(args) -> dict:
     penalty_config = (params.get("penalties", {}) or {})
     gates_config = (params.get("gates", {}) or {})
     agent_config = (params.get("agents", {}) or {})
+    model_config = (params.get("model", {}) or {})
     # Per-run event file path
     events_path = None
     if getattr(args, "events", True):
@@ -91,6 +92,7 @@ def run_once(args) -> dict:
         shock_at=args.shock_at,
         seed=args.seed,
         shock_duration=args.shock_duration,
+        testing_profile=model_config.get("testing_profile", "production"),
         labs_csv=_resolve_labs_csv(args),
         rdte_csv=_resolve_rdte_csv(args),
         penalty_config=penalty_config,

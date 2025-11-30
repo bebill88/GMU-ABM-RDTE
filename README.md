@@ -150,7 +150,8 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Labs/hubs locations CSV (recommended to commit under `data/`)
   - parameters.yaml:
     - `data.labs_locations_csv: data/templates/labs_template.csv`
-  - Effect: adds a small +0.01 "ecosystem support" bonus to environmental signal. The template now carries a richer lab list (service/region/specialization) even if lat/lon are omitted.
+  - Effect: adds a small +0.01 "ecosystem support" bonus to environmental signal. The template now carries a richer lab list (service/region/specialization). If lat/lon are absent but city/state are present, the model assigns deterministic pseudo-coordinates so map displays still work.
+  - Profiles: set `model.testing_profile: demo` in `parameters.yaml` to make short smoke tests transition (higher prototype rate, softened penalties). Keep `production` for normal runs.
 
 - FY26 RDT&E line items CSV (recommended to commit under `data/`)
   - parameters.yaml:
@@ -209,6 +210,8 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Role metrics: sponsor authority, executing/test capacity, domain alignment, and classification band feed multipliers inside the gates.
 - GAO severity/repeat issues lower gate odds via `apply_gao_modifier`; vendor risk primarily reduces contracting success; entity capacity/authority mix nudges funding/test performance.
 - Historical priors: `closed_projects.csv` feeds empirical transition-rate priors by domain, authority mix, vendor risk bucket, GAO severity bucket, and program; gates blend these as a mild multiplier (0.5–1.0) so past outcomes nudge but don’t dominate current probabilities.
+- Prior weights: defaults set to 0.2 per gate in `penalties.prior_weights_by_gate`; adjust up/down to change historical influence or set to 0 to disable.
+- Smoke/demo: `python -m src.smoke_demo` runs a short demo-profile check and asserts transitions > 0 (good for CI); set `model.testing_profile: demo` for GUI smoke tests.
 - Scenario levers: tune `gao_weight`, `vendor_weight`, and the authority/capacity values in the entity/roles CSVs to run sensitivity experiments.
 
 ---

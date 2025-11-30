@@ -7,6 +7,7 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
+import logging
 
 from . import gao_utils
 
@@ -129,9 +130,29 @@ def load_closed_projects(path: Optional[str]) -> tuple[list[Dict[str, str]], Dic
     Returns (rows, priors) where priors includes rates by domain, authority_flags,
     vendor_risk_bucket, gao_severity_bucket, program, and overall_rate.
     """
+    if not path:
+        logging.getLogger(__name__).warning("closed_projects_csv not provided; historical priors disabled.")
+        return [], {}
     rows = _read_csv(path)
     if not rows:
+        logging.getLogger(__name__).warning(f"closed_projects_csv at {path} is missing or empty; historical priors disabled.")
         return [], {}
+
+    required = {
+        "program_id",
+        "close_status",
+        "primary_domain",
+        "authority_flags",
+        "vendor_avg_technical_rating",
+        "vendor_avg_management_rating",
+        "max_cyber_findings",
+        "gao_avg_severity",
+    }
+    missing_cols = [c for c in required if c not in rows[0]]
+    if missing_cols:
+        logging.getLogger(__name__).warning(
+            f"closed_projects_csv missing required columns {missing_cols}; priors may be incomplete."
+        )
 
     def bucket_vendor(risk: float) -> str:
         if risk <= 0.3:

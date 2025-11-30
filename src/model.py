@@ -13,6 +13,7 @@ from typing import List, Dict, Any, Optional
 import csv
 from pathlib import Path
 import logging
+import hashlib
 
 from .agents import ResearcherAgent, PolicymakerAgent, EndUserAgent
 from . import policies
@@ -68,6 +69,7 @@ class RdteModel(Model):
                  service_focus: str = "Joint",
                  org_mix: str = "Balanced",
                  funding_pattern: str = "ProgramBase",
+                 testing_profile: str = "production",
                  focus_researcher_id: int = -1,
                  focus_program_id: str = "",
                  focus_selection_mode: str = "Random",
@@ -78,6 +80,7 @@ class RdteModel(Model):
                  ui_mode: str = "Standard",
                  what_if_quality_delta: float = 0.0,
                  custom_project_enabled: str | bool = False,
+                 custom_project_persist: str | bool = False,
                  custom_project_stage: str = "feasibility",
                  custom_project_quality: float = 0.6,
                  custom_project_gao_penalty: float = 0.0,
@@ -112,6 +115,7 @@ class RdteModel(Model):
         self.service_focus = str(service_focus)
         self.org_mix = str(org_mix)
         self.funding_pattern = str(funding_pattern)
+        self.testing_profile = str(testing_profile or "production").lower()
         self.focus_researcher_id = int(focus_researcher_id)
         self.focus_program_id = str(focus_program_id or "")
         self.focus_selection_mode = str(focus_selection_mode or "Random")
@@ -120,6 +124,7 @@ class RdteModel(Model):
         self.ui_mode = str(ui_mode)
         self.what_if_quality_delta = float(what_if_quality_delta)
         self.custom_project_enabled = str(custom_project_enabled).lower() in {"true", "1", "yes", "on"}
+        self.custom_project_persist = str(custom_project_persist).lower() in {"true", "1", "yes", "on"}
         self.custom_project_stage = str(custom_project_stage or "feasibility")
         self.custom_project_quality = float(custom_project_quality)
         self.custom_project_gao_penalty = float(custom_project_gao_penalty)
@@ -171,6 +176,13 @@ class RdteModel(Model):
         self.ecosystem_scale = float(pc.get("ecosystem_scale", 0.05))
         self.gao_weight = float(pc.get("gao_weight", 0.5))
         self.vendor_weight = float(pc.get("vendor_weight", 0.4))
+        self.prior_weight = float(pc.get("closed_priors_weight", 0.0))
+        self.prior_weights_by_gate = {
+            "funding": float(pc.get("prior_weights_by_gate", {}).get("funding", self.prior_weight)),
+            "contracting": float(pc.get("prior_weights_by_gate", {}).get("contracting", self.prior_weight)),
+            "test": float(pc.get("prior_weights_by_gate", {}).get("test", self.prior_weight)),
+            "adoption": float(pc.get("prior_weights_by_gate", {}).get("adoption", self.prior_weight)),
+        }
 
         self.data_config = data_config or {}
         try:
@@ -262,6 +274,58 @@ class RdteModel(Model):
             self._apply_focus_selection()
         except Exception:
             pass
+
+        # Testing/demo profile adjustments to lift transition odds in short runs
+        if self.testing_profile == "demo":
+            try:
+                for r in self.researchers:
+                    r.prototype_rate = min(1.0, r.prototype_rate * 2.0)
+                    r.learning_rate = min(1.0, r.learning_rate * 1.5)
+                    r.lab_support_factor = min(2.0, r.lab_support_factor * 1.3)
+                    r.industry_support_factor = min(2.0, r.industry_support_factor * 1.3)
+                    # Lower GAO/vendor drag in demo mode
+                    r.gao_penalty = r.gao_penalty * 0.5
+                    r.perf_penalty = r.perf_penalty * 0.5
+                # Loosen penalties and increase ecosystem bonus scaling
+                self.penalties.per_failure = max(0.01, self.penalties.per_failure * 0.5)
+                self.gao_penalty_scale = max(0.0, self.gao_penalty_scale * 0.5)
+                self.perf_penalty_scale = max(0.0, self.perf_penalty_scale * 0.5)
+                self.ecosystem_scale = min(0.1, self.ecosystem_scale * 1.5)
+            except Exception:
+                pass
+
+        # Optionally persist a custom project as a temporary agent
+        if self.custom_project_enabled and self.custom_project_persist:
+            try:
+                cid = len(self.researchers)
+                stub = ResearcherAgent(cid, self, prototype_rate=0.0, learning_rate=0.1, rdte_program=None)
+                # Seed attributes from custom fields
+                stub.program_id = "CUSTOM-PERSIST"
+                stub.project_id = stub.program_id
+                stub.domain = "Custom"
+                stub.portfolio = "Custom"
+                stub.org_type = "Custom"
+                stub.quality = float(self.custom_project_quality)
+                stub.gao_penalty = float(self.custom_project_gao_penalty)
+                stub.perf_penalty = float(self.custom_project_perf_penalty)
+                stub.domain_alignment = float(self.custom_project_domain_alignment)
+                stub.executing_capacity = float(self.custom_project_exec_capacity)
+                stub.test_capacity = float(self.custom_project_test_capacity)
+                stub.classification_penalty = float(self.custom_project_class_penalty)
+                stub.stage_gate_start = self.custom_project_stage if self.custom_project_stage in stub.STAGES else "feasibility"
+                stub.current_stage_index = stub.STAGES.index(stub.stage_gate_start)
+                stub.has_candidate = True
+                stub.stage_enter_tick = self.schedule.time
+                stub.legal_status = "not_conducted"
+                stub.prototype_rate = 0.0  # avoid auto-starting new ones
+                self.researchers.append(stub)
+                self.schedule.add(stub)
+                self.program_index[stub.program_id] = stub
+                # set focus to the custom project
+                self.focus_program_id = stub.program_id
+                self.focus_researcher_id = cid
+            except Exception:
+                logging.getLogger(__name__).warning("Failed to persist custom project agent; continuing without it.")
 
     # ---- Policy gates (delegation to policies.py) ----
     def policy_gate_allocation(self, researcher: ResearcherAgent) -> bool:
@@ -529,6 +593,18 @@ class RdteModel(Model):
         `data/templates/labs_template.csv` when present so the model has a
         small but non-empty ecosystem dataset out of the box.
         """
+        def _fake_coords(city: str, state: str, country: str) -> tuple[float | None, float | None]:
+            """
+            Deterministic pseudo-coordinates from city/state for map visualization
+            when lat/lon are absent. Keeps values within CONUS-ish bounds.
+            """
+            key = f"{city},{state},{country}".lower().encode("utf-8")
+            h = hashlib.sha256(key).digest()
+            # lat: 24..49, lon: -125..-66
+            lat = 24 + (int.from_bytes(h[:2], "big") % 2500) / 100.0
+            lon = -125 + (int.from_bytes(h[2:4], "big") % 5900) / 100.0
+            return lat, lon
+
         try:
             path: Optional[Path] = None
             if labs_csv:
@@ -563,14 +639,25 @@ class RdteModel(Model):
                 lat_key = next((fieldmap[k] for k in ["lat", "latitude"] if k in fieldmap), None)
                 lon_key = next((fieldmap[k] for k in ["lon", "lng", "longitude"] if k in fieldmap), None)
                 name_key = next((fieldmap[k] for k in ["name", "site", "facility", "lab_name"] if k in fieldmap), None)
+                city_key = next((fieldmap[k] for k in ["city"] if k in fieldmap), None)
+                state_key = next((fieldmap[k] for k in ["state", "province"] if k in fieldmap), None)
+                country_key = next((fieldmap[k] for k in ["country"] if k in fieldmap), None)
                 for r in reader:
                     try:
                         lat = float(r[lat_key]) if lat_key and r.get(lat_key) not in (None, "") else None
                         lon = float(r[lon_key]) if lon_key and r.get(lon_key) not in (None, "") else None
                     except Exception:
                         lat, lon = None, None
+                    city = (r.get(city_key) if city_key else None) or ""
+                    state = (r.get(state_key) if state_key else None) or ""
+                    country = (r.get(country_key) if country_key else None) or "United States"
+                    if (lat is None or lon is None) and (city or state):
+                        lat, lon = _fake_coords(city, state, country)
                     rows.append({
                         "name": (r.get(name_key) if name_key else None),
+                        "city": city,
+                        "state": state,
+                        "country": country,
                         "lat": lat,
                         "lon": lon,
                         "raw": r,

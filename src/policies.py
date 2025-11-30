@@ -108,16 +108,26 @@ def _apply_external_modifiers(model, researcher, gate: str, base_prob: float) ->
     ecosystem = _ecosystem_multiplier(model, researcher)
     prior_mult = 1.0
     try:
-        prior = float(model.empirical_prior(researcher))
-        prior_mult = max(0.5, min(1.0, 0.5 + 0.5 * prior))
+        weight_map = getattr(model, "prior_weights_by_gate", {}) or {}
+        weight = float(weight_map.get(gate, getattr(model, "prior_weight", 0.0)))
+        if weight > 0:
+            prior = float(model.empirical_prior(researcher))
+            # Blend prior into a multiplier: 1.0 +/- weight * (prior - 0.5)
+            prior_mult = max(0.5, min(1.5, 1.0 + weight * (prior - 0.5)))
     except Exception:
         prior_mult = 1.0
+    demo_mult = 1.0
+    try:
+        if getattr(model, "testing_profile", "production") == "demo":
+            demo_mult = 1.2
+    except Exception:
+        demo_mult = 1.0
     shock = 1.0
     try:
         shock = model.get_shock_modifier(gate, researcher)
     except Exception:
         pass
-    return max(0.0, min(1.0, prob * risk * ecosystem * prior_mult * shock))
+    return max(0.0, min(1.0, prob * risk * ecosystem * prior_mult * demo_mult * shock))
 
 
 def funding_gate(model, researcher) -> bool:

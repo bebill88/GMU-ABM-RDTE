@@ -1,4 +1,4 @@
-﻿"""
+"""
 Mesa ModularServer for the RDT&E ABM.
 
 Launch (default port 8521):
@@ -14,11 +14,13 @@ from __future__ import annotations
 import argparse
 import os
 import csv
+import yaml
 from mesa.visualization.modules import ChartModule, TextElement
 from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.UserParam import Slider, Choice, NumberInput
 
 from .model import RdteModel
+from .run_experiment import _load_parameters  # type: ignore
 
 
 class StyleElement(TextElement):
@@ -219,7 +221,20 @@ class ProjectStatusElement(TextElement):
         advanced = str(getattr(model, "ui_mode", "Standard")).lower().startswith("adv")
         detail_html = ""
         if advanced:
-            override_class = "pill override" if getattr(model, "what_if_quality_delta", 0.0) != 0 else "pill"
+            # Detect overrides vs. loaded data for highlighting
+            def override_cls(val_name: str, current_val) -> str:
+                # If what-if quality delta is applied, highlight quality and derived penalties
+                if val_name in {"gao_penalty", "perf_penalty", "quality"} and getattr(model, "what_if_quality_delta", 0.0) != 0:
+                    return "pill override"
+                # Could be extended with raw source comparison if source stored; for now only what-if
+                return "pill"
+            q_class = override_cls("quality", getattr(r, "quality", 0.0))
+            gao_class = override_cls("gao_penalty", getattr(r, "gao_penalty", 0.0))
+            perf_class = override_cls("perf_penalty", getattr(r, "perf_penalty", 0.0))
+            exec_class = "pill"
+            test_class = "pill"
+            domain_class = "pill"
+            class_class = "pill"
             detail_html = (
                 "<div class='section-title'>Project details</div>"
                 "<div class='pill-row'>"
@@ -230,17 +245,17 @@ class ProjectStatusElement(TextElement):
                 f"<span class='pill'>Vendor: {getattr(r, 'vendor_id', 'NA')}</span>"
                 "</div>"
                 "<div class='pill-row'>"
-                f"<span class='{override_class}'>GAO penalty: {getattr(r, 'gao_penalty', 0.0):.2f}</span>"
-                f"<span class='{override_class}'>Vendor risk: {getattr(r, 'perf_penalty', 0.0):.2f}</span>"
+                f"<span class='{gao_class}'>GAO penalty: {getattr(r, 'gao_penalty', 0.0):.2f}</span>"
+                f"<span class='{perf_class}'>Vendor risk: {getattr(r, 'perf_penalty', 0.0):.2f}</span>"
                 f"<span class='pill'>Sponsor strength: {getattr(r, 'sponsor_authority', 0.0):.2f}</span>"
-                f"<span class='pill'>Exec capacity: {getattr(r, 'executing_capacity', 0.0):.2f}</span>"
-                f"<span class='pill'>Test capacity: {getattr(r, 'test_capacity', 0.0):.2f}</span>"
+                f"<span class='{exec_class}'>Exec capacity: {getattr(r, 'executing_capacity', 0.0):.2f}</span>"
+                f"<span class='{test_class}'>Test capacity: {getattr(r, 'test_capacity', 0.0):.2f}</span>"
                 "</div>"
                 "<div class='pill-row'>"
-                f"<span class='pill'>Domain alignment: {getattr(r, 'domain_alignment', 0.0):.2f}</span>"
-                f"<span class='pill'>Class band: {getattr(r, 'classification_penalty', 0.0):.2f}</span>"
-                f"<span class='pill'>Digital maturity: {getattr(r, 'digital_maturity_score', 0.0):.2f}</span>"
-                f"<span class='pill'>MBSE: {getattr(r, 'mbse_coverage', 0.0):.2f}</span>"
+                f"<span class='{domain_class}'>Domain alignment: {getattr(r, 'domain_alignment', 0.0):.2f}</span>"
+                f"<span class='{class_class}'>Class band: {getattr(r, 'classification_penalty', 0.0):.2f}</span>"
+                f"<span class='{q_class}'>Digital maturity: {getattr(r, 'digital_maturity_score', 0.0):.2f}</span>"
+                f"<span class='{q_class}'>MBSE: {getattr(r, 'mbse_coverage', 0.0):.2f}</span>"
                 "</div>"
             )
         return (
@@ -341,17 +356,18 @@ class ProbabilityElement(TextElement):
             "<div class='section-title'>Probability preview</div>"
             f"<div class='subhead'>Program: {getattr(r, 'program_id', 'NA')} | Stage: {base_probs.get('stage', 'NA')} | What-if quality delta: {delta:+.2f}</div>"
             "<div class='pill-row'>"
-            f"<span class='pill'>Funding: {fmt(base_probs.get('funding', 0.0))} → {fmt(what_if_probs.get('funding', 0.0))}</span>"
-            f"<span class='pill'>Contracting: {fmt(base_probs.get('contracting', 0.0))} → {fmt(what_if_probs.get('contracting', 0.0))}</span>"
-            f"<span class='pill'>Test: {fmt(base_probs.get('test', 0.0))} → {fmt(what_if_probs.get('test', 0.0))}</span>"
-            f"<span class='pill'>Adoption: {fmt(base_probs.get('adoption', 0.0))} → {fmt(what_if_probs.get('adoption', 0.0))}</span>"
+            f"<span class='pill'>Funding: {fmt(base_probs.get('funding', 0.0))} -> {fmt(what_if_probs.get('funding', 0.0))}</span>"
+            f"<span class='pill'>Contracting: {fmt(base_probs.get('contracting', 0.0))} -> {fmt(what_if_probs.get('contracting', 0.0))}</span>"
+            f"<span class='pill'>Test: {fmt(base_probs.get('test', 0.0))} -> {fmt(what_if_probs.get('test', 0.0))}</span>"
+            f"<span class='pill'>Adoption: {fmt(base_probs.get('adoption', 0.0))} -> {fmt(what_if_probs.get('adoption', 0.0))}</span>"
             "</div>"
             "<div class='pill-row'>"
-            f"<span class='pill'>Overall: {fmt(base_probs.get('overall', 0.0))} → {fmt(what_if_probs.get('overall', 0.0))}</span>"
+            f"<span class='pill'>Overall: {fmt(base_probs.get('overall', 0.0))} -> {fmt(what_if_probs.get('overall', 0.0))}</span>"
             "</div>"
             + (
-                "<div class='section-title'>Custom project (simulation only)</div>"
-                f"<div class='subhead'>Stage: {custom_probs.get('stage', 'n/a')} | Quality: {getattr(model, 'custom_project_quality', 0.0):.2f} (overrides highlighted)</div>"
+                "<div class='section-title'>Custom project (preview only unless persist is ON)</div>"
+                "<div class='subhead'>Preview values only; not part of the live run unless persist is ON.</div>"
+                f"<div class='subhead'>Stage: {custom_probs.get('stage', 'n/a')} | Quality: {getattr(model, 'custom_project_quality', 0.0):.2f}</div>"
                 "<div class='pill-row'>"
                 f"<span class='pill override'>Funding: {fmt(custom_probs.get('funding', 0.0))}</span>"
                 f"<span class='pill override'>Contracting: {fmt(custom_probs.get('contracting', 0.0))}</span>"
@@ -385,10 +401,23 @@ stage_chart = ChartModule(
 )
 
 
-def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False):
+def _load_server_params(config_path: str | None = None) -> dict:
+    """Load parameters.yaml to hydrate data/penalty/gate configs for the GUI."""
+    params = _load_parameters(config_path or os.path.join(os.getcwd(), "parameters.yaml"))
+    return params or {}
+
+
+def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False, config_path: str | None = None):
+    params_yaml = _load_server_params(config_path)
+    penalty_config = params_yaml.get("penalties", {}) or {}
+    gates_config = params_yaml.get("gates", {}) or {}
+    agent_config = params_yaml.get("agents", {}) or {}
+    data_config = params_yaml.get("data", {}) or {}
+    model_config = params_yaml.get("model", {}) or {}
+
     def _program_choices() -> list[str]:
         """Collect program_id choices from program_entity_roles.csv if available."""
-        path = os.path.join("data", "program_entity_roles.csv")
+        path = data_config.get("program_entity_roles_csv") or os.path.join("data", "program_entity_roles.csv")
         ids = set()
         if os.path.exists(path):
             try:
@@ -426,6 +455,7 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
         "shock_at": Slider("Shock start tick", 80, 0, 500, 5),
         "shock_duration": Slider("Shock duration (ticks)", 20, 0, 200, 5),
         "seed": NumberInput("Random seed", 42),
+        "testing_profile": Choice("Testing profile", model_config.get("testing_profile", "demo"), choices=["demo", "production"]),
         "focus_researcher_id": NumberInput("Focused researcher index (-1 = none)", -1),
         "focus_program_id": Choice("Focused program id (optional)", "", choices=_program_choices()),
         "focus_selection_mode": Choice("Focus selection mode", "Random", choices=["Random", "Best", "Worst", "Manual"]),
@@ -501,7 +531,13 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
             stage_chart,
         ],
         "RDT&E ABM",
-        params,
+        {
+            **params,
+            "penalty_config": penalty_config,
+            "gate_config": gates_config,
+            "data_config": data_config,
+            "agent_config": agent_config,
+        },
     )
     server.port = int(port)
     # Mesa binds to 127.0.0.1 by default; host override is supported on newer Mesa
