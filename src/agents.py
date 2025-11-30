@@ -9,7 +9,10 @@ We model three roles common in DoD/IC innovation transitions:
 from __future__ import annotations
 
 from mesa import Agent
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from .model import RdteModel
 
 
 class ResearcherAgent(Agent):
@@ -38,6 +41,8 @@ class ResearcherAgent(Agent):
 
     def __init__(self, unique_id, model, prototype_rate: float, learning_rate: float, rdte_program: Optional[Dict[str, Any]] = None):
         super().__init__(unique_id, model)
+        # Narrow the model type so IDE/type-checkers see policy gates, metrics, and log_event.
+        self.model = cast("RdteModel", model)
         self.prototype_rate = float(prototype_rate)
         self.learning_rate = float(learning_rate)
         # Initialize around a middling technical merit so learning can show effect.
@@ -347,6 +352,16 @@ class ResearcherAgent(Agent):
         except Exception:
             self._raw_baseline = {}
 
+    def _current_tick(self) -> int:
+        """
+        Safe accessor for the scheduler time so we avoid attribute errors
+        if a stubbed model lacks a schedule during tests.
+        """
+        try:
+            return int(getattr(self.model.schedule, "time", 0))
+        except Exception:
+            return 0
+
     def step(self) -> None:
         """
         One simulation step of behavior for the researcher:
@@ -359,7 +374,8 @@ class ResearcherAgent(Agent):
         # 1) Try to start a new prototype if currently idle
         if not self.has_candidate and (self.random.random() < self.prototype_rate):
             self.has_candidate = True
-            self.prototype_start_tick = self.model.schedule.time
+            now = self._current_tick()
+            self.prototype_start_tick = now
             # Initialize pipeline stage from program starting point if available
             try:
                 start_stage = getattr(self, "stage_gate_start", None)
@@ -369,7 +385,7 @@ class ResearcherAgent(Agent):
                     self.current_stage_index = 0
             except Exception:
                 self.current_stage_index = 0
-            self.stage_enter_tick = self.model.schedule.time
+            self.stage_enter_tick = now
             # Register an attempt for metrics
             self.attempts += 1
             self.model.metrics.on_attempt()
@@ -381,7 +397,7 @@ class ResearcherAgent(Agent):
             # Ensure we have a stage index
             if self.current_stage_index is None:
                 self.current_stage_index = 0
-                self.stage_enter_tick = self.model.schedule.time
+                self.stage_enter_tick = self._current_tick()
 
             stage = self.STAGES[self.current_stage_index]
 
@@ -425,7 +441,7 @@ class ResearcherAgent(Agent):
                 if hasattr(self.model, "log_event"):
                     self.model.log_event(self, gate="test", stage=stage, outcome="pass")
                 self.current_stage_index += 1
-                self.stage_enter_tick = self.model.schedule.time
+                self.stage_enter_tick = self._current_tick()
 
                 # If we've completed last stage, proceed to end-user evaluation/adoption
                 if self.current_stage_index >= len(self.STAGES):
@@ -441,9 +457,7 @@ class ResearcherAgent(Agent):
                         self.legal_status = "not_conducted"
                         # Compute cycle time only if we recorded a start
                         if self.prototype_start_tick is not None:
-                            self.time_to_transition = (
-                                self.model.schedule.time - self.prototype_start_tick
-                            )
+                            self.time_to_transition = self._current_tick() - self.prototype_start_tick
                             self.prototype_start_tick = None
                         self.transitions += 1
                         if hasattr(self.model, "log_event"):
@@ -454,7 +468,7 @@ class ResearcherAgent(Agent):
                         self.quality = min(1.0, self.quality + self.learning_rate * self.random.random())
                         # Keep the program at the final stage for another try
                         self.current_stage_index = len(self.STAGES) - 1
-                        self.stage_enter_tick = self.model.schedule.time
+                        self.stage_enter_tick = self._current_tick()
                         if hasattr(self.model, "log_event"):
                             self.model.log_event(self, gate="adoption", stage=None, outcome="reject")
                 return
@@ -475,6 +489,7 @@ class PolicymakerAgent(Agent):
     """
     def __init__(self, unique_id, model, allocation_agility: float, oversight_rigidity: float):
         super().__init__(unique_id, model)
+        self.model = cast("RdteModel", model)
         self.allocation_agility = float(allocation_agility)  # 0..1 (higher == more nimble)
         self.oversight_rigidity = float(oversight_rigidity)  # 0..1 (higher == more drag)
         self.feedback_inbox = 0.0  # accumulates signal from EndUser agents
@@ -502,6 +517,7 @@ class EndUserAgent(Agent):
     """
     def __init__(self, unique_id, model, adoption_threshold: float, feedback_strength: float):
         super().__init__(unique_id, model)
+        self.model = cast("RdteModel", model)
         self.adoption_threshold = float(adoption_threshold)  # min utility required for adoption
         self.feedback_strength = float(feedback_strength)    # how strongly this agent signals upstream
 
