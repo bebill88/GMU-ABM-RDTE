@@ -32,6 +32,7 @@ data:
   collaboration_network_csv: data/stubs/collaboration_network.csv
   rdte_entities_csv: data/rdte_entities.csv
   program_entity_roles_csv: data/program_entity_roles.csv
+  closed_projects_csv: data/closed_projects.csv
 
 penalties:
   # Per-failure penalty applied multiplicatively across selected axes

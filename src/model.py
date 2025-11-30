@@ -25,6 +25,7 @@ from .data_loader import (
     load_rdte_entities,
     load_program_entity_roles,
     derive_role_metrics,
+    load_closed_projects,
 )
 
 
@@ -196,6 +197,9 @@ class RdteModel(Model):
             self.program_roles,
             self._program_domains(),
         )
+        self.closed_projects: List[Dict[str, Any]]
+        self.closed_priors: Dict[str, Dict[str, float]]
+        self.closed_projects, self.closed_priors = load_closed_projects(self.data_config.get("closed_projects_csv"))
 
         # Agent configuration overrides (from parameters.yaml -> agents.*)
         ag_cfg = agent_config or {}
@@ -384,6 +388,58 @@ class RdteModel(Model):
         stub = _Stub(self)
         probs = policies.estimate_transition_probability(self, stub, quality_delta=0.0)
         return probs
+
+    def empirical_prior(self, researcher: ResearcherAgent) -> float:
+        """
+        Retrieve an empirical transition prior based on closed_projects.csv.
+        Uses domain, authority, vendor risk bucket, GAO severity bucket, and program id.
+        """
+        if not getattr(self, "closed_priors", None):
+            return 0.5
+        pri = self.closed_priors
+        scores: List[float] = []
+
+        domain = str(getattr(researcher, "domain", "") or getattr(researcher, "portfolio", "") or "")
+        if domain and domain in pri.get("domain", {}):
+            scores.append(pri["domain"][domain])
+
+        auth = str(getattr(researcher, "authority", "") or getattr(researcher, "authority_flags", "") or "")
+        if auth and auth in pri.get("authority", {}):
+            scores.append(pri["authority"][auth])
+
+        # Vendor risk bucket derived from current perf penalty
+        risk = max(0.0, min(1.0, float(getattr(researcher, "perf_penalty", 0.0))))
+        if risk <= 0.3:
+            rb = "low"
+        elif risk <= 0.6:
+            rb = "medium"
+        else:
+            rb = "high"
+        if rb in pri.get("vendor_bucket", {}):
+            scores.append(pri["vendor_bucket"][rb])
+
+        # GAO severity bucket derived from gao_penalty
+        gpen = max(0.0, min(1.0, float(getattr(researcher, "gao_penalty", 0.0))))
+        if gpen <= 0.2:
+            gb = "0-1"
+        elif gpen <= 0.4:
+            gb = "2"
+        elif gpen <= 0.6:
+            gb = "3"
+        elif gpen <= 0.8:
+            gb = "4"
+        else:
+            gb = "5+"
+        if gb in pri.get("gao_bucket", {}):
+            scores.append(pri["gao_bucket"][gb])
+
+        pid = str(getattr(researcher, "program_id", "") or "")
+        if pid and pid in pri.get("program", {}):
+            scores.append(pri["program"][pid])
+
+        if scores:
+            return sum(scores) / len(scores)
+        return float(pri.get("overall_rate", 0.5))
 
     def _apply_focus_selection(self) -> None:
         """Set the focused program/agent based on selection mode (random/best/worst/manual)."""

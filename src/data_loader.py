@@ -102,6 +102,110 @@ def _domain_match(program_domain: str, entity_domains: str) -> float:
     return 1.0 if pd in domains else 0.3 if domains else 0.5
 
 
+def _vendor_risk_score(row: Dict[str, str]) -> float:
+    """Estimate vendor risk from historical ratings and cyber findings."""
+    try:
+        tech = float(row.get("vendor_avg_technical_rating") or 3.0)
+    except ValueError:
+        tech = 3.0
+    try:
+        mgmt = float(row.get("vendor_avg_management_rating") or 3.0)
+    except ValueError:
+        mgmt = 3.0
+    try:
+        max_cyber = float(row.get("max_cyber_findings") or 0.0)
+    except ValueError:
+        max_cyber = 0.0
+    tech_pen = max(0.0, (5.0 - tech) / 4.0)
+    mgmt_pen = max(0.0, (5.0 - mgmt) / 4.0)
+    cyber_pen = max(0.0, min(1.0, max_cyber / 5.0))
+    return max(0.0, min(1.0, 0.4 * tech_pen + 0.4 * mgmt_pen + 0.2 * cyber_pen))
+
+
+def load_closed_projects(path: Optional[str]) -> tuple[list[Dict[str, str]], Dict[str, Dict[str, float]]]:
+    """
+    Load historical closed/transitioned projects and compute empirical transition rates.
+
+    Returns (rows, priors) where priors includes rates by domain, authority_flags,
+    vendor_risk_bucket, gao_severity_bucket, program, and overall_rate.
+    """
+    rows = _read_csv(path)
+    if not rows:
+        return [], {}
+
+    def bucket_vendor(risk: float) -> str:
+        if risk <= 0.3:
+            return "low"
+        if risk <= 0.6:
+            return "medium"
+        return "high"
+
+    def bucket_gao(sev: float) -> str:
+        if sev <= 1:
+            return "0-1"
+        if sev <= 2:
+            return "2"
+        if sev <= 3:
+            return "3"
+        if sev <= 4:
+            return "4"
+        return "5+"
+
+    overall = {"total": 0, "succ": 0}
+    domain: Dict[str, Dict[str, int]] = {}
+    authority: Dict[str, Dict[str, int]] = {}
+    vendor_bucket: Dict[str, Dict[str, int]] = {}
+    gao_bucket: Dict[str, Dict[str, int]] = {}
+    program: Dict[str, Dict[str, int]] = {}
+
+    for row in rows:
+        success = str(row.get("close_status", "")).strip().lower() == "transitioned"
+        overall["total"] += 1
+        if success:
+            overall["succ"] += 1
+        d = (row.get("primary_domain") or "").strip()
+        a = (row.get("authority_flags") or "").strip()
+        pid = (row.get("program_id") or "").strip()
+        try:
+            gsev = float(row.get("gao_avg_severity") or 0.0)
+        except ValueError:
+            gsev = 0.0
+        try:
+            risk_val = _vendor_risk_score(row)
+        except Exception:
+            risk_val = 0.0
+        vb = bucket_vendor(risk_val)
+        gb = bucket_gao(gsev)
+
+        for bucket, store in [
+            (d, domain),
+            (a, authority),
+            (vb, vendor_bucket),
+            (gb, gao_bucket),
+            (pid, program),
+        ]:
+            if not bucket:
+                continue
+            if bucket not in store:
+                store[bucket] = {"total": 0, "succ": 0}
+            store[bucket]["total"] += 1
+            if success:
+                store[bucket]["succ"] += 1
+
+    def rates(store: Dict[str, Dict[str, int]]) -> Dict[str, float]:
+        return {k: (v["succ"] / v["total"]) if v["total"] else 0.0 for k, v in store.items()}
+
+    priors = {
+        "overall_rate": (overall["succ"] / overall["total"]) if overall["total"] else 0.0,
+        "domain": rates(domain),
+        "authority": rates(authority),
+        "vendor_bucket": rates(vendor_bucket),
+        "gao_bucket": rates(gao_bucket),
+        "program": rates(program),
+    }
+    return rows, priors
+
+
 def load_rdte_entities(path: Optional[str]) -> Dict[str, Dict[str, str]]:
     """Load the expanded RDT&E entity master list keyed by parent_entity_id."""
     rows = _read_csv(path)

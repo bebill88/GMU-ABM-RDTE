@@ -106,12 +106,18 @@ def _apply_external_modifiers(model, researcher, gate: str, base_prob: float) ->
     prob = model.apply_gao_modifier(base_prob, researcher)
     risk = _risk_multiplier(model, researcher, gate)
     ecosystem = _ecosystem_multiplier(model, researcher)
+    prior_mult = 1.0
+    try:
+        prior = float(model.empirical_prior(researcher))
+        prior_mult = max(0.5, min(1.0, 0.5 + 0.5 * prior))
+    except Exception:
+        prior_mult = 1.0
     shock = 1.0
     try:
         shock = model.get_shock_modifier(gate, researcher)
     except Exception:
         pass
-    return max(0.0, min(1.0, prob * risk * ecosystem * shock))
+    return max(0.0, min(1.0, prob * risk * ecosystem * prior_mult * shock))
 
 
 def funding_gate(model, researcher) -> bool:

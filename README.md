@@ -180,6 +180,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - `data/rdte_entities.csv` – master list of RDT&E/IC entities keyed by `parent_entity_id`.
 - `data/program_entity_roles.csv` – program→entity mappings with roles and effort shares.
 - `data/stubs/vendor_evaluations.csv` – multi-year vendor evaluations per program/vendor.
+- `data/closed_projects.csv` – historical closed/transitioned projects with outcomes, GAO/vendor stats, and gate successes.
 
 ### GAO Findings Data
 - Path: `data/stubs/gao_findings.csv` (replace with real exports when ready).
@@ -207,6 +208,7 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 - Pipeline: CSVs → loaders → per-program GAO penalty + per-program/vendor risk + role metrics → gate probabilities (`funding`, `contracting`, `test`, `adoption`).
 - Role metrics: sponsor authority, executing/test capacity, domain alignment, and classification band feed multipliers inside the gates.
 - GAO severity/repeat issues lower gate odds via `apply_gao_modifier`; vendor risk primarily reduces contracting success; entity capacity/authority mix nudges funding/test performance.
+- Historical priors: `closed_projects.csv` feeds empirical transition-rate priors by domain, authority mix, vendor risk bucket, GAO severity bucket, and program; gates blend these as a mild multiplier (0.5–1.0) so past outcomes nudge but don’t dominate current probabilities.
 - Scenario levers: tune `gao_weight`, `vendor_weight`, and the authority/capacity values in the entity/roles CSVs to run sensitivity experiments.
 
 ---
