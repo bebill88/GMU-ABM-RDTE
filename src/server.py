@@ -27,22 +27,22 @@ class StyleElement(TextElement):
         return """
         <style>
             :root {
-                --bg: #f5f7fb;
+                --bg: #f7f7f5;
                 --panel: #ffffff;
-                --border: #e5e7eb;
-                --text: #0f172a;
+                --border: #d9d9d9;
+                --text: #1f2937;
                 --muted: #4b5563;
-                --accent: #2563eb;
-                --accent-2: #0ea5e9;
-                --success: #16a34a;
-                --warn: #d97706;
-                --danger: #dc2626;
+                --accent: #0f766e;     /* teal for color-blind friendly contrast */
+                --accent-2: #22c55e;   /* green accent */
+                --success: #15803d;
+                --warn: #c2410c;
+                --danger: #b91c1c;
                 --radius: 14px;
-                --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+                --shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
             }
             body {
                 font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-                background: radial-gradient(circle at 20% 20%, #e8edfb 0, #f5f7fb 35%, #ffffff 70%);
+                background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 60%, #f3f7f6 100%);
                 color: var(--text);
                 margin: 0;
             }
@@ -70,15 +70,15 @@ class StyleElement(TextElement):
                 display: inline-block;
                 padding: 4px 10px;
                 border-radius: 999px;
-                background: #e0e7ff;
-                color: #1e3a8a;
+                background: #e5f3f1;
+                color: #0f5132;
                 font-weight: 600;
                 font-size: 12px;
                 letter-spacing: 0.01em;
             }
             .kpi {
-                background: linear-gradient(135deg, #f1f5ff 0%, #ffffff 100%);
-                border: 1px solid var(--border);
+                background: linear-gradient(135deg, #f5fbf9 0%, #ffffff 100%);
+                border: 1px solid #dfe7e3;
                 border-radius: 12px;
                 padding: 10px 12px;
             }
@@ -88,8 +88,8 @@ class StyleElement(TextElement):
             .pill {
                 padding: 6px 10px;
                 border-radius: 10px;
-                background: #eef2ff;
-                border: 1px solid #e0e7ff;
+                background: #eef5f3;
+                border: 1px solid #d9e6e1;
                 font-size: 13px;
             }
             .headline { font-size: 18px; font-weight: 700; margin: 0 0 6px 0; }
