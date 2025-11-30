@@ -68,6 +68,7 @@ class RdteModel(Model):
                  org_mix: str = "Balanced",
                  funding_pattern: str = "ProgramBase",
                  focus_researcher_id: int = -1,
+                 focus_program_id: str = "",
                  data_config: Optional[Dict[str, Any]] = None,
                  agent_config: Optional[Dict[str, Any]] = None,
                  trend_start_tick: int = 0,
@@ -101,6 +102,7 @@ class RdteModel(Model):
         self.org_mix = str(org_mix)
         self.funding_pattern = str(funding_pattern)
         self.focus_researcher_id = int(focus_researcher_id)
+        self.focus_program_id = str(focus_program_id or "")
         self.trend_start_tick = int(trend_start_tick)
         self.trend_end_tick = int(trend_end_tick)
         self.ui_mode = str(ui_mode)

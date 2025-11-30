@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import csv
 from mesa.visualization.modules import ChartModule, TextElement
 from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.UserParam import Slider, Choice, NumberInput
@@ -174,15 +175,26 @@ class MetricsElement(TextElement):
 
 class ProjectStatusElement(TextElement):
     def render(self, model: RdteModel) -> str:  # type: ignore[override]
-        focus_id = getattr(model, "focus_researcher_id", -1)
-        if not isinstance(focus_id, int):
-            try:
-                focus_id = int(focus_id)
-            except Exception:
-                focus_id = -1
-        if focus_id < 0 or focus_id >= len(model.researchers):
-            return "Focused project: none (set focus_researcher_id to a valid researcher id)"
-        r = model.researchers[focus_id]
+        # Resolve focus by program_id first, then fallback to numeric index
+        target = None
+        focus_pid = str(getattr(model, "focus_program_id", "") or "").strip()
+        if focus_pid:
+            for r in model.researchers:
+                if str(getattr(r, "program_id", "")).strip() == focus_pid:
+                    target = r
+                    break
+        if target is None:
+            focus_id = getattr(model, "focus_researcher_id", -1)
+            if not isinstance(focus_id, int):
+                try:
+                    focus_id = int(focus_id)
+                except Exception:
+                    focus_id = -1
+            if 0 <= focus_id < len(model.researchers):
+                target = model.researchers[focus_id]
+        if target is None:
+            return "Focused project: none (set focus_program_id or focus_researcher_id to a valid value)"
+        r = target
         stage = (
             r.STAGES[r.current_stage_index]
             if getattr(r, "current_stage_index", None) is not None
@@ -287,15 +299,25 @@ class TrendElement(TextElement):
 
 class ProbabilityElement(TextElement):
     def render(self, model: RdteModel) -> str:  # type: ignore[override]
-        focus_id = getattr(model, "focus_researcher_id", -1)
-        if not isinstance(focus_id, int):
-            try:
-                focus_id = int(focus_id)
-            except Exception:
-                focus_id = -1
-        if focus_id < 0 or focus_id >= len(model.researchers):
-            return "<div class='section-title'>Probability preview</div><div class='subhead'>Set focus_researcher_id to preview.</div>"
-        r = model.researchers[focus_id]
+        # Resolve focus by program_id first, then fallback to numeric index
+        r = None
+        focus_pid = str(getattr(model, "focus_program_id", "") or "").strip()
+        if focus_pid:
+            for cand in model.researchers:
+                if str(getattr(cand, "program_id", "")).strip() == focus_pid:
+                    r = cand
+                    break
+        if r is None:
+            focus_id = getattr(model, "focus_researcher_id", -1)
+            if not isinstance(focus_id, int):
+                try:
+                    focus_id = int(focus_id)
+                except Exception:
+                    focus_id = -1
+            if 0 <= focus_id < len(model.researchers):
+                r = model.researchers[focus_id]
+        if r is None:
+            return "<div class='section-title'>Probability preview</div><div class='subhead'>Set focus_program_id or focus_researcher_id to preview.</div>"
         base_probs = model.preview_transition_probability(r, quality_delta=0.0)
         delta = float(getattr(model, "what_if_quality_delta", 0.0))
         what_if_probs = model.preview_transition_probability(r, quality_delta=delta)
@@ -305,7 +327,7 @@ class ProbabilityElement(TextElement):
 
         return (
             "<div class='section-title'>Probability preview</div>"
-            f"<div class='subhead'>Stage: {base_probs.get('stage', 'NA')} | What-if quality delta: {delta:+.2f}</div>"
+            f"<div class='subhead'>Program: {getattr(r, 'program_id', 'NA')} | Stage: {base_probs.get('stage', 'NA')} | What-if quality delta: {delta:+.2f}</div>"
             "<div class='pill-row'>"
             f"<span class='pill'>Funding: {fmt(base_probs.get('funding', 0.0))} → {fmt(what_if_probs.get('funding', 0.0))}</span>"
             f"<span class='pill'>Contracting: {fmt(base_probs.get('contracting', 0.0))} → {fmt(what_if_probs.get('contracting', 0.0))}</span>"
@@ -339,6 +361,36 @@ stage_chart = ChartModule(
 
 
 def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False):
+    def _program_choices() -> list[str]:
+        """Collect program_id choices from program_entity_roles.csv if available."""
+        path = os.path.join("data", "program_entity_roles.csv")
+        ids = set()
+        if os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        pid = (row.get("program_id") or "").strip()
+                        if pid:
+                            ids.add(pid)
+            except Exception:
+                ids = set()
+        if not ids:
+            ids = {
+                "PRG-ISR-001",
+                "PRG-CYB-002",
+                "PRG-AI-003",
+                "PRG-SAT-004",
+                "PRG-EW-005",
+                "PRG-MAR-006",
+                "PRG-GEO-007",
+                "PRG-CBRN-008",
+                "PRG-UAV-009",
+                "PRG-SIG-010",
+            }
+        choices = [""] + sorted(ids)
+        return choices
+
     params = {
         "n_researchers": Slider("Number of researchers", 40, 10, 200, 5),
         "n_policymakers": Slider("Number of policymakers", 10, 1, 40, 1),
@@ -349,7 +401,8 @@ def launch(port: int = 8521, host: str = "127.0.0.1", open_browser: bool = False
         "shock_at": Slider("Shock start tick", 80, 0, 500, 5),
         "shock_duration": Slider("Shock duration (ticks)", 20, 0, 200, 5),
         "seed": NumberInput("Random seed", 42),
-        "focus_researcher_id": NumberInput("Focused researcher id (-1 = none)", -1),
+        "focus_researcher_id": NumberInput("Focused researcher index (-1 = none)", -1),
+        "focus_program_id": Choice("Focused program id (optional)", "", choices=_program_choices()),
         "trend_start_tick": NumberInput("Trend window start tick", 0),
         "trend_end_tick": NumberInput("Trend window end tick", 200),
         "what_if_quality_delta": Slider("What-if quality delta (preview only)", 0.0, -0.3, 0.3, 0.01),
