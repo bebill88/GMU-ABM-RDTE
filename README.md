@@ -279,6 +279,12 @@ Copy the templates from `data/templates/` before running experiments to guarante
 ---
 
 
+### 2025-11-30
+
+- Tightened agent/model typing so policy gates, metrics, and log_event are recognized; added a safe scheduler tick accessor in agents.
+- Cleaned `evaluate_and_adopt` by removing unreachable legacy logic and clarified the policy gate delegation; instantiated the local RNG to match comments.
+- Pruned README ingestion boilerplate and refreshed the Table of Contents to reflect the current sections.
+
 ### 2025-11-20
 
 - Made gate progression more resilient: stage-age boosts for funding/contracting/test gates and a 0.4 penalty floor so runs keep moving; adoption rejections now retry from the final stage.
@@ -330,21 +336,11 @@ Copy the templates from `data/templates/` before running experiments to guarante
 
 ## Next Steps
 
-- Calibration & baselines
-  - Calibrate gate weights and penalty floors to target realistic transition rates by regime; publish baseline presets for linear/adaptive/shock in the UI.
-  - Add percentile cycle-time reporting and default demo presets to speed briefings.
-
-- Data richness
-  - Extend loaders to pull MBSE/digital maturity and lab proximity into gate modifiers; write these signals to event logs.
-  - Validate CSVs against schemas during CLI runs and surface friendly errors in the GUI when files are missing/mis-shaped.
-
-- UX polish
-  - Add export buttons in the GUI for the latest events/metrics and a "rerun with new seed" quick action.
-  - Add inline help/hover tips for sliders and dropdowns plus a focused-project mini-timeline (stage/gate outcomes).
-
-- Quality gates
-  - Add unit tests for gate math, penalty decay/floors, adoption retry behavior, and CLI flag parsing; wire a GitHub Actions smoke run.
-  - Capture median/percentile cycle times and basic shock recovery metrics in `metrics.summary()`.
+- Calibrate gate weights and penalty floors to match realistic transition rates by regime and publish baseline presets in the UI/CLI.
+- Add percentile cycle-time reporting and median capture to `metrics.summary()` for richer briefing stats.
+- Validate CSV inputs against schemas during CLI runs and surface friendly errors in both CLI and GUI when files are missing or malformed.
+- Extend the GUI with export buttons for recent events/metrics and a “rerun with new seed” quick action, plus concise inline help for controls.
+- Add unit tests for gate math, penalty decay/floors, adoption retry behavior, and CLI flag parsing; wire a GitHub Actions smoke run.
 ---
 
 ## Assumptions
