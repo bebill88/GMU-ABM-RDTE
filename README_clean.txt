@@ -1,4 +1,4 @@
-ï»¿# ABM: Adaptive RDT&E Transitions (DoD/IC)
+# ABM: Adaptive RDT&E Transitions (DoD/IC)
 
 This repository provides an Agent-Based Model (ABM) to explore how policy design, funding flexibility, and feedback latency shape the transition of defense innovations from RDT&E to field adoption.
 
@@ -149,39 +149,27 @@ Follow these steps on Windows PowerShell. This sets up Python, a virtual environ
 
 | CSV | Purpose |
 | --- | --- |
-| `data/rdte_entities.csv` | Entities (labs, agencies, primes, etc.) |
-| `data/program_entity_roles.csv` | Which entity plays what role on which program |
-| `data/vendor_evaluations.csv` | CPARS-lite performance history |
-| `data/gao_findings.csv` | Oversight findings, severities, repeat flags |
-| `data/labs.csv` | Lab/vendor metadata (location, sector, specialization) |
-| `data/closed_projects.csv` | Historical outcomes (Transitioned / Canceled / OnHold) |
-| `data/templates/rdte_funding_row_simulated.csv` | FY26 RDT&E sample rows (analysis/reporting; no behavior by default) |
-| `data/stubs/shock_events.csv` / `data/stubs/collaboration_network.csv` | Example shocks and collaboration edges |
+| data/rdte_entities.csv | Entities (labs, agencies, primes, etc.) |
+| data/program_entity_roles.csv | Which entity plays what role on which program |
+| data/vendor_evaluations.csv | CPARS-lite performance history |
+| data/gao_findings.csv | Oversight findings, severities, repeat flags |
+| data/templates/labs_template.csv | Lab/vendor metadata (location, sector, specialization) |
+| data/closed_projects.csv | Historical outcomes (Transitioned / Canceled / OnHold) |
+| data/stubs/shock_events.csv / data/stubs/collaboration_network.csv | Example shocks and collaboration edges |
 
 - Profiles: use parameters.yaml (production realism), parameters.demo.yaml (fast/demo), or parameters.stressed.yaml (conservative/shock). Override with --config or --testing_profile.
-- Overrides via CLI: --labs_csv overrides data.labs_locations_csv; --rdte_csv overrides data.rdte_fy26_csv; --config loads an alternate YAML (CLI flags still win).
+- Overrides via CLI: --labs_csv, --rdte_csv, --config override YAML sources.
 - These are now backed by example populated CSVs under data/; swap in real data as it becomes available.
 
 ### Historical outcomes baseline
 data/closed_projects.csv is used to estimate empirical priors for transition vs. cancel/on-hold by domain, authority mix (10/50/ALLIED), vendor risk profile, and GAO severity history. These priors are blended softly into gate probabilities via closed_priors_weight and prior_weights_by_gate.
-
-### Behavioral effects (high-level)
-- RDT&E entities + programâ€“entity roles: determine who sponsors, executes, tests, and operates each program; used for capacity/authority/role multipliers and org-type effects.
-- Labs: location/sector/specialization; enable small ecosystem bonuses and CONUS/OCONUS/allied differentiation.
-- Vendor evaluations: CPARS-lite cost/schedule/technical/management/cyber history; adjust contracting/test risk and slippage.
-- GAO findings: severities/types/repeat flags feed configurable â€œrepeat offenderâ€ penalties by program/domain/authority/org type/funding source.
-- FY26 RDT&E rows: currently analysis/reporting only (no direct behavior by default); can be extended to seed program agents.
-
-### Extended data (optional but supported)
-- `data/shock_events.csv`: dated CRs/conflicts/policy changes to replay real-world shock timelines.
-- `data/collaboration_network.csv`: collaboration edges to feed ecosystem/diffusion adjustments.
 ## Data Schema Overview
 
-- `data/stubs/gao_findings.csv` Î“Ã‡Ã´ GAO findings per program (severity, repeat flags, recommendations).
-- `data/rdte_entities.csv` Î“Ã‡Ã´ master list of RDT&E/IC entities keyed by `parent_entity_id`.
-- `data/program_entity_roles.csv` Î“Ã‡Ã´ programÎ“Ã¥Ã†entity mappings with roles and effort shares.
-- `data/stubs/vendor_evaluations.csv` Î“Ã‡Ã´ multi-year vendor evaluations per program/vendor.
-- `data/closed_projects.csv` Î“Ã‡Ã´ historical closed/transitioned projects with outcomes, GAO/vendor stats, and gate successes.
+- `data/stubs/gao_findings.csv` GÇô GAO findings per program (severity, repeat flags, recommendations).
+- `data/rdte_entities.csv` GÇô master list of RDT&E/IC entities keyed by `parent_entity_id`.
+- `data/program_entity_roles.csv` GÇô programGåÆentity mappings with roles and effort shares.
+- `data/stubs/vendor_evaluations.csv` GÇô multi-year vendor evaluations per program/vendor.
+- `data/closed_projects.csv` GÇô historical closed/transitioned projects with outcomes, GAO/vendor stats, and gate successes.
 
 ### GAO Findings Data
 - Path: `data/stubs/gao_findings.csv` (replace with real exports when ready).
@@ -194,7 +182,7 @@ data/closed_projects.csv is used to estimate empirical priors for transition vs.
 - Columns: `parent_entity_id,has_organic_rdte,rdte_roles,base_budget_type,base_budget_pe,base_budget_ba,estimated_rdte_capacity_musd,estimated_rdte_staff,primary_domains,authority_flags,location_region,classification_band,notes`.
 - Use: loader attaches entity attributes (capacity, domains, authorities, classification) to program-role mappings to modulate gate odds.
 
-### ProgramÎ“Ã‡Ã´Entity Roles
+### ProgramGÇôEntity Roles
 - Path: `data/program_entity_roles.csv` with header `program_id,entity_id,role,effort_share,note`.
 - Roles are grouped per program into `sponsor`, `executing`, `test`, `ops`, `transition_partner` (plus any extra role labels).
 - Worked example (PRG-ISR-001): `sponsor`=SRV-ARMY-AFC-ISR, `executing`=LAB-NAVY-NRL-ISR & LAB-AFRL-RIO-ISR, `test`=UNIT-AF-ISRGRP-01, `ops`=UNIT-USMC-INTBN-01, `transition_partner`=AGY-DIA-TECH.
@@ -206,10 +194,10 @@ data/closed_projects.csv is used to estimate empirical priors for transition vs.
 - Model hook: stored as `perf_penalty` and applied most strongly to contracting gates; `vendor_weight` in `parameters.yaml` tunes sensitivity.
 
 ### How the ABM Uses These Data
-- Pipeline: CSVs Î“Ã¥Ã† loaders Î“Ã¥Ã† per-program GAO penalty + per-program/vendor risk + role metrics Î“Ã¥Ã† gate probabilities (`funding`, `contracting`, `test`, `adoption`).
+- Pipeline: CSVs GåÆ loaders GåÆ per-program GAO penalty + per-program/vendor risk + role metrics GåÆ gate probabilities (`funding`, `contracting`, `test`, `adoption`).
 - Role metrics: sponsor authority, executing/test capacity, domain alignment, and classification band feed multipliers inside the gates.
 - GAO severity/repeat issues lower gate odds via `apply_gao_modifier`; vendor risk primarily reduces contracting success; entity capacity/authority mix nudges funding/test performance.
-- Historical priors: `closed_projects.csv` feeds empirical transition-rate priors by domain, authority mix, vendor risk bucket, GAO severity bucket, and program; gates blend these as a mild multiplier (0.5Î“Ã‡Ã´1.0) so past outcomes nudge but donÎ“Ã‡Ã–t dominate current probabilities.
+- Historical priors: `closed_projects.csv` feeds empirical transition-rate priors by domain, authority mix, vendor risk bucket, GAO severity bucket, and program; gates blend these as a mild multiplier (0.5GÇô1.0) so past outcomes nudge but donGÇÖt dominate current probabilities.
 - Prior weights: defaults set to 0.2 per gate in `penalties.prior_weights_by_gate`; adjust up/down to change historical influence or set to 0 to disable.
 - Smoke/demo: `python -m src.smoke_demo` runs a short demo-profile check and asserts transitions > 0 (good for CI); set `model.testing_profile: demo` for GUI smoke tests.
 - Profiles: use `parameters.yaml` for production realism, `parameters.demo.yaml` for fast/demo runs, and `parameters.stressed.yaml` for conservative/shock-style scenarios. Override via `--config` or `--testing_profile`.
